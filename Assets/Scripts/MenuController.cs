@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,12 +15,30 @@ public class MenuController : MonoBehaviour
 
     public void onPlayButton()
     {
-        SceneManager.LoadScene("GameSelection", LoadSceneMode.Additive);
-        SceneManager.UnloadSceneAsync("Menu");     
+        Debug.Log("Hello");
+        Console.Write("ciao");
+        SceneManager.LoadScene("GameSelection", LoadSceneMode.Single);
+        //SceneManager.UnloadSceneAsync("Menu");     
     }                                                
     public void onBackButton()                       
-    {                                                
-        SceneManager.LoadScene("Menu", LoadSceneMode.Additive);
+    {   
+    Debug.Log("Hello");
+        Console.Write("ciao");
+        SceneManager.LoadScene("Menu", LoadSceneMode.Single);
+        //SceneManager.UnloadSceneAsync("GameSelection");
+    }
+
+    public void onSelectButton()
+    {
+        SceneManager.LoadSceneAsync("Patologie", LoadSceneMode.Single);
         SceneManager.UnloadSceneAsync("GameSelection");
+
+    }
+
+    public void onRandomButton()
+    {
+        SceneManager.LoadSceneAsync("Gioco", LoadSceneMode.Single);
+        SceneManager.UnloadSceneAsync("GameSelection");
+
     }
 }
