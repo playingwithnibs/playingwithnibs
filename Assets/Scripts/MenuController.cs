@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using static Constants;
 
 // Quits the player when the user hits escape
 
@@ -12,33 +9,26 @@ public class MenuController : MonoBehaviour
 {
     public void quitButtonPressed() => Application.Quit();
 
-
     public void onPlayButton()
     {
-        Debug.Log("Hello");
-        Console.Write("ciao");
-        SceneManager.LoadScene("GameSelection", LoadSceneMode.Single);
-        //SceneManager.UnloadSceneAsync("Menu");     
+        SceneManager.LoadScene(GAME_SELECTION, LoadSceneMode.Single);
+        SceneManager.UnloadSceneAsync(MENU);     
     }                                                
     public void onBackButton()                       
     {   
-    Debug.Log("Hello");
-        Console.Write("ciao");
-        SceneManager.LoadScene("Menu", LoadSceneMode.Single);
-        //SceneManager.UnloadSceneAsync("GameSelection");
+        SceneManager.LoadScene(MENU, LoadSceneMode.Single);
+        SceneManager.UnloadSceneAsync(GAME_SELECTION);
     }
 
     public void onSelectButton()
     {
-        SceneManager.LoadSceneAsync("Patologie", LoadSceneMode.Single);
-        SceneManager.UnloadSceneAsync("GameSelection");
-
+        SceneManager.LoadSceneAsync(MENU, LoadSceneMode.Single);
+        SceneManager.UnloadSceneAsync(GAME_SELECTION);
     }
 
     public void onRandomButton()
     {
-        SceneManager.LoadSceneAsync("Gioco", LoadSceneMode.Single);
-        SceneManager.UnloadSceneAsync("GameSelection");
-
+        SceneManager.LoadSceneAsync(GAME, LoadSceneMode.Single);
+        SceneManager.UnloadSceneAsync(GAME_SELECTION);
     }
 }
