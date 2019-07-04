@@ -7,6 +7,7 @@ namespace Application {
   GOOD,
   UNCHANGED,
   BAD,
-  VERY_BAD
+  VERY_BAD,
+  EXPLOSION
   }
 } 
