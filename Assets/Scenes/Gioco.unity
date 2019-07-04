@@ -361,7 +361,7 @@ GameObject:
   - component: {fileID: 407920200}
   - component: {fileID: 407920199}
   m_Layer: 0
-  m_Name: MAgneticMAchine
+  m_Name: MagneticMachine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -381,11 +381,11 @@ RectTransform:
   - {fileID: 1669505488}
   - {fileID: 1327767994}
   m_Father: {fileID: 1922870399}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 390.8, y: 77.549995}
+  m_AnchoredPosition: {x: -269, y: -39}
   m_SizeDelta: {x: 422.4, y: 392.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &407920199
@@ -500,11 +500,11 @@ RectTransform:
   - {fileID: 278793429}
   - {fileID: 1210049665}
   m_Father: {fileID: 1922870399}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -161.7, y: 77.6}
+  m_AnchoredPosition: {x: 338, y: -42}
   m_SizeDelta: {x: 384, y: 392}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &653447857
@@ -1100,7 +1100,7 @@ GameObject:
   - component: {fileID: 1922870401}
   - component: {fileID: 1922870400}
   m_Layer: 0
-  m_Name: Image
+  m_Name: Machines
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1117,8 +1117,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 653447856}
   - {fileID: 407920198}
+  - {fileID: 653447856}
   m_Father: {fileID: 1092408291}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
