@@ -98,6 +98,9 @@ namespace Application {
         
       idealSolutions.add("DEPRESSION_TMS8_119_%_PULSEHIGH_NOSTIMULATION_DLPFC",
         "GOOD");
+        
+      idealSolutions.add("DEPRESSION_TMS8_120_%_PULSEHIGH_NOSTIMULATION_DLPFC",
+        "VERY GOOD");
 
     }
   }
