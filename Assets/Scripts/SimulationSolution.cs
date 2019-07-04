@@ -1,107 +1,124 @@
 ﻿using System;
 using System.Collections.Generic;
+using Application;
 
 namespace Application {
   public class SimulationSolution {
-    public string solution = "";
 
-    private Dictionary<string, string> idealSolutions 
-        = new Dictionary<string, string>();
-
-    public SimulationSolution() {
-      idealSolutions.add("DEPRESSION_TMS8_90_%_PULSEHIGH_NOSTIMULATION_DLPFC", 
-        "GOOD");
-
-      idealSolutions.add("DEPRESSION_TMS8_91_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-
-      idealSolutions.add("DEPRESSION_TMS8_92_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-
-      idealSolutions.add("DEPRESSION_TMS8_93_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-
-      idealSolutions.add("DEPRESSION_TMS8_94_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-
-      idealSolutions.add("DEPRESSION_TMS8_95_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-
-      idealSolutions.add("DEPRESSION_TMS8_96_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-
-      idealSolutions.add("DEPRESSION_TMS8_97_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-
-      idealSolutions.add("DEPRESSION_TMS8_98_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-
-      idealSolutions.add("DEPRESSION_TMS8_99_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-
-      idealSolutions.add("DEPRESSION_TMS8_100_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-
-      idealSolutions.add("DEPRESSION_TMS8_101_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-
-      idealSolutions.add("DEPRESSION_TMS8_102_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-
-      idealSolutions.add("DEPRESSION_TMS8_103_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-
-      idealSolutions.add("DEPRESSION_TMS8_104_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-
-      idealSolutions.add("DEPRESSION_TMS8_105_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-
-      idealSolutions.add("DEPRESSION_TMS8_106_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-
-      idealSolutions.add("DEPRESSION_TMS8_107_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-
-      idealSolutions.add("DEPRESSION_TMS8_108_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-
-      idealSolutions.add("DEPRESSION_TMS8_109_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-        
-      idealSolutions.add("DEPRESSION_TMS8_110_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-        
-      idealSolutions.add("DEPRESSION_TMS8_111_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-        
-      idealSolutions.add("DEPRESSION_TMS8_112_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-        
-      idealSolutions.add("DEPRESSION_TMS8_113_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-        
-      idealSolutions.add("DEPRESSION_TMS8_114_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-        
-      idealSolutions.add("DEPRESSION_TMS8_115_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-        
-      idealSolutions.add("DEPRESSION_TMS8_116_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-        
-      idealSolutions.add("DEPRESSION_TMS8_117_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-        
-      idealSolutions.add("DEPRESSION_TMS8_118_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-        
-      idealSolutions.add("DEPRESSION_TMS8_119_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "GOOD");
-        
-      idealSolutions.add("DEPRESSION_TMS8_120_%_PULSEHIGH_NOSTIMULATION_DLPFC",
-        "VERY GOOD");
-
+    public Boolean isTms(MedicalEquipment medicalEquipment) {
+      return medicalEquipment is Tms;
     }
+
+    private Boolean isTdcs(MedicalEquipment medicalEquipment) {
+      return medicalEquipment is Tdcs;
+    }
+
+    private Outcome getOutcomeDepression(MedicalEquipment medicalEquipment,
+      Pathology pathology) {
+        //if (medicalEquipment)
+
+        return Outcome.BAD;
+      }
+
+    private Outcome getOutcomePostStrokeHand(MedicalEquipment medicalEquipment,
+      Pathology pathology) {
+        return Outcome.BAD;
+    }
+
+    // private string getOutcomeDepression(string equipment, string pathology,
+    //   string unitMeasure, string intensity, string pulses,
+    //   string stimulationType, string brainZones) {
+    //     // 1
+    //     if (equipment.Equals("TMS8") && insentity >= 90 && intensity <= 119
+    //       && unitMeasure.Equals("%") && pulses.Equals("HIGH") 
+    //       && stimulationType.Equals("NONE") && brainZones.Equals("DLPFC"))
+    //       return "GOOD";
+
+    //     // 1
+    //     else if (equipment.Equals("TMS8") && intensity == 120
+    //       && unitMeasure.Equals("%") && pulses.Equals("HIGH")
+    //       && stimulationType.Equals("NONE") && brainZones.Equals("DLPFC"))
+    //      return "VERY GOOD";
+
+    //     // 2
+    //     else if (!equipment.Equals("TMS8") && intensity <= 120
+    //       && !unitMeasure.isNullOrEmpty() && pulses.Equals("LOW")
+    //       && stimulationType.Equals("NONE") && brainZones.Equals("DLPFC"))
+    //       return "UNCHANGED"; 
+
+    //     // 3
+    //     else if (isCoilEquipment(equipment) && intensity <= 120 && 
+    //       !unitMeasure.isNullOrEmpty() && pulses.isNullOrEmpty() &&
+    //       ((isCoilEquipment(equipment) && stimulationType.isNullOrEmpty()) 
+    //       || (!isCoilEquipment(equipment) && 
+    //         isElectricStimulation(stimulationType))))
+    //       return "EXPLOSION";
+
+    //     // 4
+    //     else if (isCoilEquipment(equipment) && intensity <= 120 &&
+    //       !unitMeasure.isNullOrEmpty() && pulses.isNullOrEmpty() && 
+    //       !stimulationType.isNullOrEmpty() && !brainZones.isNullOrEmpty())
+    //       return "EXPLOSION";
+
+    //     // 5
+    //     else if (!isCoilEquipment(equipment) && intensity <= 120 && 
+    //       !unitMeasure.isNullOrEmpty() && !pulses.isNullOrEmpty() &&
+    //       !stimulationType.isNullOrEmpty() && !brainZones.isNullOrEmpty())
+    //       return "EXPLOSION";
+
+    //     else
+    //       return "UNCHANGED";
+    // }
+
+    // private string getOutcomePostStroke(string equipment, string pathology,
+    //   string unitMeasure, string intensity, string pulses,
+    //   string stimulationType, Position lesionLocation, BrainZone brainZone) {
+    //     //1
+    //     if (equipment.Equals("TDCS") && intensity >= 0.8 && intensity < 2 && 
+    //       unitMeasure.Equals("mA") && pulses.isNullOrEmpty() &&
+    //       brainZoneNegative.Equals("M1") && brainZonePositive.Equals("SO") &&
+    //       !brainZonePositivePosition.Equals(lesionLocation))
+    //       return "GOOD";
+
+    //     //1
+    //     else if (equipment.Equals("TDCS") && intensity == 2 &&
+    //       unitMeasure.Equals("mA") && pulses.isNullOrEmpty() &&
+    //       brainZoneNegative.Equals("M1") && brainZonePositive.Equals("SO") &&
+    //       !brainZonePositivePosition.Equals(lesionLocation))
+    //       return "VERY GOOD";
+
+    //     //2
+    //     else if (equipment.Equals("TDCS") && intensity >= 0.8 && intensity < 2 &&
+    //       unitMeasure.Equals("mA") && pulses.isNullOrEmpty() && 
+    //       brainZonePositive.Equals("M1") && brainZoneNegative.Equals("SO") &&
+    //       brainZonePositivePosition.Equals(lesionLocation))
+    //       return "GOOD";
+
+    //   //3
+    //   else if (equipment.Equals("TDCS") && intensity < 0.8 &&
+    //     unitMeasure.Equals("mA") && pulses.isNullOrEmpty() &&
+    //     brainZoneNegative.Equals("M1") && brainZonePositive.Equals("SO") &&
+    //     brainZonePositivePosition.Equals(lesionLocation))
+    //     return "BAD";    
+
+    //   //4
+    //   else if (equipment.Equals("TDCS") && intensity < 0.8 &&
+    //     unitMeasure.Equals("mA") && pulses.isNullOrEmpty() && 
+    //     brainZonePositive.Equals("M1") && brainZoneNegative.Equals("SO") &&
+    //     !brainZonePositivePosition.Equals(lesionLocation))
+    //     return "BAD";  
+
+    //     //5
+    //     //else if (equipment.Equals("TDCSHD") && intensity < 2 &&
+    //     //unitMeasure.Equals("mA") && pulses.isNullOrEmpty() && )
+    // }
+
+    public Outcome getOutcome(MedicalEquipment medicalEquipment, 
+      Pathology pathology) {
+
+      return pathology.name == PathologyName.DEPRESSION ? 
+        getOutcomeDepression(medicalEquipment, pathology) :
+        getOutcomePostStrokeHand(medicalEquipment, pathology);
+      }
   }
 }
