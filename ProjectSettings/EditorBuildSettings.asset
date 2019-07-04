@@ -20,4 +20,13 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/Gioco-3.unity
+    guid: c2d7618601917154ebcc227c53c5f153
+  - enabled: 1
+    path: Assets/Scenes/Gioco-2.unity
+    guid: ecb2e7025f3b404459e36c33819ed592
+  - enabled: 1
+    path: Assets/Scenes/Gioco-1.unity
+    guid: dada5687eacbb764db1124dd7fe908c6
   m_configObjects: {}
