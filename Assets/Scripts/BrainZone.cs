@@ -15,7 +15,7 @@ namespace Application
     }
 
     public override int GetHashCode() { 
-      return (int)brainZoneName + (int)position + (int)electrodeType;
+      return (int)brainZoneName;
     }
     
     public override bool Equals(object obj) { 
@@ -24,9 +24,7 @@ namespace Application
       
       BrainZone bz = (BrainZone)obj;
 
-      return bz.brainZoneName.Equals(this.brainZoneName) &&
-        bz.position.Equals(this.position) && 
-        bz.electrodeType.Equals(this.electrodeType);
+      return bz.brainZoneName.Equals(this.brainZoneName);
     }
   }
 
