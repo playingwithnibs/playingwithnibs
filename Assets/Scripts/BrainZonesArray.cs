@@ -5,26 +5,37 @@ using System.Collections.Generic;
 namespace Application
 {
   public class BrainZonesArray {
-    public static BrainZone[] brainZones = {
-      new BrainZone(BrainZoneNames.DLPFC, Position.UPPER, ElectrodeType.NO),
-      new BrainZone(BrainZoneNames.M1, Position.UPPER, ElectrodeType.NO),
-      new BrainZone(BrainZoneNames.SO, Position.UPPER, ElectrodeType.NO),
-      new BrainZone(BrainZoneNames.O, Position.UPPER, ElectrodeType.NO),
-      new BrainZone(BrainZoneNames.CP5, Position.LEFT, ElectrodeType.NO),
-      new BrainZone(BrainZoneNames.CP6, Position.RIGHT, ElectrodeType.NO),
-    };
+    public BrainZone[] brainZones;
 
-    public static int countActiveZones = 0;
+    public  int countActiveZones;
 
-    public static void activateZone(BrainZoneNames brainZoneName, 
+    public BrainZonesArray() {
+      brainZones = new BrainZone[6];
+      this.brainZones[0] = 
+        new BrainZone(BrainZoneNames.DLPFC, Position.UPPER, ElectrodeType.NO);
+      this.brainZones[1] = 
+        new BrainZone(BrainZoneNames.M1, Position.UPPER, ElectrodeType.NO);
+      this.brainZones[2] = 
+        new BrainZone(BrainZoneNames.SO, Position.UPPER, ElectrodeType.NO);
+      this.brainZones[3] = 
+        new BrainZone(BrainZoneNames.O, Position.UPPER, ElectrodeType.NO);
+      this.brainZones[4] = 
+        new BrainZone(BrainZoneNames.CP5, Position.LEFT, ElectrodeType.NO);
+      this.brainZones[5] = 
+        new BrainZone(BrainZoneNames.CP6, Position.RIGHT, ElectrodeType.NO);
+
+      this.countActiveZones = 0;
+    }
+
+    public void activateZone(BrainZoneNames brainZoneName, 
       ElectrodeType electrodeType) {
         brainZones[(int)brainZoneName].electrodeType = electrodeType;
         
         countActiveZones++;
     }
 
-    public static void deactivateZone(BrainZoneNames brainZoneName) {
-      brainZones[(int)brainZoneName].electrodeType = electrodeType.NO;
+    public void deactivateZone(BrainZoneNames brainZoneName) {
+      brainZones[(int)brainZoneName].electrodeType = ElectrodeType.NO;
 
       countActiveZones--;
     }
