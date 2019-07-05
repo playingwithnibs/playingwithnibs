@@ -26,6 +26,10 @@ namespace Application
 
       return bz.brainZoneName.Equals(this.brainZoneName);
     }
+
+    public Boolean isActive() {
+      return electrodeType != electrodeType.NO;
+    }
   }
 
 }
