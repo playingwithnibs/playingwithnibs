@@ -3,8 +3,9 @@ using Application;
 
 namespace Application{ 
   public enum ElectrodeType { 
-  POSITIVE, 
-  NEGATIVE, 
-  NEUTRAL
+    NO,
+    POSITIVE, 
+    NEGATIVE, 
+    NEUTRAL
   }
 } 
