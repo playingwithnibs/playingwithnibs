@@ -28,7 +28,7 @@ namespace Application
     }
 
     public Boolean isActive() {
-      return electrodeType != electrodeType.NO;
+      return electrodeType != ElectrodeType.NO;
     }
   }
 
