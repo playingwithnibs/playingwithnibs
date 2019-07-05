@@ -8,14 +8,18 @@ namespace Application
     public UnitMeasure unitMeasure; 
     public double intensity;
     public Pulse pulse; 
-    public HashSet<BrainZone> brainZones;
+    public BrainZonesArray[] brainZones;
+
+    public StimulationType stimulationType;
 
     public MedicalEquipment(UnitMeasure unitMeasure, double intensity, 
-      Pulse pulse, HashSet<BrainZone> brainZones) {
-      this.unitMeasure = unitMeasure;
-      this.intensity = intensity;
-      this.pulse = pulse;
-      this.brainZones = brainZones;
+      Pulse pulse, BrainZonesArray[] brainZones, 
+      StimulationType stimulationType) {
+        this.unitMeasure = unitMeasure;
+        this.intensity = intensity;
+        this.pulse = pulse;
+        this.brainZones = brainZones;
+        this.stimulationType = stimulationType;
     }
   }
 }
