@@ -63,7 +63,7 @@ namespace Application {
     private Boolean containsOnly(MedicalEquipment me, 
       BrainZoneNames brainZone) {
         return me.brainZones.countActiveZones == 1 &&
-          me.brainZones[(int)brainZone].isActive();
+          me.brainZones.brainZones[(int)brainZone].isActive();
     }
 
     private Boolean isAnodal(BrainZone source, BrainZone destination) {
@@ -99,7 +99,7 @@ namespace Application {
 
         // Depression, case number 1
         if (isTsmEightCoil(me) && usesMa(me) && me.pulse == Pulse.HIGH &&
-              containsOnly(me, toBrainZone(BrainZoneNames.DLPFC)) && 
+              containsOnly(me, BrainZoneNames.DLPFC) && 
               me.stimulationType == StimulationType.NO) { 
               
             if (me.intensity >= 90 && me.intensity < 120) 
@@ -146,13 +146,13 @@ namespace Application {
         else if (
           me != null && me.intensity <= 120 && 
           me.unitMeasure != UnitMeasure.NO && me.pulse == Pulse.LOW &&
-          !me.brainZones[(int)BrainZoneNames.DLPFC].isActive() && (
+          !me.brainZones.brainZones[(int)BrainZoneNames.DLPFC].isActive() && (
             (
               isTms(me) && 
               me.stimulationType == StimulationType.NO
             ) || (
                 isTdcs(me) &&
-                !me.brainZones[(int)BrainZoneNames.SO].isActive() && 
+                !me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() && 
                 (me.stimulationType == StimulationType.ANODAL ||
                   me.stimulationType == StimulationType.CATHODAL)
               )
@@ -173,9 +173,10 @@ namespace Application {
           me.unitMeasure == UnitMeasure.MILLIAMPERE &&
           me.pulse == Pulse.NO && 
           me.stimulationType == StimulationType.CATHODAL &&
-          me.brainZones[(int)BrainZoneNames.M1].isActive() &&
-          me.brainZones[(int)BrainZoneNames.SO].isActive() &&
-          isControLateral(BrainZones[(int)BrainZoneNames.M1].position, 
+          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive() &&
+          me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() &&
+          isControLateral(
+            me.brainZones.brainZones[(int)BrainZoneNames.M1].position, 
             pathology.position)
         )
           return Outcome.GOOD;
@@ -185,9 +186,10 @@ namespace Application {
           me.unitMeasure == UnitMeasure.MILLIAMPERE &&
           me.pulse == Pulse.NO &&
           me.stimulationType == StimulationType.CATHODAL &&
-          me.brainZones[(int)BrainZoneNames.M1].isActive() &&
-          me.brainZones[(int)BrainZoneNames.SO].isActive() &&
-          isControLateral(BrainZones[(int)BrainZoneNames.M1].position,
+          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive() &&
+          me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() &&
+          isControLateral(
+            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
             pathology.position)
         )
           return Outcome.VERY_GOOD;
@@ -197,9 +199,10 @@ namespace Application {
           me.unitMeasure == UnitMeasure.MILLIAMPERE &&
           me.pulse == Pulse.NO &&
           me.stimulationType == StimulationType.ANODAL &&
-          me.brainZones[(int)BrainZoneNames.M1].isActive() &&
-          me.brainZones[(int)BrainZoneNames.SO].isActive() &&
-          isIpsiLateral(BrainZones[(int)BrainZoneNames.M1].position,
+          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive() &&
+          me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() &&
+          isIpsiLateral(
+            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
             pathology.position)
         )
           return Outcome.GOOD;
@@ -209,9 +212,10 @@ namespace Application {
           me.unitMeasure == UnitMeasure.MILLIAMPERE &&
           me.pulse == Pulse.NO &&
           me.stimulationType == StimulationType.CATHODAL &&
-          me.brainZones[(int)BrainZoneNames.M1].isActive() &&
-          me.brainZones[(int)BrainZoneNames.SO].isActive() &&
-          isIpsiLateral(BrainZones[(int)BrainZoneNames.M1].position,
+          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive() &&
+          me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() &&
+          isIpsiLateral(
+            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
             pathology.position)
         )
           return Outcome.BAD;
@@ -221,9 +225,10 @@ namespace Application {
           me.unitMeasure == UnitMeasure.MILLIAMPERE &&
           me.pulse == Pulse.NO &&
           me.stimulationType == StimulationType.ANODAL &&
-          me.brainZones[(int)BrainZoneNames.M1].isActive() &&
-          me.brainZones[(int)BrainZoneNames.SO].isActive() &&
-          isControLateral(BrainZones[(int)BrainZoneNames.M1].position,
+          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive() &&
+          me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() &&
+          isControLateral(
+            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
             pathology.position)
         )
           return Outcome.BAD;
@@ -236,8 +241,8 @@ namespace Application {
             me.stimulationType == StimulationType.ANODAL || 
             me.stimulationType == StimulationType.CATHODAL
           ) && 
-          me.brainZones[(int)BrainZoneNames.M1].isActive() &&
-          me.brainZones[(int)BrainZoneNames.SO].isActive()
+          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive() &&
+          me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive()
         )
           return Outcome.UNCHANGED;
         
@@ -249,7 +254,7 @@ namespace Application {
             me.stimulationType == StimulationType.ANODAL || 
             me.stimulationType == StimulationType.CATHODAL
           ) && 
-          me.brainZones.countActiveZonesn > 0
+          me.brainZones.countActiveZones > 0
         )
           return Outcome.VERY_BAD;
 
@@ -261,8 +266,8 @@ namespace Application {
             me.stimulationType == StimulationType.ANODAL || 
             me.stimulationType == StimulationType.CATHODAL
           ) && 
-          me.brainZones.countActiveZonesn > 0 && 
-          !me.brainZones[(int)BrainZoneNames.M1].isActive()
+          me.brainZones.countActiveZones > 0 && 
+          !me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive()
         )
           return Outcome.BAD;
 
@@ -272,16 +277,23 @@ namespace Application {
           me.unitMeasure == UnitMeasure.PERCENTAGE_OF_MT &&
           me.pulse == Pulse.HIGH && 
           me.stimulationType == StimulationType.MAGNETIC && 
-          me.brainZones[(int)BrainZoneNames.M1].isActive()
+          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive()
         ) {
           // this is case number 8
-          if (isIpsiLateral(me.brainZones[(int)BrainZoneNames.M1].position,
+          if (isIpsiLateral(
+            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
             pathology.position))
               return Outcome.GOOD;
           // this is case number 11
-          else if (isControLateral(me.brainZones[(int)BrainZoneNames.M1].position,
+          else if (isControLateral(
+            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
             pathology.position))
               return Outcome.BAD;
+          
+          // had to do it, in order to avoi the "not all code paths return a 
+          // value" error.
+          else
+            return Outcome.UNCHANGED;
         }
 
         //Post Stroke: Hand, case number 9 and 10
@@ -290,31 +302,38 @@ namespace Application {
           me.unitMeasure == UnitMeasure.PERCENTAGE_OF_MT &&
           me.pulse == Pulse.LOW && 
           me.stimulationType == StimulationType.MAGNETIC && 
-          me.brainZones[(int)BrainZoneNames.M1].isActive()
+          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive()
         ) {
           // this is case number 10
-          if (isIpsiLateral(me.brainZones[(int)BrainZoneNames.M1].position,
+          if (isIpsiLateral(
+            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
             pathology.position))
               return Outcome.BAD;
           // this is case number 9
-          else if (isControLateral(me.brainZones[(int)BrainZoneNames.M1].position,
+          else if (isControLateral(
+            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
             pathology.position))
               return Outcome.GOOD;
+
+          // had to do it, in order to avoi the "not all code paths return a 
+          // value" error.
+          else
+            return Outcome.UNCHANGED;
         }
 
         //Post Stroke: Hand, case number 12
         else if ((isTsmCircularCoil(me) || isTsmHCoil(me)) && 
           me.intensity < 120 && 
           me.unitMeasure == UnitMeasure.PERCENTAGE_OF_MT &&
-          !me.pulse == Pulse.NO &&
-          me.brainZones[(int)BrainZoneNames.M1].isActive()
+          me.pulse != Pulse.NO &&
+          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive()
         )
           return Outcome.UNCHANGED;
 
         //Post Stroke: Hand, case number 13
         //TODO decide whether we want to catch somewhere else during the config
         //     process
-        else if (isTsm(me) && 
+        else if (isTms(me) && 
           (
             (me.intensity <= 120 
               && me.unitMeasure == UnitMeasure.PERCENTAGE_OF_MT) 
@@ -335,7 +354,7 @@ namespace Application {
               && me.unitMeasure == UnitMeasure.PERCENTAGE_OF_MT) 
               || 
             (me.intensity <= 2 && me.unitMeasure == UnitMeasure.MILLIAMPERE)
-          ) && !me.pulse == Pulse.NO && 
+          ) && me.pulse != Pulse.NO && 
           me.stimulationType != StimulationType.NO &&
           me.brainZones.countActiveZones > 0
         )
