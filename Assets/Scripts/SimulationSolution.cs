@@ -7,17 +7,13 @@ using Application;
 namespace Application {
   public class SimulationSolution {
 
-    public Boolean isTms(MedicalEquipment me) {
-      return me is Tms;
-    }
+    public Boolean isTms(MedicalEquipment me) { return me is Tms; }
 
-    private Boolean isTdcs(MedicalEquipment me) {
-      return me is Tdcs;
-    }
+    private Boolean isTdcs(MedicalEquipment me) { return me is Tdcs; }
+
 
     private Boolean isTsmEightCoil(MedicalEquipment me) {
-      if (!isTms(me) || me == null)
-        return false;
+      if (!isTms(me) || me == null) return false;
 
       Tms tms = (Tms)me;
       
@@ -25,8 +21,7 @@ namespace Application {
     }
 
     private Boolean isTsmHCoil(MedicalEquipment me) {
-      if (!isTms(me) || me == null)
-        return false;
+      if (!isTms(me) || me == null) return false;
 
       Tms tms = (Tms)me;
 
@@ -34,8 +29,7 @@ namespace Application {
     }
 
     private Boolean isTsmCircularCoil(MedicalEquipment me) {
-      if (!isTms(me) || me == null)
-        return false;
+      if (!isTms(me) || me == null) return false;
 
       Tms tms = (Tms)me;
 
@@ -44,8 +38,7 @@ namespace Application {
 
     private Boolean isTdcsHd(MedicalEquipment me)
     {
-      if (!isTdcs(me) || me == null)
-        return false;
+      if (!isTdcs(me) || me == null) return false;
 
       Tdcs tdcs = (Tdcs)me;
 
@@ -72,12 +65,17 @@ namespace Application {
     }
 
     private Boolean isCathodal(BrainZone source, BrainZone destination) {
-      return !isAnodal(source, destination);
+      return source.electrodeType == ElectrodeType.NEGATIVE &&
+        destination.electrodeType == ElectrodeType.POSITIVE;
+
+      // since there are more combinations, I wouldn't trust this other idea.
+      // Anyway, there it is:
+      //return isAnodal(destination, source);
     }
 
     private Boolean isNeutral(BrainZone source, BrainZone destination) {
-      return !isAnodal(source, destination) && 
-        !isCathodal(source, destination);
+      return source.electrodeType == ElectrodeType.NEUTRAL &&
+        destination.electrodeType == ElectrodeType.NEUTRAL;
     }
 
     private Boolean isControLateral(Position p1, Position p2) {
@@ -113,6 +111,7 @@ namespace Application {
             else return Outcome.UNCHANGED; 
 
         }
+
         // Depression, case number 2
         else if ((isTms(me) || isTdcs(me)) && !isTsmEightCoil(me) && 
           me.intensity <= 120 && me.unitMeasure != UnitMeasure.NO &&
@@ -366,9 +365,16 @@ namespace Application {
     public Outcome getOutcome(MedicalEquipment me, 
       Pathology pathology) {
 
-      return pathology.name == PathologyName.DEPRESSION ? 
-        getOutcomeDepression(me, pathology) :
-        getOutcomePostStrokeHand(me, pathology);
+        switch(pathology.name) {
+          case PathologyName.DEPRESSION:
+            return getOutcomeDepression(me, pathology);
+          
+          case PathologyName.POST_STROKE_HAND:
+            return getOutcomePostStrokeHand(me, pathology);
+
+          default:
+            return Outcome.UNCHANGED;
+        }
       }
   }
 }
