@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using static Constants;
@@ -15,9 +16,14 @@ public class GameController : MonoBehaviour
     public GameObject sliderA;
     public GameObject sliderP;
 
+    public double startTime;
+
+    public double endTime;
+
     private void Start()
     {
-        
+       startTime = (DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1))
+            .TotalSeconds;
     }
 
     public void onTdcsSelected()
@@ -52,6 +58,12 @@ public class GameController : MonoBehaviour
         voltaggio = "%";
         sliderA.SetActive(false);
         sliderP.SetActive(true);
+    }
+
+    public void esito() 
+    {
+        endTime = (DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1))
+            .TotalSeconds;
     }
 
 
