@@ -21,5 +21,7 @@ namespace Application
         this.stimulationType = stimulationType;
         this.brainZones = brainZones;
     }
+
+    public MedicalEquipment() {}
   }
 }
