@@ -7,8 +7,10 @@ public class PlayerManager : MonoBehaviour
     private static PlayerManager istanza;
      public PlayerManager getPlayerManager()
     {
-        if (istanza == null)
-            istanza= new PlayerManager();
+        if (istanza == null){
+            istanza = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
 
         return istanza;
     }
@@ -18,10 +20,8 @@ public class PlayerManager : MonoBehaviour
 
     }
 
-
     void Awake()
     {
-        DontDestroyOnLoad(this);
         getPlayerManager();
     }
     // Start is called before the first frame update
