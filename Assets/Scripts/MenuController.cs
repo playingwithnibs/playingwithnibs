@@ -24,6 +24,11 @@ public class MenuController : MonoBehaviour
 
     public void onRandomButton()
     {
-        SceneManager.LoadScene(GAME_1, LoadSceneMode.Single);
+        loadScene(GAME_1);
+    }
+
+    public void loadScene(string scene)
+    {
+        SceneManager.LoadScene(scene);
     }
 }
