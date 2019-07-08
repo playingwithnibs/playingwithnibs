@@ -16,7 +16,7 @@ namespace Application {
     public ScoreCalculator() {}
 
     public double computeMedicalEquipmentScore(Outcome simulationOutcome) {
-      return (int)simulationOutcome * DEVICE_CONFIG_SCORE_PERCENTAGE;
+      return (int)simulationOutcome * DEVICE_CONFIG_SCORE_PERCENTAGE / 100;
     }
 
     public double computeOutcomeScore(Outcome simulationOutcome) {
