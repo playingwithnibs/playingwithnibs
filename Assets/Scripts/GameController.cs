@@ -72,4 +72,9 @@ public class GameController : MonoBehaviour
         SceneManager.LoadScene(Constants.GAME_SELECTION, LoadSceneMode.Single);
     }
 
+    private void Awake()
+    {
+        Debug.Log(PlayerManager.Instance.pathology.name);
+    }
+
 }

@@ -8,12 +8,13 @@ namespace Application {
 
     public Position position;
 
-    public Pathology(PathologyName name, Position position) {
+    public Pathology(PathologyName name) {
       this.name = name;
 
+      Array values = Enum.GetValues(typeof(Position));
       if (name == PathologyName.POST_STROKE_HAND || 
         name == PathologyName.POST_STROKE_APHASIA)
-        this.position = position;
+        this.position = (Position)values.GetValue(new Random().Next(1, 3));
       else 
         position = Position.NO;
     }
