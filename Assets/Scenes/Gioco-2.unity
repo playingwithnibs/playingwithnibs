@@ -179,7 +179,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2038983155
   m_SortingLayer: -3
-  m_SortingOrder: 1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: aacf7cbbca2a6ca42b2869b382323f05, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1916,7 +1916,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Attiva
+  m_Text: Active
 --- !u!222 &743523607
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1992,7 +1992,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2038983155
   m_SortingLayer: -3
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 8c32d99e4e0a2b745bd0c3481a48f4b7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -2204,7 +2204,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1850382679
   m_SortingLayer: -2
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: cb16806b4e122d64a83d7466193a8642, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -4074,7 +4074,7 @@ Transform:
   m_LocalScale: {x: 0.95238096, y: 0.95238096, z: 1}
   m_Children: []
   m_Father: {fileID: 1745968492}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1598010753
 SpriteRenderer:
@@ -4149,11 +4149,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1745968491}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -779, y: -69, z: -8100}
+  m_LocalPosition: {x: -729, y: -76, z: -8100}
   m_LocalScale: {x: 90, y: 94.49999, z: 90}
   m_Children:
-  - {fileID: 1910857779}
   - {fileID: 1598010752}
+  - {fileID: 1910857779}
   - {fileID: 882843752}
   - {fileID: 897213092}
   - {fileID: 47823185}
@@ -4242,8 +4242,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 26, y: 229.99998}
-  m_SizeDelta: {x: 950, y: 117}
+  m_AnchoredPosition: {x: 26, y: 237.6}
+  m_SizeDelta: {x: 950, y: 101.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1767458077
 MonoBehaviour:
@@ -4431,7 +4431,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Attiva
+  m_Text: Active
 --- !u!222 &1896312430
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4469,7 +4469,7 @@ Transform:
   m_LocalScale: {x: 0.95238096, y: 0.95238096, z: 1}
   m_Children: []
   m_Father: {fileID: 1745968492}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1910857780
 SpriteRenderer:
