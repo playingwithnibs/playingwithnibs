@@ -5,7 +5,7 @@ using static Constants;
 
 public class MenuController : MonoBehaviour
 {
-    public void quitButtonPressed() => Application.Quit();
+    public void quitButtonPressed() => UnityEngine.Application.Quit();
 
     public void onPlayButton()
     {
