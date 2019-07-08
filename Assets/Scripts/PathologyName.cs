@@ -3,8 +3,8 @@ using Application;
 
 namespace Application {
   public enum PathologyName { 
-    DEPRESSION,
-    POST_STROKE_HAND,
-    POST_STROKE_APHASIA
+    DEPRESSION = 0,
+    POST_STROKE_HAND = 1,
+    POST_STROKE_APHASIA = 2
   }
 } 

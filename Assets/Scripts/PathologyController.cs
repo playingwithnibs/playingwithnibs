@@ -3,14 +3,17 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static Constants;
 
-public class PathologyController : MonoBehaviour
-{
-    public void onBack()
+namespace Application {
+    public class PathologyController : MonoBehaviour
     {
-        SceneManager.LoadScene(GAME_SELECTION, LoadSceneMode.Single);
-    }
+        public void onBack()
+        {
+            SceneManager.LoadScene(GAME_SELECTION, LoadSceneMode.Single);
+        }
 
-    public void setPathology() {
-        
+         public void setPathology(int pathology) {
+            PlayerManager.Instance.pathology = new Pathology((PathologyName)pathology);
+            SceneManager.LoadScene(GAME_1);
+        }
     }
 }

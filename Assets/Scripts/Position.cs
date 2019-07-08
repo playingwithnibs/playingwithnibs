@@ -2,9 +2,9 @@
 
 namespace Application {
   public enum Position { 
-    NO,
-    LEFT, 
-    RIGHT, 
-    UPPER
+    NO = 0,
+    LEFT = 1, 
+    RIGHT = 2, 
+    UPPER = 3
   }
 }
