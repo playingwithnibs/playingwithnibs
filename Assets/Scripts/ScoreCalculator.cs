@@ -23,8 +23,6 @@ namespace Application {
       return (int)simulationOutcome;
     }
 
-    // to get the start and end timestamps:
-    // https://stackoverflow.com/questions/21219797/how-to-get-correct-timestamp-in-c-sharp/21219819
     public double computeTimeBonus(double simStart, double simEnd) {
         return TIME_BONUS +
           (simEnd - simStart) * SAVED_TIME_BONUS_MOLTIPLICATOR;
