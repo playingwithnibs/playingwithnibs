@@ -4,7 +4,7 @@ using Application;
 namespace Application {
 
   public class Pathology {
-    public PathologyName name;
+    public Application.PathologyName name;
 
     public Position position;
 
