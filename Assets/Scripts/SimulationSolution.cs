@@ -117,7 +117,7 @@ namespace Application {
           me.intensity <= 120 && me.unitMeasure != UnitMeasure.NO &&
           me.pulse == Pulse.LOW &&
           containsOnly(me, BrainZoneNames.DLPFC) &&
-          me.stimulationType == StimulationType.NO
+          me.stimulationType == Application.StimulationType.NO
           )
           
           return Outcome.UNCHANGED;
