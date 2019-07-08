@@ -9,4 +9,8 @@ public class PathologyController : MonoBehaviour
     {
         SceneManager.LoadScene(GAME_SELECTION, LoadSceneMode.Single);
     }
+
+    public void setPathology() {
+        
+    }
 }
