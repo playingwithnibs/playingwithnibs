@@ -15,6 +15,11 @@ public class GameController : MonoBehaviour
     public GameObject sliderA;
     public GameObject sliderP;
 
+    private void Start()
+    {
+        
+    }
+
     public void onTdcsSelected()
     {
         macchinario = TDCS;
