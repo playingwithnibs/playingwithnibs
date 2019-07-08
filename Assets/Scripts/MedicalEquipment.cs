@@ -10,7 +10,7 @@ namespace Application
     public Pulse pulse; 
     public BrainZonesArray brainZones;
 
-    public StimulationType stimulationType;
+    public Application.StimulationType stimulationType;
 
     public MedicalEquipment(UnitMeasure unitMeasure, double intensity, 
       Pulse pulse, BrainZonesArray brainZones,
