@@ -14,6 +14,16 @@ public class PlayerManager : MonoBehaviour
 
     public Outcome outcome;
 
+    public UnitMeasure unitMeasure;
+
+    public double intensity;
+
+    public Pulse pulse;
+    
+    public BrainZonesArray brainZones;
+
+    public Application.StimulationType stimulationType;
+
     public double getCurrentTimestampInSeconds() 
     {
         return (DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1))
