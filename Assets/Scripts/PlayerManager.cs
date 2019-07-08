@@ -7,6 +7,7 @@ using System;
 public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance;
+    
     public Application.Pathology pathology;
     public double startTime; 
 
@@ -19,7 +20,7 @@ public class PlayerManager : MonoBehaviour
     public double intensity;
 
     public Pulse pulse;
-    
+
     public BrainZonesArray brainZones;
 
     public Application.StimulationType stimulationType;
