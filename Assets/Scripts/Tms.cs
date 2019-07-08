@@ -12,5 +12,7 @@ namespace Application
         : base(unitMeasure, intensity, pulse, brainZones, stimulationType) {
       this.stimulator = stimulator;
     }
+
+    public Tms() : base () {}
   }
 }
