@@ -344,7 +344,7 @@ namespace Application {
         )
           return Outcome.EXPLOSION;
         
-        //Post Stroke: Hand, case number 13
+        //Post Stroke: Hand, case number 14
         //TODO decide whether we want to catch somewhere else during the config
         //     process
         else if (isTdcs(me) && 
