@@ -19,6 +19,17 @@ namespace Application {
         position = Position.NO;
     }
 
+    public Pathology(PathologyName name, Position p)
+    {
+      this.name = name;
+
+      if (name == PathologyName.POST_STROKE_HAND ||
+        name == PathologyName.POST_STROKE_APHASIA)
+        this.position = p;
+      else
+        position = Position.NO;
+    }
+
     public Pathology() {
       Array values = Enum.GetValues(typeof(PathologyName));
       this.name = (PathologyName)values
