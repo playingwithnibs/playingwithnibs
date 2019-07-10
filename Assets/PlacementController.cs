@@ -11,7 +11,15 @@ public class PlacementController : MonoBehaviour
 
     private Button
         backButton,
-        forwardButton;
+        forwardButton,
+        eightCoilButton,
+        circularCoilButton,
+        hCoilButton,
+        twoCoilButton,
+        hdCoilButton,
+        dlpfcZoneButton,
+        oZoneButton,
+        m1ZoneButton;
     private SpriteRenderer
         medicalEquipmentRecap;
 
@@ -23,13 +31,22 @@ public class PlacementController : MonoBehaviour
         backButton = GameObject.Find("back-button").GetComponent<Button>();
         forwardButton = GameObject.Find("forward-button").GetComponent<Button>();
         medicalEquipmentRecap = GameObject.Find("medical-eq-recap").GetComponent<SpriteRenderer>();
+        eightCoilButton = GameObject.Find("eight-coil-button").GetComponent<Button>();
+        circularCoilButton = GameObject.Find("circular-coil-button").GetComponent<Button>();
+        hCoilButton = GameObject.Find("h-coil-button").GetComponent<Button>();
+        twoCoilButton = GameObject.Find("two-coil-button").GetComponent<Button>();
+        hdCoilButton = GameObject.Find("hd-coil-button").GetComponent<Button>();
+        dlpfcZoneButton = GameObject.Find("dlpfc-zone").GetComponent<Button>();
+        oZoneButton = GameObject.Find("o-zone").GetComponent<Button>();
+        m1ZoneButton = GameObject.Find("m1-zone").GetComponent<Button>();
 
-        medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.ToString().ToLower(), typeof(Sprite)) as Sprite;
-    }
+        //medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.ToString().ToLower(), typeof(Sprite)) as Sprite;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        List<Button> toolbox = new List<Button> { eightCoilButton, circularCoilButton, hCoilButton, twoCoilButton, hdCoilButton };
+        toolbox.ForEach((stimulator) => {
+            stimulator.onClick.AddListener(() => {
+                Debug.Log(stimulator.name);
+            });
+        });
     }
 }
