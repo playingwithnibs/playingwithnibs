@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Application;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -65,5 +66,25 @@ public class MachineConfigurationController : MonoBehaviour
     void Update()
     {
        
+    }
+
+    public double getMin() {
+        if (new SimulationSolution().isTdcs(pm.medicalEquipment)) {
+            Tdcs tdcs = (Tdcs)pm.medicalEquipment;
+            return tdcs.min;
+        } else {
+            Tms tms = (Tms)pm.medicalEquipment;
+            return tms.min;
+        }
+    }
+
+    public double getMax() {
+        if (new SimulationSolution().isTdcs(pm.medicalEquipment)) {
+            Tdcs tdcs = (Tdcs)pm.medicalEquipment;
+            return tdcs.max;
+        } else {
+            Tms tms = (Tms)pm.medicalEquipment;
+            return tms.max;
+    }
     }
 }
