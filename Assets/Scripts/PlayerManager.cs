@@ -7,6 +7,7 @@ public class PlayerManager
     public static PlayerManager Instance;
 
     public Pathology pathology;
+    
     public double startTime; 
 
     public double endTime;
