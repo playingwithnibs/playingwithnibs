@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using Application;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MachineConfigurationController : MonoBehaviour
-
 {
     private PlayerManager pm;
 
-    private Text subtitle;
+    private Text
+        subtitle,
+        minText,
+        maxText,
+        currentText;
     private SpriteRenderer
         medicalEquipmentRecap,
         intensityRectangle;
@@ -23,7 +27,9 @@ public class MachineConfigurationController : MonoBehaviour
         mtToggle,
         ampereToggle;
     private Slider intensitySlider;
-    private Button forwardButton;
+    private Button
+        forwardButton,
+        backButton;
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +48,11 @@ public class MachineConfigurationController : MonoBehaviour
         singlePulseToggle = GameObject.Find("single-pulse-toggle").GetComponent<Toggle>();
         rtmsHfToggle = GameObject.Find("rtms-hf-toggle").GetComponent<Toggle>();
         rtmsLfToggle = GameObject.Find("rtms-lf-toggle").GetComponent<Toggle>();
-        forwardButton = GameObject.Find("forward-arrow").GetComponent<Button>();
+        forwardButton = GameObject.Find("forward-button").GetComponent<Button>();
+        backButton = GameObject.Find("back-button").GetComponent<Button>();
+        minText = GameObject.Find("min-text").GetComponent<Text>();
+        maxText = GameObject.Find("max-text").GetComponent<Text>();
+        currentText = GameObject.Find("current-text").GetComponent<Text>();
 
         subtitle.text = "Configure the " + pm.medicalEquipment + " you have selected";
         medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.ToString().ToLower(), typeof(Sprite)) as Sprite;
@@ -51,7 +61,6 @@ public class MachineConfigurationController : MonoBehaviour
             intensityRectangle.sprite = Resources.Load("Sprites/intensity-rectangle-" + (isChecked ? "on" : "off"), typeof(Sprite)) as Sprite;
             mtToggle.interactable = isChecked;
             ampereToggle.interactable = isChecked;
-            intensitySlider.interactable = isChecked;
         });
 
         pulseToggle.onValueChanged.AddListener((isChecked) => {
@@ -59,6 +68,31 @@ public class MachineConfigurationController : MonoBehaviour
             singlePulseToggle.interactable = isChecked;
             rtmsHfToggle.interactable = isChecked;
             rtmsLfToggle.interactable = isChecked;
+        });
+
+        mtToggle.onValueChanged.AddListener((isChecked) => {
+            intensitySlider.minValue = isChecked ? Tms.min : Tdcs.min;
+            intensitySlider.maxValue = isChecked ? Tms.max : Tdcs.max;
+            minText.text = intensitySlider.minValue.ToString();
+            maxText.text = intensitySlider.maxValue.ToString();
+            intensitySlider.interactable = isChecked;
+        });
+
+        ampereToggle.onValueChanged.AddListener((isChecked) => {
+            intensitySlider.interactable = isChecked;
+        });
+
+        intensitySlider.onValueChanged.AddListener((value) => {
+            currentText.text = value.ToString();
+        });
+
+        forwardButton.onClick.AddListener(() => {
+            saveConfig();
+            SceneManager.LoadScene(Constants.GAME_3, LoadSceneMode.Single);
+        });
+
+        backButton.onClick.AddListener(() => {
+            SceneManager.LoadScene(Constants.GAME_1, LoadSceneMode.Single);
         });
     }
 
@@ -68,23 +102,18 @@ public class MachineConfigurationController : MonoBehaviour
        
     }
 
-    public double getMin() {
-        if (new SimulationSolution().isTdcs(pm.medicalEquipment)) {
-            Tdcs tdcs = (Tdcs)pm.medicalEquipment;
-            return tdcs.min;
-        } else {
-            Tms tms = (Tms)pm.medicalEquipment;
-            return tms.min;
-        }
-    }
+    private void saveConfig()
+    {
+        // unit measure
+        if (mtToggle.isOn) pm.unitMeasure = UnitMeasure.PERCENTAGE_OF_MT;
+        else if (ampereToggle.isOn) pm.unitMeasure = UnitMeasure.MILLIAMPERE;
+        else pm.unitMeasure = UnitMeasure.NO;
 
-    public double getMax() {
-        if (new SimulationSolution().isTdcs(pm.medicalEquipment)) {
-            Tdcs tdcs = (Tdcs)pm.medicalEquipment;
-            return tdcs.max;
-        } else {
-            Tms tms = (Tms)pm.medicalEquipment;
-            return tms.max;
-    }
+        // intensity
+        pm.intensity = intensitySlider.value;
+        if (singlePulseToggle.isOn) pm.pulse = Pulse.SINGLE;
+        else if (rtmsHfToggle.isOn) pm.pulse = Pulse.HIGH;
+        else if (rtmsLfToggle.isOn) pm.pulse = Pulse.LOW;
+        else pm.pulse = Pulse.NO;
     }
 }
