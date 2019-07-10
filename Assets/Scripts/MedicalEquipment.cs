@@ -9,6 +9,7 @@ namespace Application
     public double intensity;
     public Pulse pulse; 
     public BrainZonesArray brainZones;
+    public string name;
 
     public Application.StimulationType stimulationType;
 

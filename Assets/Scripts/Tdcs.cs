@@ -13,6 +13,8 @@ namespace Application
       this.stimulator = stimulator;
     }
 
-    public Tdcs() : base () {}
+    public Tdcs() : base () {
+            name = Constants.TDCS;
+        }
   }
 }

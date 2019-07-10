@@ -13,6 +13,8 @@ namespace Application
       this.stimulator = stimulator;
     }
 
-    public Tms() : base () {}
+    public Tms() : base () {
+            name = Constants.TMS;
+        }
   }
 }
