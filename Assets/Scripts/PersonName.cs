@@ -4,10 +4,10 @@ using Application;
 namespace Application {
   public enum PersonName { 
     Simone = 0,
-    Alessandro = 1,
-    Lorenzo = 2,
+    Zhang = 1,
+    Amari = 2,
     Simona = 40,
-    Alessandra = 41,
-    Lorenza = 42
+    Fang = 41,
+    Arjana = 42
   }
 } 
