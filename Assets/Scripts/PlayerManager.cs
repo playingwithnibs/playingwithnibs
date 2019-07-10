@@ -2,7 +2,7 @@
 using Application;
 using System;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager
 {
     public static PlayerManager Instance;
 
@@ -40,17 +40,12 @@ public class PlayerManager : MonoBehaviour
             sc.computeMedicalEquipmentScore(outcome);
     }
 
-
-    void Awake()
+    public static PlayerManager getInstance()
     {
         if (Instance == null)
         {
-            DontDestroyOnLoad(gameObject);
-            Instance = this;
+            Instance = new PlayerManager();
         }
-        else if (Instance != this)
-        {
-            Destroy(gameObject);
-        }
+        return Instance;
     }
 }
