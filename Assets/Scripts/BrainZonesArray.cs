@@ -27,13 +27,18 @@ namespace Application
       this.countActiveZones = 0;
     }
 
+    // tested
     public void activateZone(BrainZoneNames brainZoneName, 
       ElectrodeType electrodeType) {
-        brainZones[(int)brainZoneName].electrodeType = electrodeType;
-        
-        countActiveZones++;
+        if (electrodeType != ElectrodeType.NO) {
+          brainZones[(int)brainZoneName].electrodeType = electrodeType;
+
+          countActiveZones++;
+        }
+
     }
 
+    // tested
     public void deactivateZone(BrainZoneNames brainZoneName) {
       brainZones[(int)brainZoneName].electrodeType = ElectrodeType.NO;
 
