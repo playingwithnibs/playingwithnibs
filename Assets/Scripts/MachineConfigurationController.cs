@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Application;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MachineConfigurationController : MonoBehaviour
 {
@@ -45,7 +46,7 @@ public class MachineConfigurationController : MonoBehaviour
         singlePulseToggle = GameObject.Find("single-pulse-toggle").GetComponent<Toggle>();
         rtmsHfToggle = GameObject.Find("rtms-hf-toggle").GetComponent<Toggle>();
         rtmsLfToggle = GameObject.Find("rtms-lf-toggle").GetComponent<Toggle>();
-        forwardButton = GameObject.Find("forward-arrow").GetComponent<Button>();
+        forwardButton = GameObject.Find("forward-button").GetComponent<Button>();
         minText = GameObject.Find("min-text").GetComponent<Text>();
         maxText = GameObject.Find("max-text").GetComponent<Text>();
         currentText = GameObject.Find("current-text").GetComponent<Text>();
@@ -81,11 +82,31 @@ public class MachineConfigurationController : MonoBehaviour
         intensitySlider.onValueChanged.AddListener((value) => {
             currentText.text = value.ToString();
         });
+
+        forwardButton.onClick.AddListener(() => {
+            saveConfig();
+            SceneManager.LoadScene(Constants.GAME_3, LoadSceneMode.Single);
+        });
     }
 
     // Update is called once per frame
     void Update()
     {
        
+    }
+
+    private void saveConfig()
+    {
+        // unit measure
+        if (mtToggle.isOn) pm.unitMeasure = UnitMeasure.PERCENTAGE_OF_MT;
+        else if (ampereToggle.isOn) pm.unitMeasure = UnitMeasure.MILLIAMPERE;
+        else pm.unitMeasure = UnitMeasure.NO;
+
+        // intensity
+        pm.intensity = intensitySlider.value;
+        if (singlePulseToggle.isOn) pm.pulse = Pulse.SINGLE;
+        else if (rtmsHfToggle.isOn) pm.pulse = Pulse.HIGH;
+        else if (rtmsLfToggle.isOn) pm.pulse = Pulse.LOW;
+        else pm.pulse = Pulse.NO;
     }
 }
