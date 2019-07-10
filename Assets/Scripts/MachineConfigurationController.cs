@@ -5,11 +5,14 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MachineConfigurationController : MonoBehaviour
-
 {
     private PlayerManager pm;
 
-    private Text subtitle;
+    private Text
+        subtitle,
+        minText,
+        maxText,
+        currentText;
     private SpriteRenderer
         medicalEquipmentRecap,
         intensityRectangle;
@@ -43,6 +46,9 @@ public class MachineConfigurationController : MonoBehaviour
         rtmsHfToggle = GameObject.Find("rtms-hf-toggle").GetComponent<Toggle>();
         rtmsLfToggle = GameObject.Find("rtms-lf-toggle").GetComponent<Toggle>();
         forwardButton = GameObject.Find("forward-arrow").GetComponent<Button>();
+        minText = GameObject.Find("min-text").GetComponent<Text>();
+        maxText = GameObject.Find("max-text").GetComponent<Text>();
+        currentText = GameObject.Find("current-text").GetComponent<Text>();
 
         subtitle.text = "Configure the " + pm.medicalEquipment + " you have selected";
         medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.ToString().ToLower(), typeof(Sprite)) as Sprite;
@@ -51,7 +57,6 @@ public class MachineConfigurationController : MonoBehaviour
             intensityRectangle.sprite = Resources.Load("Sprites/intensity-rectangle-" + (isChecked ? "on" : "off"), typeof(Sprite)) as Sprite;
             mtToggle.interactable = isChecked;
             ampereToggle.interactable = isChecked;
-            intensitySlider.interactable = isChecked;
         });
 
         pulseToggle.onValueChanged.AddListener((isChecked) => {
@@ -60,31 +65,27 @@ public class MachineConfigurationController : MonoBehaviour
             rtmsHfToggle.interactable = isChecked;
             rtmsLfToggle.interactable = isChecked;
         });
+
+        mtToggle.onValueChanged.AddListener((isChecked) => {
+            intensitySlider.minValue = isChecked ? Tms.min : Tdcs.min;
+            intensitySlider.maxValue = isChecked ? Tms.max : Tdcs.max;
+            minText.text = intensitySlider.minValue.ToString();
+            maxText.text = intensitySlider.maxValue.ToString();
+            intensitySlider.interactable = isChecked;
+        });
+
+        ampereToggle.onValueChanged.AddListener((isChecked) => {
+            intensitySlider.interactable = isChecked;
+        });
+
+        intensitySlider.onValueChanged.AddListener((value) => {
+            currentText.text = value.ToString();
+        });
     }
 
     // Update is called once per frame
     void Update()
     {
        
-    }
-
-    public double getMin() {
-        if (new SimulationSolution().isTdcs(pm.medicalEquipment)) {
-            Tdcs tdcs = (Tdcs)pm.medicalEquipment;
-            return tdcs.min;
-        } else {
-            Tms tms = (Tms)pm.medicalEquipment;
-            return tms.min;
-        }
-    }
-
-    public double getMax() {
-        if (new SimulationSolution().isTdcs(pm.medicalEquipment)) {
-            Tdcs tdcs = (Tdcs)pm.medicalEquipment;
-            return tdcs.max;
-        } else {
-            Tms tms = (Tms)pm.medicalEquipment;
-            return tms.max;
-    }
     }
 }

@@ -7,9 +7,8 @@ namespace Application
   public class Tms : MedicalEquipment {
     public TmsStimulator stimulator;
 
-    public double min = 0;
-
-    public double max = 180;
+    public static float min = 70;
+    public static float max = 120;
 
     public Tms(UnitMeasure unitMeasure, double intensity, Pulse pulse,
       BrainZonesArray brainZones, TmsStimulator stimulator, 

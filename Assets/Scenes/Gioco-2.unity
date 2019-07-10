@@ -627,7 +627,7 @@ GameObject:
   - component: {fileID: 178072022}
   - component: {fileID: 178072021}
   m_Layer: 0
-  m_Name: current text
+  m_Name: current-text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -685,7 +685,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: $curr
+  m_Text: 
 --- !u!222 &178072022
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1240,7 +1240,7 @@ GameObject:
   - component: {fileID: 539132466}
   - component: {fileID: 539132465}
   m_Layer: 0
-  m_Name: max text
+  m_Name: max-text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1298,7 +1298,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: $max
+  m_Text: 
 --- !u!222 &539132466
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2722,8 +2722,8 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1242304868}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 1
-  m_WholeNumbers: 0
+  m_MaxValue: 10
+  m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2877,7 +2877,7 @@ GameObject:
   - component: {fileID: 1070326516}
   - component: {fileID: 1070326515}
   m_Layer: 0
-  m_Name: min text
+  m_Name: min-text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2935,7 +2935,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: $min
+  m_Text: 
 --- !u!222 &1070326516
 CanvasRenderer:
   m_ObjectHideFlags: 0
