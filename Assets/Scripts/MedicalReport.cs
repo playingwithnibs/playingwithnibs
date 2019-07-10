@@ -32,8 +32,7 @@ namespace Application {
 
       pathology = new Pathology();
 
-      animojiPath = "Sprites/" + 
-        Convert.ToString(new Random().Next(0, 3)) + (int)gender + "_bad";
+      animojiPath = "Sprites/" + name + "_bad";
     }
   }
 }
