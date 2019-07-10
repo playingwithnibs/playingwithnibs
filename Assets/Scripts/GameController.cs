@@ -9,6 +9,11 @@ namespace Application {
     public class GameController : MonoBehaviour
     {
 
+        private void Start()
+        {
+            PlayerManager.getInstance().startTime = PlayerManager.getInstance().getCurrentTimestampInSeconds();
+        }
+
         public void onTdcsSelected()
         {
             PlayerManager.getInstance().medicalEquipment = new Tdcs();
