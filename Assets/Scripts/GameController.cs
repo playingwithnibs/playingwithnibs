@@ -17,19 +17,15 @@ namespace Application {
         public GameObject sliderA;
         public GameObject sliderP;
 
-        private void Start()
-        {
-        
-        }
-
         public void onTdcsSelected()
         {
-            PlayerManager.Instance.medicalEquipment = new Tdcs();
+            PlayerManager.getInstance().medicalEquipment = new Tdcs();
             iniziaFaseDue();
         }
+
         public void onTmsSelected()
         {
-            PlayerManager.Instance.medicalEquipment = new Tms();
+            PlayerManager.getInstance().medicalEquipment = new Tms();
             iniziaFaseDue();
         }
 
@@ -44,7 +40,7 @@ namespace Application {
 
         public void scegliVoltaggioA()
         {
-            PlayerManager.Instance.medicalEquipment.unitMeasure = 
+            PlayerManager.getInstance().medicalEquipment.unitMeasure = 
                 UnitMeasure.MILLIAMPERE;
             sliderA.SetActive(true);
             sliderP.SetActive(false);     
@@ -52,7 +48,7 @@ namespace Application {
 
         public void scegliVoltaggioP()
         {
-            PlayerManager.Instance.medicalEquipment.unitMeasure =
+            PlayerManager.getInstance().medicalEquipment.unitMeasure =
                 UnitMeasure.PERCENTAGE_OF_MT;
             sliderA.SetActive(false);
             sliderP.SetActive(true);
@@ -61,11 +57,12 @@ namespace Application {
         public void exitSession()
         {
             SceneManager.LoadScene(GAME_SELECTION, LoadSceneMode.Single);
+            Debug.Log("exit");
         }
 
         private void Awake()
         {
-            Debug.Log(PlayerManager.Instance.pathology.name);
+            Debug.Log(PlayerManager.getInstance().pathology.name);
         }
 
     }
