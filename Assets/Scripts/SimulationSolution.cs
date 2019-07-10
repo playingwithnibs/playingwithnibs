@@ -120,7 +120,7 @@ namespace Application {
 
     // tested
     public Outcome getOutcomeDepression(MedicalEquipment me,
-      Pathology pathology) {
+      MedicalReport mr) {
 
         // Depression, case number 1
         // tested
@@ -211,7 +211,7 @@ namespace Application {
       }
 
     public Outcome getOutcomePostStrokeHand(MedicalEquipment me,
-      Pathology pathology) {
+      MedicalReport mr) {
         //Post Stroke: Hand, case number 1.1
         // tested
         if (isTdcsDefault(me) && (
@@ -225,7 +225,7 @@ namespace Application {
           me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() &&
           isControLateral(
             me.brainZones.brainZones[(int)BrainZoneNames.M1].position, 
-            pathology.position)
+            mr.pathology.position)
         ) {
           Console.WriteLine("P_S_H, case number 1.1");
           return Outcome.GOOD;
@@ -243,7 +243,7 @@ namespace Application {
           me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() &&
           isControLateral(
             me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
-            pathology.position)
+            mr.pathology.position)
         ) {
           Console.WriteLine("P_S_H, case number 1.2");
           return Outcome.VERY_GOOD;
@@ -261,7 +261,7 @@ namespace Application {
           me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() &&
           isIpsiLateral(
             me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
-            pathology.position)
+            mr.pathology.position)
         ) {
           Console.WriteLine("P_S_H, case number 2");
           return Outcome.GOOD;
@@ -279,7 +279,7 @@ namespace Application {
           me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() &&
           isIpsiLateral(
             me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
-            pathology.position)
+            mr.pathology.position)
         ) {
           Console.WriteLine("P_S_H, case number 3");
           return Outcome.BAD;
@@ -296,7 +296,7 @@ namespace Application {
           me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() &&
           isControLateral(
             me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
-            pathology.position)
+            mr.pathology.position)
         ) {
           Console.WriteLine("P_S_H, case number 4");
           return Outcome.BAD;
@@ -360,7 +360,7 @@ namespace Application {
           // tested
           if (isIpsiLateral(
             me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
-            pathology.position)) {
+            mr.pathology.position)) {
             Console.WriteLine("P_S_H, case number 8");
               return Outcome.GOOD;
             }
@@ -368,7 +368,7 @@ namespace Application {
           // tested
           else if (isControLateral(
             me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
-            pathology.position)) {
+            mr.pathology.position)) {
               Console.WriteLine("P_S_H, case number 11");
               return Outcome.BAD;
             }
@@ -392,7 +392,7 @@ namespace Application {
           //tested
           if (isIpsiLateral(
             me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
-            pathology.position)) {
+            mr.pathology.position)) {
               Console.WriteLine("P_S_H, case number 10");
               return Outcome.BAD;
             }
@@ -401,7 +401,7 @@ namespace Application {
           // tested 
           else if (isControLateral(
             me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
-            pathology.position)) {
+            mr.pathology.position)) {
               Console.WriteLine("P_S_H, case number 9");
               return Outcome.GOOD;
             }
@@ -464,14 +464,14 @@ namespace Application {
         }
     }
 
-    public Outcome getOutcome(MedicalEquipment me, Pathology pathology) {
+    public Outcome getOutcome(MedicalEquipment me, MedicalReport mr) {
 
-        switch(pathology.name) {
+        switch(mr.pathology.name) {
           case PathologyName.DEPRESSION:
-            return getOutcomeDepression(me, pathology);
+            return getOutcomeDepression(me, mr);
           
           case PathologyName.POST_STROKE_HAND:
-            return getOutcomePostStrokeHand(me, pathology);
+            return getOutcomePostStrokeHand(me, mr);
 
           default:
             return Outcome.UNCHANGED;
