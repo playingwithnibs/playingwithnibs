@@ -1,8 +1,5 @@
-using System;
-using Application;
-
 namespace Application{ 
-  public enum ElectrodeType { 
+  public enum ElectrodeType {
     NO,
     POSITIVE, 
     NEGATIVE, 
