@@ -27,7 +27,9 @@ public class MachineConfigurationController : MonoBehaviour
         mtToggle,
         ampereToggle;
     private Slider intensitySlider;
-    private Button forwardButton;
+    private Button
+        forwardButton,
+        backButton;
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +49,7 @@ public class MachineConfigurationController : MonoBehaviour
         rtmsHfToggle = GameObject.Find("rtms-hf-toggle").GetComponent<Toggle>();
         rtmsLfToggle = GameObject.Find("rtms-lf-toggle").GetComponent<Toggle>();
         forwardButton = GameObject.Find("forward-button").GetComponent<Button>();
+        backButton = GameObject.Find("back-button").GetComponent<Button>();
         minText = GameObject.Find("min-text").GetComponent<Text>();
         maxText = GameObject.Find("max-text").GetComponent<Text>();
         currentText = GameObject.Find("current-text").GetComponent<Text>();
@@ -86,6 +89,10 @@ public class MachineConfigurationController : MonoBehaviour
         forwardButton.onClick.AddListener(() => {
             saveConfig();
             SceneManager.LoadScene(Constants.GAME_3, LoadSceneMode.Single);
+        });
+
+        backButton.onClick.AddListener(() => {
+            SceneManager.LoadScene(Constants.GAME_1, LoadSceneMode.Single);
         });
     }
 

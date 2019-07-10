@@ -40,8 +40,8 @@ namespace Application {
 
         public void exitSession()
         {
+            // TODO: void the simulation session
             SceneManager.LoadScene(GAME_SELECTION, LoadSceneMode.Single);
-            Debug.Log("exit");
         }
 
         private void Awake()
