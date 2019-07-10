@@ -13,6 +13,8 @@ namespace Application {
 
     public Pathology pathology;
 
+    public string animojiPath;
+
     public MedicalReport() {
       gender = new Random().Next(0, 41) >= 20 ? (Gender) 40 : 0;
 
@@ -29,6 +31,9 @@ namespace Application {
         .AddDays(new Random().Next((DateTime.Today - start).Days));
 
       pathology = new Pathology();
+
+      animojiPath = "Sprites/" + 
+        Convert.ToString(new Random().Next(0, 3)) + (int)gender + "_bad";
     }
   }
 }
