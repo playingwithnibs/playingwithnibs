@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Application;
 using System;
 
@@ -8,7 +6,7 @@ public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager Instance;
 
-    public Application.Pathology pathology;
+    public Pathology pathology;
     public double startTime; 
 
     public double endTime;
@@ -25,7 +23,7 @@ public class PlayerManager : MonoBehaviour
 
     public MedicalEquipment medicalEquipment;
 
-    public Application.StimulationType stimulationType;
+    public StimulationType stimulationType;
 
     public double getCurrentTimestampInSeconds() 
     {
