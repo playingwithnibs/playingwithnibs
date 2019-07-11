@@ -463,17 +463,16 @@
     }
 
     public Outcome getOutcome(MedicalEquipment me, MedicalReport mr) {
-
-        switch(mr.pathology.name) {
-          case PathologyName.DEPRESSION:
-            return getOutcomeDepression(me, mr);
+      switch(mr.pathology.name) {
+        case PathologyName.DEPRESSION:
+          return getOutcomeDepression(me, mr);
           
-          case PathologyName.POST_STROKE_HAND:
-            return getOutcomePostStrokeHand(me, mr);
+        case PathologyName.POST_STROKE_HAND:
+          return getOutcomePostStrokeHand(me, mr);
 
-          default:
-            return Outcome.UNCHANGED;
-        }
+        default:
+          return Outcome.UNCHANGED;
       }
+    }
   }
 }
