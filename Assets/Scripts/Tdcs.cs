@@ -1,13 +1,10 @@
-using System;
-using Application;
-using System.Collections.Generic;
-
 namespace Application
 {
   public class Tdcs : MedicalEquipment {
     public TdcsStimulator stimulator;
 
     public static float min = 0;
+
     public static float max = 10;
     
     public Tdcs(UnitMeasure unitMeasure, double intensity, Pulse pulse,
