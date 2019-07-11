@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Application;
-
-namespace Application {
+﻿namespace Application {
   public class ScoreCalculator {
 
     private const int TIME_BONUS = 20;
