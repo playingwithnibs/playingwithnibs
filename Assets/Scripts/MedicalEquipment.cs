@@ -1,17 +1,14 @@
-using System;
-using Application;
-using System.Collections.Generic;
-
-namespace Application
-{
+namespace Application {
   public class MedicalEquipment {
-    public UnitMeasure unitMeasure; 
-    public double intensity;
-    public Pulse pulse; 
-    public BrainZonesArray brainZones;
-    public string name;
+    public UnitMeasure unitMeasure;
 
-    public Application.StimulationType stimulationType;
+    public double intensity;
+
+    public Pulse pulse; 
+
+    public BrainZonesArray brainZones;
+
+    public StimulationType stimulationType;
 
     public MedicalEquipment(UnitMeasure unitMeasure, double intensity, 
       Pulse pulse, BrainZonesArray brainZones,
