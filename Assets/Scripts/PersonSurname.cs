@@ -1,6 +1,3 @@
-using System;
-using Application;
-
 namespace Application {
   public enum PersonSurname { 
     Stufa = 0,
