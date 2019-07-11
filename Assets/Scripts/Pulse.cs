@@ -1,10 +1,12 @@
-﻿using System;
-
-namespace Application {
+﻿namespace Application {
   public enum Pulse { 
-  NO, 
-  SINGLE, 
-  HIGH,
-  LOW
+    NO, 
+    
+    SINGLE, 
+    
+    HIGH,
+    
+    LOW
+    
   }
 }
