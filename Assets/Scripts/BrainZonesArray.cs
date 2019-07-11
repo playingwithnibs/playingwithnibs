@@ -32,7 +32,6 @@ namespace Application
 
           countActiveZones++;
         }
-
     }
 
     // tested
