@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Application {
+﻿namespace Application {
   public class SimulationSolution {
 
     // tested
@@ -130,12 +128,12 @@ namespace Application {
           containsOnly(me, BrainZoneNames.DLPFC) && isNeutral(me.brainZones)) { 
               
             if (me.intensity >= 90 && me.intensity < 120) {
-              Console.WriteLine("Depression, case number 1");
+              //Console.WriteLine("Depression, case number 1");
               return Outcome.GOOD;
             }
 
-            else if (me.intensity == 120){
-              Console.WriteLine("Depression, case number 1");
+            else if (me.intensity == 120) {
+              //Console.WriteLine("Depression, case number 1");
               return Outcome.VERY_GOOD;
             }
               
@@ -143,7 +141,7 @@ namespace Application {
             // had to do it, in order to prevent the "not all code paths return
             // a value" compilation error :)
             else {
-              Console.WriteLine("Depression, case number 1");
+              //Console.WriteLine("Depression, case number 1");
               return Outcome.UNCHANGED; 
             }
 
@@ -155,7 +153,7 @@ namespace Application {
           me.intensity <= 120 && me.unitMeasure != UnitMeasure.NO &&
           me.pulse == Pulse.LOW &&
           containsOnly(me, BrainZoneNames.DLPFC) && isNeutral(me.brainZones)) {
-            Console.WriteLine("Depression, case number 2");
+            //Console.WriteLine("Depression, case number 2");
             return Outcome.UNCHANGED;
           }
 
@@ -176,18 +174,18 @@ namespace Application {
               .isActive() &&
             isAnodalOrCathodal(me.brainZones)
           )
-          )
-        ) {
-          Console.WriteLine("Depression, case number 3");
-          return Outcome.BAD; 
-        }
+        )
+      ) {
+        //Console.WriteLine("Depression, case number 3");
+        return Outcome.BAD; 
+      }
 
       // Depression, case number 4
       // tested
       //TODO should we catch this while creating the med. equip.?
       else if (isTms(me) && me.intensity <= 120 &&
           me.unitMeasure != UnitMeasure.NO && me.pulse == Pulse.NO) {
-            Console.WriteLine("Depression, case number 4");
+            //Console.WriteLine("Depression, case number 4");
             return Outcome.EXPLOSION;
           }
 
@@ -199,13 +197,13 @@ namespace Application {
             (me.pulse == Pulse.HIGH || me.pulse == Pulse.SINGLE
             ) && me.brainZones.countActiveZones > 0           
           ) {
-            Console.WriteLine("Depression, case number 5");
+            //Console.WriteLine("Depression, case number 5");
             return Outcome.EXPLOSION;
           }
 
         // tested
         else {
-          Console.WriteLine("Depression, unmodelled case");
+          //Console.WriteLine("Depression, unmodelled case");
           return Outcome.UNCHANGED;
         }
       }
@@ -227,7 +225,7 @@ namespace Application {
             me.brainZones.brainZones[(int)BrainZoneNames.M1].position, 
             mr.pathology.position)
         ) {
-          Console.WriteLine("P_S_H, case number 1.1");
+          //Console.WriteLine("P_S_H, case number 1.1");
           return Outcome.GOOD;
         }
           
@@ -245,13 +243,13 @@ namespace Application {
             me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
             mr.pathology.position)
         ) {
-          Console.WriteLine("P_S_H, case number 1.2");
+          //Console.WriteLine("P_S_H, case number 1.2");
           return Outcome.VERY_GOOD;
         }
           
 
         //Post Stroke: Hand, case number 2
-        //tested
+        // tested
         else if (isTdcsDefault(me) && me.intensity >= 0.8 && 
           me.intensity <= 2 && me.unitMeasure == UnitMeasure.MILLIAMPERE &&
           me.pulse == Pulse.NO &&
@@ -263,7 +261,7 @@ namespace Application {
             me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
             mr.pathology.position)
         ) {
-          Console.WriteLine("P_S_H, case number 2");
+          ////Console.WriteLine("P_S_H, case number 2");
           return Outcome.GOOD;
         }
           
@@ -281,7 +279,7 @@ namespace Application {
             me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
             mr.pathology.position)
         ) {
-          Console.WriteLine("P_S_H, case number 3");
+          ////Console.WriteLine("P_S_H, case number 3");
           return Outcome.BAD;
         }
 
@@ -298,7 +296,7 @@ namespace Application {
             me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
             mr.pathology.position)
         ) {
-          Console.WriteLine("P_S_H, case number 4");
+          ////Console.WriteLine("P_S_H, case number 4");
           return Outcome.BAD;
         }
         
@@ -316,7 +314,7 @@ namespace Application {
           me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive() &&
           me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive()
         ) {
-          Console.WriteLine("P_S_H, case number 5");
+          ////Console.WriteLine("P_S_H, case number 5");
           return Outcome.UNCHANGED;
         }
         
@@ -332,7 +330,7 @@ namespace Application {
             me.brainZones.brainZones[(int)BrainZoneNames.SO])
           ) && me.brainZones.countActiveZones == 2
         ) {
-          Console.WriteLine("P_S_H, case number 6");
+          ////Console.WriteLine("P_S_H, case number 6");
           return Outcome.VERY_BAD;
         }
 
@@ -343,7 +341,7 @@ namespace Application {
           me.brainZones.countActiveZones == 2 && 
           !me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive()
         ) {
-          Console.WriteLine("P_S_H, case number 7");          
+          ////Console.WriteLine("P_S_H, case number 7");          
           return Outcome.BAD;
         }
 
@@ -361,7 +359,7 @@ namespace Application {
           if (isIpsiLateral(
             me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
             mr.pathology.position)) {
-            Console.WriteLine("P_S_H, case number 8");
+            ////Console.WriteLine("P_S_H, case number 8");
               return Outcome.GOOD;
             }
           // this is case number 11
@@ -369,7 +367,7 @@ namespace Application {
           else if (isControLateral(
             me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
             mr.pathology.position)) {
-              Console.WriteLine("P_S_H, case number 11");
+              ////Console.WriteLine("P_S_H, case number 11");
               return Outcome.BAD;
             }
           
@@ -393,7 +391,7 @@ namespace Application {
           if (isIpsiLateral(
             me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
             mr.pathology.position)) {
-              Console.WriteLine("P_S_H, case number 10");
+              ////Console.WriteLine("P_S_H, case number 10");
               return Outcome.BAD;
             }
               
@@ -402,7 +400,7 @@ namespace Application {
           else if (isControLateral(
             me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
             mr.pathology.position)) {
-              Console.WriteLine("P_S_H, case number 9");
+              ////Console.WriteLine("P_S_H, case number 9");
               return Outcome.GOOD;
             }
               
@@ -420,7 +418,7 @@ namespace Application {
           me.pulse != Pulse.NO &&
           me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive()
         ) {
-          Console.WriteLine("P_S_H, case number 12");
+          ////Console.WriteLine("P_S_H, case number 12");
           return Outcome.UNCHANGED;
         }
           
@@ -436,7 +434,7 @@ namespace Application {
               || 
             (me.intensity <= 2 && me.unitMeasure == UnitMeasure.MILLIAMPERE)
           ) && me.pulse == Pulse.NO) {
-            Console.WriteLine("P_S_H, case number 13");
+            ////Console.WriteLine("P_S_H, case number 13");
             return Outcome.EXPLOSION;
         }
           
@@ -453,13 +451,13 @@ namespace Application {
               || 
             (me.intensity <= 2 && me.unitMeasure == UnitMeasure.MILLIAMPERE)
           ) && me.pulse != Pulse.NO) {
-          Console.WriteLine("P_S_H, case number 14");
+          ////Console.WriteLine("P_S_H, case number 14");
           return Outcome.EXPLOSION;
         }
           
 
         else {
-          Console.WriteLine("P_S_H, unmodelled case");
+          ////Console.WriteLine("P_S_H, unmodelled case");
           return Outcome.UNCHANGED;
         }
     }
