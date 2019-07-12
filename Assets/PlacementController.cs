@@ -184,15 +184,15 @@ public class PlacementController : MonoBehaviour
                     targetImage.enabled = false;
                     break;
                 case 1:
-                    s = neutral;
-                    targetImage.enabled = true;
-                    break;
-                case 2:
                     s = positive;
                     targetImage.enabled = true;
                     break;
-                case 3:
+                case 2:
                     s = negative;
+                    targetImage.enabled = true;
+                    break;
+                case 3:
+                    s = neutral;
                     targetImage.enabled = true;
                     break;
             }
