@@ -7,19 +7,20 @@ namespace Application
 
     public BrainZonesArray() {
       brainZones = new BrainZone[6];
+      Stimulator stimulator = new Stimulator();
       
       brainZones[0] = 
-        new BrainZone(BrainZoneNames.DLPFC, Position.UPPER, ElectrodeType.NO);
+        new BrainZone(BrainZoneNames.DLPFC, Position.UPPER, stimulator);
       brainZones[1] = 
-        new BrainZone(BrainZoneNames.M1, Position.UPPER, ElectrodeType.NO);
+        new BrainZone(BrainZoneNames.M1, Position.UPPER, stimulator);
       brainZones[2] = 
-        new BrainZone(BrainZoneNames.SO, Position.UPPER, ElectrodeType.NO);
+        new BrainZone(BrainZoneNames.SO, Position.UPPER, stimulator);
       brainZones[3] = 
-        new BrainZone(BrainZoneNames.O, Position.UPPER, ElectrodeType.NO);
+        new BrainZone(BrainZoneNames.O, Position.UPPER, stimulator);
       brainZones[4] = 
-        new BrainZone(BrainZoneNames.CP5, Position.LEFT, ElectrodeType.NO);
+        new BrainZone(BrainZoneNames.CP5, Position.LEFT, stimulator);
       brainZones[5] = 
-        new BrainZone(BrainZoneNames.CP6, Position.RIGHT, ElectrodeType.NO);
+        new BrainZone(BrainZoneNames.CP6, Position.RIGHT, stimulator);
 
       countActiveZones = 0;
     }
@@ -28,7 +29,8 @@ namespace Application
     public void activateZone(BrainZoneNames brainZoneName, 
       ElectrodeType electrodeType) {
         if (electrodeType != ElectrodeType.NO) {
-          brainZones[(int)brainZoneName].electrodeType = electrodeType;
+          brainZones[(int)brainZoneName].stimulator.electrodeType 
+            = electrodeType;
 
           countActiveZones++;
         }
@@ -42,7 +44,8 @@ namespace Application
 
     // tested
     public void deactivateZone(BrainZoneNames brainZoneName) {
-      brainZones[(int)brainZoneName].electrodeType = ElectrodeType.NO;
+      brainZones[(int)brainZoneName].stimulator.electrodeType 
+        = ElectrodeType.NO;
 
       countActiveZones--;
     }

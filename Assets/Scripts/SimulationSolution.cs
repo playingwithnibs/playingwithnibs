@@ -62,8 +62,8 @@
 
     // tested
     public bool isAnodal(BrainZone source, BrainZone destination) {
-      return source.electrodeType == ElectrodeType.POSITIVE &&
-        destination.electrodeType == ElectrodeType.NEGATIVE;
+      return source.stimulator.electrodeType == ElectrodeType.POSITIVE &&
+        destination.stimulator.electrodeType == ElectrodeType.NEGATIVE;
     }
 
     // tested
@@ -72,9 +72,11 @@
       int countNegative = 0;
 
       for (int i = 0; i < 6; i++) {
-        if (bza.brainZones[i].electrodeType == ElectrodeType.POSITIVE)
+        if (bza.brainZones[i].stimulator.electrodeType 
+          == ElectrodeType.POSITIVE)
           countPositive++;
-        else if (bza.brainZones[i].electrodeType == ElectrodeType.NEGATIVE)
+        else if (bza.brainZones[i].stimulator.electrodeType 
+          == ElectrodeType.NEGATIVE)
           countNegative++;
       }
 
@@ -83,8 +85,8 @@
 
     // tested
     public bool isCathodal(BrainZone source, BrainZone destination) {
-      return source.electrodeType == ElectrodeType.NEGATIVE &&
-        destination.electrodeType == ElectrodeType.POSITIVE;
+      return source.stimulator.electrodeType == ElectrodeType.NEGATIVE &&
+        destination.stimulator.electrodeType == ElectrodeType.POSITIVE;
     }
 
     // tested
@@ -92,8 +94,9 @@
       bool isNeutral = true;
 
       for (int i = 0; i < 6; i++) {
-        if (bza.brainZones[i].electrodeType == ElectrodeType.POSITIVE ||
-          bza.brainZones[i].electrodeType == ElectrodeType.NEGATIVE)
+        if (bza.brainZones[i].stimulator.electrodeType 
+          == ElectrodeType.POSITIVE ||
+          bza.brainZones[i].stimulator.electrodeType == ElectrodeType.NEGATIVE)
           isNeutral = false;
       }
 
