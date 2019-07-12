@@ -11,6 +11,8 @@ namespace Application {
 
         private void Start()
         {
+            PlayerManager.getInstance().medicalReport = new MedicalReport();
+            Debug.Log(PlayerManager.getInstance().medicalReport.pathology.name + " " + PlayerManager.getInstance().medicalReport.pathology.position);
             PlayerManager.getInstance().startTime = PlayerManager.getInstance().getCurrentTimestampInSeconds();
         }
 
