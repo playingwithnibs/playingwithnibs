@@ -75,5 +75,9 @@ namespace Application {
     public string getDescription() {
       return descriptions[(int)name];
     }
+
+    public override string ToString(){
+      return name + ", " + position;
+    }
   }
 } 
