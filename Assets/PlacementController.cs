@@ -36,7 +36,8 @@ public class PlacementController : MonoBehaviour
     private Dictionary<Button, int> buttonStimulatorMap;
 
     private Dictionary<BrainZone, int> zoneStimulatorTypeMap;
-    private Dictionary<Dictionary<BrainZone, int>, int> config;
+
+    private Dictionary<Button, ZoneConfig> config;
 
     // Start is called before the first frame update
     void Start()
@@ -57,7 +58,9 @@ public class PlacementController : MonoBehaviour
         //medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.ToString().ToLower(), typeof(Sprite)) as Sprite;
 
         zoneStimulatorTypeMap = new Dictionary<BrainZone, int>();
+        config = new Dictionary<Button, ZoneConfig>();
         initBrainAreas();
+        initStimulators();
 
         toolbox = new List<Button> { eightCoilButton, circularCoilButton, hCoilButton, hdCoilButton };
         toolbox.ForEach((stimulator) => {
@@ -84,29 +87,33 @@ public class PlacementController : MonoBehaviour
         brainAreas = new List<Button> { dlpfcZoneButton, oZoneButton, m1ZoneButton };
         brainAreas.ForEach((zoneButton) => {
             zoneButton.onClick.AddListener(() => {
+                ZoneConfig zoneConfig = null;
 
                 if (mode == MODE_SELECTION || mode == MODE_DIRECTION)
                 {
-                    Debug.Log("Clicked area: " + zoneButton.name);
+                    Debug.Log("Clicked area: " + zoneButton.name + " | " + buttonZoneMap[zoneButton].stimulator.tapCounter);
                     mode = MODE_DIRECTION;
 
                     if (selectedStimulator.name == "circular-coil-button")
                     {
                         buttonZoneMap[zoneButton].stimulator.tap(4);
-                        changeZoneIcon(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TmsStimulator.CIRCULAR);
+                        zoneConfig = changeZoneIcon(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TmsStimulator.CIRCULAR);
                     } else if (selectedStimulator.name == "eight-coil-button")
                     {
                         buttonZoneMap[zoneButton].stimulator.tap(2);
-                        changeZoneIcon(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TmsStimulator.EIGHT);
+                        zoneConfig = changeZoneIcon(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TmsStimulator.EIGHT);
                     } else if (selectedStimulator.name == "hd-coil-button")
                     {
                         buttonZoneMap[zoneButton].stimulator.tap(2);
-                        changeZoneIcon(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TdcsStimulator.HD);
+                        zoneConfig = changeZoneIcon(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TdcsStimulator.HD);
                     }
+                    config[zoneButton] = zoneConfig;
                     //zoneStimulatorTypeMap.Add(buttonZoneMap[zoneButton], buttonStimulatorMap[selectedStimulator]);
                 }                
             });
         });
+
+        forwardButton.onClick.AddListener(() => generateConfiguration());
     }
 
     private void initBrainAreas()
@@ -151,7 +158,7 @@ public class PlacementController : MonoBehaviour
        button.GetComponent<Image>().color = color;
     }
 
-    private void changeZoneIcon(Button zoneButton, int state, int stimulatorType)
+    private ZoneConfig changeZoneIcon(Button zoneButton, int state, int stimulatorType)
     {
         Sprite s = Resources.Load<Sprite>("none");
         if (stimulatorType == (int) TmsStimulator.CIRCULAR)
@@ -177,10 +184,12 @@ public class PlacementController : MonoBehaviour
             }
         } else if (stimulatorType == (int) TmsStimulator.EIGHT)
         {
-            if(state==1)
-            s = Resources.Load<Sprite>("Sprites/eight-coil");
+            if (state == 1)
+            {
+                s = Resources.Load<Sprite>("Sprites/eight-coil");
+            }
             else
-                s= Resources.Load<Sprite>("none");
+                s = Resources.Load<Sprite>("none");
         } else if (stimulatorType == (int) TdcsStimulator.HD)
         {
             if (state == 1)
@@ -188,13 +197,15 @@ public class PlacementController : MonoBehaviour
             else
                 s = Resources.Load<Sprite>("none");
         }
-        
         zoneButton.GetComponentInChildren<Button>().transform.GetChild(0).GetComponent<Image>().sprite = s;
-  
+        return new ZoneConfig(buttonZoneMap[zoneButton], state, stimulatorType);  
     }
 
     private void generateConfiguration()
     {
-
+        brainAreas.ForEach(zoneButton =>
+        {
+            zoneStimulatorTypeMap.Add(buttonZoneMap[zoneButton], buttonStimulatorMap[zoneButton]);
+        });
     }
 }

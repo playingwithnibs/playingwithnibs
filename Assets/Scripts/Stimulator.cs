@@ -2,7 +2,7 @@
 {
   public class Stimulator {   
     public ElectrodeType electrodeType;
-
+    
     public int tapCounter;
 
     public Stimulator() {
