@@ -35,6 +35,8 @@ public class PlacementController : MonoBehaviour
     private Dictionary<Button, BrainZone> buttonZoneMap;
     private Dictionary<Button, int> buttonStimulatorMap;
 
+    private Dictionary<BrainZone, int> zoneStimulatorTypeMap;
+    private Dictionary<Dictionary<BrainZone, int>, int> config;
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +56,7 @@ public class PlacementController : MonoBehaviour
 
         //medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.ToString().ToLower(), typeof(Sprite)) as Sprite;
 
+        zoneStimulatorTypeMap = new Dictionary<BrainZone, int>();
         initBrainAreas();
 
         toolbox = new List<Button> { eightCoilButton, circularCoilButton, hCoilButton, hdCoilButton };
@@ -93,12 +96,14 @@ public class PlacementController : MonoBehaviour
                         changeZoneIcon(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TmsStimulator.CIRCULAR);
                     } else if (selectedStimulator.name == "eight-coil-button")
                     {
+                        buttonZoneMap[zoneButton].stimulator.tap(2);
                         changeZoneIcon(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TmsStimulator.EIGHT);
                     } else if (selectedStimulator.name == "hd-coil-button")
                     {
+                        buttonZoneMap[zoneButton].stimulator.tap(2);
                         changeZoneIcon(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TdcsStimulator.HD);
                     }
-
+                    //zoneStimulatorTypeMap.Add(buttonZoneMap[zoneButton], buttonStimulatorMap[selectedStimulator]);
                 }                
             });
         });
@@ -148,7 +153,7 @@ public class PlacementController : MonoBehaviour
 
     private void changeZoneIcon(Button zoneButton, int state, int stimulatorType)
     {
-        Sprite s = Resources.Load<Sprite>("Sprites/electrode-neutral");
+        Sprite s = Resources.Load<Sprite>("none");
         if (stimulatorType == (int) TmsStimulator.CIRCULAR)
         {
             Sprite neutral = Resources.Load<Sprite>("Sprites/electrode-neutral");
@@ -158,7 +163,7 @@ public class PlacementController : MonoBehaviour
             switch (state)
             {
                 case 0:
-                    s = neutral;
+                    s = Resources.Load<Sprite>("none");
                     break;
                 case 1:
                     s = neutral;
@@ -172,10 +177,16 @@ public class PlacementController : MonoBehaviour
             }
         } else if (stimulatorType == (int) TmsStimulator.EIGHT)
         {
+            if(state==1)
             s = Resources.Load<Sprite>("Sprites/eight-coil");
+            else
+                s= Resources.Load<Sprite>("none");
         } else if (stimulatorType == (int) TdcsStimulator.HD)
         {
-            s = Resources.Load<Sprite>("Sprites/hd-coil");
+            if (state == 1)
+                s = Resources.Load<Sprite>("Sprites/hd-coil");
+            else
+                s = Resources.Load<Sprite>("none");
         }
         
         zoneButton.GetComponentInChildren<Button>().transform.GetChild(0).GetComponent<Image>().sprite = s;
