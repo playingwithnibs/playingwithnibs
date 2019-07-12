@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Application
 {
   public class BrainZonesArray {
@@ -5,7 +7,7 @@ namespace Application
 
     public  int countActiveZones;
 
-    public BrainZonesArray() {
+    public BrainZonesArray(List<BrainZone> brainZonesList) {
       brainZones = new BrainZone[6];
       Stimulator stimulator = new Stimulator();
       
@@ -23,23 +25,28 @@ namespace Application
         new BrainZone(BrainZoneNames.CP6, Position.RIGHT, stimulator);
 
       countActiveZones = 0;
+
+      brainZonesList.ForEach(bz => {
+        brainZones[(int)bz.brainZoneName].position = bz.position;
+        activateZone(bz.brainZoneName, bz.stimulator);
+      });
     }
 
     // tested
     public void activateZone(BrainZoneNames brainZoneName, 
-      ElectrodeType electrodeType) {
-        if (electrodeType != ElectrodeType.NO) {
+      Stimulator stimulator) {
+        if (stimulator.electrodeType != ElectrodeType.NO) {
           brainZones[(int)brainZoneName].stimulator.electrodeType 
-            = electrodeType;
+            = stimulator.electrodeType;
 
           countActiveZones++;
         }
     }
 
     public void activateZone(int brainZoneName,
-      ElectrodeType electrodeType) {
-      if (electrodeType != ElectrodeType.NO)
-        activateZone((BrainZoneNames)brainZoneName, electrodeType);
+      Stimulator stimulator) {
+      if (stimulator.electrodeType != ElectrodeType.NO)
+        activateZone((BrainZoneNames)brainZoneName, stimulator);
     }
 
     // tested
