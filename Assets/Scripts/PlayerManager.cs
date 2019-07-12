@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Application;
 using System;
+using System.Collections.Generic;
 
 public class PlayerManager
 {
@@ -25,6 +26,8 @@ public class PlayerManager
     public MedicalEquipment medicalEquipment;
 
     public StimulationType stimulationType;
+
+    public MedicalReport medicalReport;
 
     public double getCurrentTimestampInSeconds() 
     {
@@ -56,8 +59,6 @@ public class PlayerManager
         medicalEquipment.intensity = intensity;
 
         medicalEquipment.pulse = pulse;
-
-        medicalEquipment.brainZones = brainZones;
 
         return medicalEquipment;
     }
