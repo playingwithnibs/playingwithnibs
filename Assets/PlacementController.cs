@@ -87,9 +87,11 @@ public class PlacementController : MonoBehaviour
                 {
                     Debug.Log("Clicked area: " + zoneButton.name);
                     mode = MODE_DIRECTION;
-                    Debug.Log(zoneButton.transform.GetChild(0).name);
                     buttonZoneMap[zoneButton].stimulator.tap();
                     Debug.Log("counter: " + buttonZoneMap[zoneButton].stimulator.tapCounter);
+                    //zoneButton.GetComponentInChildren<Text>().text = ;
+                    changeZoneIcon(zoneButton,buttonZoneMap[zoneButton].stimulator.tapCounter);
+
                 }                
             });
         });
@@ -126,5 +128,31 @@ public class PlacementController : MonoBehaviour
     private void changeButtonColor(Button button, Color color)
     {
        button.GetComponent<Image>().color = color;
+    }
+
+    private void changeZoneIcon(Button zoneButton, int state)
+    {
+        Sprite neutral = Resources.Load<Sprite>("Sprites/electrode-neutral");
+        Sprite negative = Resources.Load<Sprite>("Sprites/electrode-negative");
+        Sprite positive = Resources.Load<Sprite>("Sprites/electrode-positive");
+
+        Sprite s = neutral;
+        switch (state)
+        {
+            case 0:
+                s = neutral;
+                break;
+            case 1:
+                s = neutral;
+                break;
+            case 2:
+                s = positive;
+                break;
+            case 3:
+                s = negative;
+                break;
+        }
+        zoneButton.GetComponentInChildren<Button>().transform.GetChild(0).GetComponent<Image>().sprite = s;
+  
     }
 }
