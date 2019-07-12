@@ -18,5 +18,11 @@ namespace Application {
     }
 
     public MedicalEquipment() {}
+
+    public override string ToString(){
+      return "Unit measure: " + unitMeasure +
+        "\nIntensity value: " + intensity + 
+        "\nPulse: " + pulse;
+    }
   }
 }
