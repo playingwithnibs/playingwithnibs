@@ -74,9 +74,11 @@ namespace Application {
       int countNegative = 0;
 
       for (int i = 0; i < 6; i++) {
-        if (bza.brainZones[i].stimulator.electrodeType == ElectrodeType.POSITIVE)
+        if (bza.brainZones[i].stimulator.electrodeType 
+          == ElectrodeType.POSITIVE)
           countPositive++;
-        else if (bza.brainZones[i].stimulator.electrodeType == ElectrodeType.NEGATIVE)
+        else if (bza.brainZones[i].stimulator.electrodeType 
+          == ElectrodeType.NEGATIVE)
           countNegative++;
       }
 
@@ -94,7 +96,8 @@ namespace Application {
       bool isNeutral = true;
 
       for (int i = 0; i < 6; i++) {
-        if (bza.brainZones[i].stimulator.electrodeType == ElectrodeType.POSITIVE ||
+        if (bza.brainZones[i].stimulator.electrodeType 
+          == ElectrodeType.POSITIVE ||
           bza.brainZones[i].stimulator.electrodeType == ElectrodeType.NEGATIVE)
           isNeutral = false;
       }
