@@ -811,7 +811,7 @@ Transform:
   - {fileID: 471706114}
   - {fileID: 686953528}
   m_Father: {fileID: 1092408291}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &310866784
 GameObject:
@@ -857,7 +857,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 310866784}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -1703,7 +1703,6 @@ RectTransform:
   m_LocalScale: {x: 0.01111111, y: 0.01111111, z: 0.01111111}
   m_Children:
   - {fileID: 840685901}
-  - {fileID: 861843224}
   m_Father: {fileID: 268960433}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1914,7 +1913,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 840685900}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -1969,11 +1968,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 861843223}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -37, y: -220, z: 0}
-  m_LocalScale: {x: 120.50999, y: 120.50999, z: 120.50999}
+  m_LocalPosition: {x: 113.931496, y: -341.7694, z: 0}
+  m_LocalScale: {x: 120.50998, y: 120.50998, z: 120.50998}
   m_Children: []
-  m_Father: {fileID: 686953528}
-  m_RootOrder: 1
+  m_Father: {fileID: 1092408291}
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &861843225
 SpriteRenderer:
@@ -2288,6 +2287,7 @@ RectTransform:
   - {fileID: 155244527}
   - {fileID: 348226306}
   - {fileID: 139294930}
+  - {fileID: 861843224}
   - {fileID: 268960433}
   m_Father: {fileID: 189960030}
   m_RootOrder: 0
@@ -2831,7 +2831,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1660084339}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -2844,7 +2844,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: a77a65b69ba1f46498409741b535184a, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

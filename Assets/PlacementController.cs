@@ -160,6 +160,7 @@ public class PlacementController : MonoBehaviour
 
     private ZoneConfig changeZoneIcon(Button zoneButton, int state, int stimulatorType)
     {
+        Image targetImage = zoneButton.GetComponentInChildren<Button>().transform.GetChild(0).GetComponent<Image>();
         Sprite s = Resources.Load<Sprite>("none");
         if (stimulatorType == (int) TmsStimulator.CIRCULAR)
         {
@@ -170,34 +171,45 @@ public class PlacementController : MonoBehaviour
             switch (state)
             {
                 case 0:
-                    s = Resources.Load<Sprite>("none");
+                    targetImage.enabled = false;
                     break;
                 case 1:
                     s = neutral;
+                    targetImage.enabled = true;
                     break;
                 case 2:
                     s = positive;
+                    targetImage.enabled = true;
                     break;
                 case 3:
                     s = negative;
+                    targetImage.enabled = true;
                     break;
             }
-        } else if (stimulatorType == (int) TmsStimulator.EIGHT)
+        }
+        else if (stimulatorType == (int) TmsStimulator.EIGHT)
         {
             if (state == 1)
             {
+                targetImage.enabled = true;
                 s = Resources.Load<Sprite>("Sprites/eight-coil");
             }
-            else
-                s = Resources.Load<Sprite>("none");
-        } else if (stimulatorType == (int) TdcsStimulator.HD)
+            else {
+                targetImage.enabled = false;
+            }
+        }
+        else if (stimulatorType == (int) TdcsStimulator.HD)
         {
             if (state == 1)
+            {
+                targetImage.enabled = true;
                 s = Resources.Load<Sprite>("Sprites/hd-coil");
-            else
-                s = Resources.Load<Sprite>("none");
+            }
+            else {
+                targetImage.enabled = false;
+            }
         }
-        zoneButton.GetComponentInChildren<Button>().transform.GetChild(0).GetComponent<Image>().sprite = s;
+        targetImage.sprite = s;
         return new ZoneConfig(buttonZoneMap[zoneButton], state, stimulatorType);  
     }
 
