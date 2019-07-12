@@ -49,4 +49,16 @@ public class PlayerManager
         }
         return Instance;
     }
+
+    public MedicalEquipment buildMedicalEquipment() {
+        medicalEquipment.unitMeasure = unitMeasure;
+
+        medicalEquipment.intensity = intensity;
+
+        medicalEquipment.pulse = pulse;
+
+        medicalEquipment.brainZones = brainZones;
+
+        return medicalEquipment;
+    }
 }
