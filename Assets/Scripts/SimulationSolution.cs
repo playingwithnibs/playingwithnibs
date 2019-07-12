@@ -54,10 +54,10 @@
     }
 
     // tested
-    public bool containsOnly(MedicalEquipment me, 
+    public bool containsOnly(BrainZonesArray brain, 
       BrainZoneNames brainZone) {
-        return me.brainZones.countActiveZones == 1 &&
-          me.brainZones.brainZones[(int)brainZone].isActive();
+        return brain.countActiveZones == 1 &&
+          brain.brainZones[(int)brainZone].isActive();
     }
 
     // tested
@@ -121,14 +121,14 @@
 
     // tested
     public Outcome getOutcomeDepression(MedicalEquipment me,
-      MedicalReport mr) {
+      MedicalReport mr, BrainZonesArray brain) {
 
         // Depression, case number 1
         // tested
         if (isTsmEightCoil(me) && 
           me.unitMeasure == UnitMeasure.PERCENTAGE_OF_MT && 
           me.pulse == Pulse.HIGH &&
-          containsOnly(me, BrainZoneNames.DLPFC) && isNeutral(me.brainZones)) { 
+          containsOnly(brain, BrainZoneNames.DLPFC) && isNeutral(brain)) { 
               
             if (me.intensity >= 90 && me.intensity < 120) {
               //Console.WriteLine("Depression, case number 1");
@@ -155,7 +155,7 @@
         else if ((isTms(me) || isTdcs(me)) && !isTsmEightCoil(me) && 
           me.intensity <= 120 && me.unitMeasure != UnitMeasure.NO &&
           me.pulse == Pulse.LOW &&
-          containsOnly(me, BrainZoneNames.DLPFC) && isNeutral(me.brainZones)) {
+          containsOnly(brain, BrainZoneNames.DLPFC) && isNeutral(brain)) {
             //Console.WriteLine("Depression, case number 2");
             return Outcome.UNCHANGED;
           }
@@ -164,18 +164,17 @@
       else if (
         (isTdcs(me) || isTms(me)) && me.intensity <= 120 &&
         me.unitMeasure != UnitMeasure.NO && me.pulse == Pulse.LOW &&
-        !me.brainZones.brainZones[(int)BrainZoneNames.DLPFC].isActive() && (
+        !brain.brainZones[(int)BrainZoneNames.DLPFC].isActive() && (
           (
             isTms(me) &&
-            me.stimulationType == StimulationType.NO && isNeutral(me.brainZones)
+            me.stimulationType == StimulationType.NO && isNeutral(brain)
           ) || 
           (
             isTdcs(me) &&
-            !me
-              .brainZones
+            !brain
               .brainZones[(int)BrainZoneNames.SO]
               .isActive() &&
-            isAnodalOrCathodal(me.brainZones)
+            isAnodalOrCathodal(brain)
           )
         )
       ) {
@@ -198,7 +197,7 @@
         else if (isTdcs(me) && 
             me.intensity <= 120 && me.unitMeasure != 0 &&
             (me.pulse == Pulse.HIGH || me.pulse == Pulse.SINGLE
-            ) && me.brainZones.countActiveZones > 0           
+            ) && brain.countActiveZones > 0           
           ) {
             //Console.WriteLine("Depression, case number 5");
             return Outcome.EXPLOSION;
@@ -212,7 +211,7 @@
       }
 
     public Outcome getOutcomePostStrokeHand(MedicalEquipment me,
-      MedicalReport mr) {
+      MedicalReport mr, BrainZonesArray brain) {
         //Post Stroke: Hand, case number 1.1
         // tested
         if (isTdcsDefault(me) && (
@@ -220,12 +219,12 @@
             (me.intensity > 1 && me.intensity <= 2)) && 
           me.unitMeasure == UnitMeasure.MILLIAMPERE &&
           me.pulse == Pulse.NO && 
-          isCathodal(me.brainZones.brainZones[(int)BrainZoneNames.M1], 
-            me.brainZones.brainZones[(int)BrainZoneNames.SO]) &&
-          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive() &&
-          me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() &&
+          isCathodal(brain.brainZones[(int)BrainZoneNames.M1], 
+            brain.brainZones[(int)BrainZoneNames.SO]) &&
+          brain.brainZones[(int)BrainZoneNames.M1].isActive() &&
+          brain.brainZones[(int)BrainZoneNames.SO].isActive() &&
           isControLateral(
-            me.brainZones.brainZones[(int)BrainZoneNames.M1].position, 
+            brain.brainZones[(int)BrainZoneNames.M1].position, 
             mr.pathology.position)
         ) {
           //Console.WriteLine("P_S_H, case number 1.1");
@@ -238,12 +237,12 @@
         else if (isTdcsDefault(me) && me.intensity == 1 &&
           me.unitMeasure == UnitMeasure.MILLIAMPERE &&
           me.pulse == Pulse.NO &&
-          isCathodal(me.brainZones.brainZones[(int)BrainZoneNames.M1],
-            me.brainZones.brainZones[(int)BrainZoneNames.SO]) &&
-          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive() &&
-          me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() &&
+          isCathodal(brain.brainZones[(int)BrainZoneNames.M1],
+            brain.brainZones[(int)BrainZoneNames.SO]) &&
+          brain.brainZones[(int)BrainZoneNames.M1].isActive() &&
+          brain.brainZones[(int)BrainZoneNames.SO].isActive() &&
           isControLateral(
-            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
+            brain.brainZones[(int)BrainZoneNames.M1].position,
             mr.pathology.position)
         ) {
           //Console.WriteLine("P_S_H, case number 1.2");
@@ -256,12 +255,12 @@
         else if (isTdcsDefault(me) && me.intensity >= 0.8 && 
           me.intensity <= 2 && me.unitMeasure == UnitMeasure.MILLIAMPERE &&
           me.pulse == Pulse.NO &&
-          isAnodal(me.brainZones.brainZones[(int)BrainZoneNames.M1],
-            me.brainZones.brainZones[(int)BrainZoneNames.SO]) &&
-          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive() &&
-          me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() &&
+          isAnodal(brain.brainZones[(int)BrainZoneNames.M1],
+            brain.brainZones[(int)BrainZoneNames.SO]) &&
+          brain.brainZones[(int)BrainZoneNames.M1].isActive() &&
+          brain.brainZones[(int)BrainZoneNames.SO].isActive() &&
           isIpsiLateral(
-            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
+            brain.brainZones[(int)BrainZoneNames.M1].position,
             mr.pathology.position)
         ) {
           ////Console.WriteLine("P_S_H, case number 2");
@@ -274,12 +273,12 @@
         else if (isTdcsDefault(me) && me.intensity < 0.8 &&
           me.unitMeasure == UnitMeasure.MILLIAMPERE &&
           me.pulse == Pulse.NO &&
-          isCathodal(me.brainZones.brainZones[(int)BrainZoneNames.M1],
-            me.brainZones.brainZones[(int)BrainZoneNames.SO]) &&
-          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive() &&
-          me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() &&
+          isCathodal(brain.brainZones[(int)BrainZoneNames.M1],
+            brain.brainZones[(int)BrainZoneNames.SO]) &&
+          brain.brainZones[(int)BrainZoneNames.M1].isActive() &&
+          brain.brainZones[(int)BrainZoneNames.SO].isActive() &&
           isIpsiLateral(
-            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
+            brain.brainZones[(int)BrainZoneNames.M1].position,
             mr.pathology.position)
         ) {
           ////Console.WriteLine("P_S_H, case number 3");
@@ -291,12 +290,12 @@
         else if (isTdcsDefault(me) && me.intensity < 0.8 &&
           me.unitMeasure == UnitMeasure.MILLIAMPERE &&
           me.pulse == Pulse.NO &&
-          isAnodal(me.brainZones.brainZones[(int)BrainZoneNames.M1],
-            me.brainZones.brainZones[(int)BrainZoneNames.SO]) &&
-          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive() &&
-          me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() &&
+          isAnodal(brain.brainZones[(int)BrainZoneNames.M1],
+            brain.brainZones[(int)BrainZoneNames.SO]) &&
+          brain.brainZones[(int)BrainZoneNames.M1].isActive() &&
+          brain.brainZones[(int)BrainZoneNames.SO].isActive() &&
           isControLateral(
-            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
+            brain.brainZones[(int)BrainZoneNames.M1].position,
             mr.pathology.position)
         ) {
           ////Console.WriteLine("P_S_H, case number 4");
@@ -309,13 +308,13 @@
           me.unitMeasure == UnitMeasure.MILLIAMPERE &&
           me.pulse == Pulse.NO &&
           (
-            isAnodal(me.brainZones.brainZones[(int)BrainZoneNames.M1],
-            me.brainZones.brainZones[(int)BrainZoneNames.SO]) || 
-            isCathodal(me.brainZones.brainZones[(int)BrainZoneNames.M1],
-            me.brainZones.brainZones[(int)BrainZoneNames.SO])
+            isAnodal(brain.brainZones[(int)BrainZoneNames.M1],
+            brain.brainZones[(int)BrainZoneNames.SO]) || 
+            isCathodal(brain.brainZones[(int)BrainZoneNames.M1],
+            brain.brainZones[(int)BrainZoneNames.SO])
           ) && 
-          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive() &&
-          me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive()
+          brain.brainZones[(int)BrainZoneNames.M1].isActive() &&
+          brain.brainZones[(int)BrainZoneNames.SO].isActive()
         ) {
           ////Console.WriteLine("P_S_H, case number 5");
           return Outcome.UNCHANGED;
@@ -327,11 +326,11 @@
           me.unitMeasure == UnitMeasure.MILLIAMPERE &&
           me.pulse == Pulse.NO &&
           (
-            isAnodal(me.brainZones.brainZones[(int)BrainZoneNames.M1],
-            me.brainZones.brainZones[(int)BrainZoneNames.SO]) || 
-            isCathodal(me.brainZones.brainZones[(int)BrainZoneNames.M1],
-            me.brainZones.brainZones[(int)BrainZoneNames.SO])
-          ) && me.brainZones.countActiveZones == 2
+            isAnodal(brain.brainZones[(int)BrainZoneNames.M1],
+            brain.brainZones[(int)BrainZoneNames.SO]) || 
+            isCathodal(brain.brainZones[(int)BrainZoneNames.M1],
+            brain.brainZones[(int)BrainZoneNames.SO])
+          ) && brain.countActiveZones == 2
         ) {
           ////Console.WriteLine("P_S_H, case number 6");
           return Outcome.VERY_BAD;
@@ -340,9 +339,9 @@
         //Post Stroke: Hand, case number 7
         else if (isTdcs(me) && me.intensity < 2 &&
           me.unitMeasure == UnitMeasure.MILLIAMPERE &&
-          me.pulse == Pulse.NO && isAnodalOrCathodal(me.brainZones) && 
-          me.brainZones.countActiveZones == 2 && 
-          !me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive()
+          me.pulse == Pulse.NO && isAnodalOrCathodal(brain) && 
+          brain.countActiveZones == 2 && 
+          !brain.brainZones[(int)BrainZoneNames.M1].isActive()
         ) {
           ////Console.WriteLine("P_S_H, case number 7");          
           return Outcome.BAD;
@@ -354,13 +353,13 @@
           && me.intensity <= 120 &&
           me.unitMeasure == UnitMeasure.PERCENTAGE_OF_MT &&
           me.pulse == Pulse.HIGH && 
-          isNeutral(me.brainZones) && 
-          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive()
+          isNeutral(brain) && 
+          brain.brainZones[(int)BrainZoneNames.M1].isActive()
         ) {
           // this is case number 8
           // tested
           if (isIpsiLateral(
-            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
+            brain.brainZones[(int)BrainZoneNames.M1].position,
             mr.pathology.position)) {
             ////Console.WriteLine("P_S_H, case number 8");
               return Outcome.GOOD;
@@ -368,7 +367,7 @@
           // this is case number 11
           // tested
           else if (isControLateral(
-            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
+            brain.brainZones[(int)BrainZoneNames.M1].position,
             mr.pathology.position)) {
               ////Console.WriteLine("P_S_H, case number 11");
               return Outcome.BAD;
@@ -386,13 +385,13 @@
           && me.intensity <= 120 &&
           me.unitMeasure == UnitMeasure.PERCENTAGE_OF_MT &&
           me.pulse == Pulse.LOW && 
-          isNeutral(me.brainZones) && 
-          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive()
+          isNeutral(brain) && 
+          brain.brainZones[(int)BrainZoneNames.M1].isActive()
         ) {
           // this is case number 10
           //tested
           if (isIpsiLateral(
-            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
+            brain.brainZones[(int)BrainZoneNames.M1].position,
             mr.pathology.position)) {
               ////Console.WriteLine("P_S_H, case number 10");
               return Outcome.BAD;
@@ -401,7 +400,7 @@
           // this is case number 9
           // tested 
           else if (isControLateral(
-            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
+            brain.brainZones[(int)BrainZoneNames.M1].position,
             mr.pathology.position)) {
               ////Console.WriteLine("P_S_H, case number 9");
               return Outcome.GOOD;
@@ -419,7 +418,7 @@
           me.intensity < 120 && 
           me.unitMeasure == UnitMeasure.PERCENTAGE_OF_MT &&
           me.pulse != Pulse.NO &&
-          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive()
+          brain.brainZones[(int)BrainZoneNames.M1].isActive()
         ) {
           ////Console.WriteLine("P_S_H, case number 12");
           return Outcome.UNCHANGED;
@@ -465,13 +464,13 @@
         }
     }
 
-    public Outcome getOutcome(MedicalEquipment me, MedicalReport mr) {
+    public Outcome getOutcome(MedicalEquipment me, MedicalReport mr, BrainZonesArray brain) {
       switch(mr.pathology.name) {
         case PathologyName.DEPRESSION:
-          return getOutcomeDepression(me, mr);
+          return getOutcomeDepression(me, mr, brain);
           
         case PathologyName.POST_STROKE_HAND:
-          return getOutcomePostStrokeHand(me, mr);
+          return getOutcomePostStrokeHand(me, mr, brain);
 
         default:
           return Outcome.UNCHANGED;
