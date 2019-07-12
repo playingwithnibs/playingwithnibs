@@ -56,5 +56,16 @@ namespace Application
 
       countActiveZones--;
     }
+
+    public override string ToString() {
+      string result = "";
+
+      for (int i = 0; i < 6; i++) {
+        result += brainZones[i].brainZoneName + ", " + brainZones[i].position +
+          ", " + brainZones[i].stimulator + "\n";
+      }
+
+      return result;
+    }
   }
 }
