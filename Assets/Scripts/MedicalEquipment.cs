@@ -6,8 +6,6 @@ namespace Application {
 
     public Pulse pulse; 
 
-    public BrainZonesArray brainZones;
-
     public StimulationType stimulationType;
 
     public MedicalEquipment(UnitMeasure unitMeasure, double intensity, 
@@ -17,7 +15,6 @@ namespace Application {
         this.intensity = intensity;
         this.pulse = pulse;
         this.stimulationType = stimulationType;
-        this.brainZones = brainZones;
     }
 
     public MedicalEquipment() {}
