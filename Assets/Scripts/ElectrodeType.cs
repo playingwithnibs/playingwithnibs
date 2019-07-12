@@ -1,8 +1,8 @@
 namespace Application{ 
   public enum ElectrodeType {
-    NO,
-    POSITIVE, 
-    NEGATIVE, 
-    NEUTRAL
+    NO = 0,
+    POSITIVE = 1, 
+    NEGATIVE = 2, 
+    NEUTRAL = 3
   }
 } 

@@ -33,6 +33,8 @@ public class PlacementController : MonoBehaviour
     private List<Button> toolbox;
     private List<Button> brainAreas;
 
+    private Dictionary<Button, BrainZone> buttonZoneMap;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +54,8 @@ public class PlacementController : MonoBehaviour
 
         //medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.ToString().ToLower(), typeof(Sprite)) as Sprite;
 
+        initBrainAreas();
+
         toolbox = new List<Button> { eightCoilButton, circularCoilButton, hCoilButton, twoCoilButton, hdCoilButton };
         toolbox.ForEach((stimulator) => {
             stimulator.onClick.AddListener(() => {
@@ -64,15 +68,15 @@ public class PlacementController : MonoBehaviour
         
 
         brainAreas = new List<Button> { dlpfcZoneButton, oZoneButton, m1ZoneButton };
-        brainAreas.ForEach((area) => {
-            area.onClick.AddListener(() => {
-                if (mode == MODE_SELECTION)
+        brainAreas.ForEach((zoneButton) => {
+            zoneButton.onClick.AddListener(() => {
+                if (mode == MODE_SELECTION || mode == MODE_DIRECTION)
                 {
-                    Debug.Log("Clicked area: " + area.name);
+                    Debug.Log("Clicked area: " + zoneButton.name);
                     mode = MODE_DIRECTION;
-                    Debug.Log(area.transform.GetChild(0).name);
-                    Stimulator stimulator = new Stimulator();
-                  
+                    Debug.Log(zoneButton.transform.GetChild(0).name);
+                    buttonZoneMap[zoneButton].stimulator.tap();
+                    Debug.Log("counter: " + buttonZoneMap[zoneButton].stimulator.tapCounter);
                 }                
             });
         });
@@ -96,5 +100,13 @@ public class PlacementController : MonoBehaviour
         BrainZone m1ZoneLeft = new BrainZone(BrainZoneNames.M1, Position.LEFT, m1ZoneStimulator);
         BrainZone m1ZoneUpper = new BrainZone(BrainZoneNames.M1, Position.UPPER, m1ZoneStimulator);
         BrainZone m1ZoneRight = new BrainZone(BrainZoneNames.M1, Position.RIGHT, m1ZoneStimulator);
+
+        buttonZoneMap = new Dictionary<Button, BrainZone>();
+        buttonZoneMap.Add(dlpfcZoneButton, dlpfcZoneUpper);
+        buttonZoneMap.Add(oZoneButton, oZoneUpper);
+        buttonZoneMap.Add(m1ZoneButton, m1ZoneUpper);
+
+        // TODO: lateral positions
+        // TODO: refactor button names according to their position (left, right, center)
     }
 }

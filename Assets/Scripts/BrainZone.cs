@@ -29,6 +29,13 @@ namespace Application
     public bool isActive() {
       return stimulator.electrodeType != ElectrodeType.NO;
     }
+
+    public void applicate(Stimulator stimulator, Position position)
+        {
+            this.stimulator = stimulator;
+            this.position = position;
+            this.stimulator.tapCounter++;
+        }
   }
 
 }

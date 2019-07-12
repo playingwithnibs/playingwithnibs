@@ -14,5 +14,11 @@
       this.electrodeType = electrodeType;
       tapCounter = (int)electrodeType;
     }
+
+        public ElectrodeType tap()
+        {
+            tapCounter = ((int) ++electrodeType % 4);
+            return electrodeType;
+        }
   } 
 }
