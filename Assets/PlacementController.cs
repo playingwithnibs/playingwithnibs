@@ -32,10 +32,12 @@ public class PlacementController : MonoBehaviour
     private List<Button> toolbox;
     private List<Button> brainAreas;
 
-    private Dictionary<Button, BrainZone> buttonZoneMap;
-    private Dictionary<Button, int> buttonStimulatorMap;
+    private List<BrainZone> brainZones;
 
-    private Dictionary<BrainZone, int> zoneStimulatorTypeMap;
+    private Dictionary<Button, BrainZone> buttonZoneMap;
+    private Dictionary<Button, int> buttonStimulatorNameMap;
+
+    private Dictionary<BrainZone, int> zoneStimulationTypeMap;
 
     private Dictionary<Button, ZoneConfig> config;
 
@@ -57,10 +59,10 @@ public class PlacementController : MonoBehaviour
 
         //medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.ToString().ToLower(), typeof(Sprite)) as Sprite;
 
-        zoneStimulatorTypeMap = new Dictionary<BrainZone, int>();
+        zoneStimulationTypeMap = new Dictionary<BrainZone, int>();
         config = new Dictionary<Button, ZoneConfig>();
         initBrainAreas();
-        initStimulators();
+        initStimulatorNames();
 
         toolbox = new List<Button> { eightCoilButton, circularCoilButton, hCoilButton, hdCoilButton };
         toolbox.ForEach((stimulator) => {
@@ -97,18 +99,18 @@ public class PlacementController : MonoBehaviour
                     if (selectedStimulator.name == "circular-coil-button")
                     {
                         buttonZoneMap[zoneButton].stimulator.tap(4);
-                        zoneConfig = changeZoneIcon(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TmsStimulator.CIRCULAR);
+                        handleBrainZoneClick(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TmsStimulator.CIRCULAR);
                     } else if (selectedStimulator.name == "eight-coil-button")
                     {
                         buttonZoneMap[zoneButton].stimulator.tap(2);
-                        zoneConfig = changeZoneIcon(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TmsStimulator.EIGHT);
+                        handleBrainZoneClick(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TmsStimulator.EIGHT);
                     } else if (selectedStimulator.name == "hd-coil-button")
                     {
                         buttonZoneMap[zoneButton].stimulator.tap(2);
-                        zoneConfig = changeZoneIcon(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TdcsStimulator.HD);
+                        handleBrainZoneClick(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TdcsStimulator.HD);
                     }
                     config[zoneButton] = zoneConfig;
-                    //zoneStimulatorTypeMap.Add(buttonZoneMap[zoneButton], buttonStimulatorMap[selectedStimulator]);
+                    zoneStimulationTypeMap[buttonZoneMap[zoneButton]] = buttonStimulatorNameMap[selectedStimulator];
                 }                
             });
         });
@@ -123,17 +125,23 @@ public class PlacementController : MonoBehaviour
         Stimulator oZoneStimulator = new Stimulator();
         Stimulator m1ZoneStimulator = new Stimulator();
 
-        BrainZone dlpfcZoneLeft = new BrainZone(BrainZoneNames.DLPFC, Position.LEFT, dlpfcStimulator);
-        BrainZone dlpfcZoneUpper = new BrainZone(BrainZoneNames.DLPFC, Position.UPPER, dlpfcStimulator);
-        BrainZone dlpfcZoneRight = new BrainZone(BrainZoneNames.DLPFC, Position.RIGHT, dlpfcStimulator);
+        BrainZone dlpfcZoneLeft = new BrainZone(BrainZoneNames.DLPFC, Position.LEFT);
+        BrainZone dlpfcZoneUpper = new BrainZone(BrainZoneNames.DLPFC, Position.UPPER);
+        BrainZone dlpfcZoneRight = new BrainZone(BrainZoneNames.DLPFC, Position.RIGHT);
 
-        BrainZone oZoneLeft = new BrainZone(BrainZoneNames.O, Position.LEFT, oZoneStimulator);
-        BrainZone oZoneUpper = new BrainZone(BrainZoneNames.O, Position.UPPER, oZoneStimulator);
-        BrainZone oZoneRight = new BrainZone(BrainZoneNames.O, Position.RIGHT, oZoneStimulator);
+        BrainZone oZoneLeft = new BrainZone(BrainZoneNames.O, Position.LEFT);
+        BrainZone oZoneUpper = new BrainZone(BrainZoneNames.O, Position.UPPER);
+        BrainZone oZoneRight = new BrainZone(BrainZoneNames.O, Position.RIGHT);
 
-        BrainZone m1ZoneLeft = new BrainZone(BrainZoneNames.M1, Position.LEFT, m1ZoneStimulator);
-        BrainZone m1ZoneUpper = new BrainZone(BrainZoneNames.M1, Position.UPPER, m1ZoneStimulator);
-        BrainZone m1ZoneRight = new BrainZone(BrainZoneNames.M1, Position.RIGHT, m1ZoneStimulator);
+        BrainZone m1ZoneLeft = new BrainZone(BrainZoneNames.M1, Position.LEFT);
+        BrainZone m1ZoneUpper = new BrainZone(BrainZoneNames.M1, Position.UPPER);
+        BrainZone m1ZoneRight = new BrainZone(BrainZoneNames.M1, Position.RIGHT);
+
+        brainZones = new List<BrainZone> {
+            dlpfcZoneLeft, dlpfcZoneUpper, dlpfcZoneRight,
+            oZoneLeft, oZoneUpper, oZoneRight,
+            m1ZoneLeft, m1ZoneUpper, m1ZoneRight
+        };
 
         buttonZoneMap = new Dictionary<Button, BrainZone>();
         buttonZoneMap.Add(dlpfcZoneButton, dlpfcZoneUpper);
@@ -144,13 +152,13 @@ public class PlacementController : MonoBehaviour
         // TODO: refactor button names according to their position (left, right, center)
     }
 
-    private void initStimulators()
+    private void initStimulatorNames()
     {
-        buttonStimulatorMap = new Dictionary<Button, int>();
-        buttonStimulatorMap.Add(eightCoilButton, (int) TmsStimulator.EIGHT);
-        buttonStimulatorMap.Add(circularCoilButton, (int) TmsStimulator.CIRCULAR);
-        buttonStimulatorMap.Add(hCoilButton, (int) TmsStimulator.H);
-        buttonStimulatorMap.Add(hdCoilButton, (int) TdcsStimulator.HD);
+        buttonStimulatorNameMap = new Dictionary<Button, int>();
+        buttonStimulatorNameMap.Add(eightCoilButton, (int) TmsStimulator.EIGHT);
+        buttonStimulatorNameMap.Add(circularCoilButton, (int) TmsStimulator.CIRCULAR);
+        buttonStimulatorNameMap.Add(hCoilButton, (int) TmsStimulator.H);
+        buttonStimulatorNameMap.Add(hdCoilButton, (int) TdcsStimulator.HD);
     }
 
     private void changeButtonColor(Button button, Color color)
@@ -158,10 +166,12 @@ public class PlacementController : MonoBehaviour
        button.GetComponent<Image>().color = color;
     }
 
-    private ZoneConfig changeZoneIcon(Button zoneButton, int state, int stimulatorType)
+    private BrainZone handleBrainZoneClick(Button zoneButton, int state, int stimulatorType)
     {
+        BrainZone brainZone = buttonZoneMap[zoneButton];
         Image targetImage = zoneButton.GetComponentInChildren<Button>().transform.GetChild(0).GetComponent<Image>();
         Sprite s = Resources.Load<Sprite>("none");
+
         if (stimulatorType == (int) TmsStimulator.CIRCULAR)
         {
             Sprite neutral = Resources.Load<Sprite>("Sprites/electrode-neutral");
@@ -210,14 +220,15 @@ public class PlacementController : MonoBehaviour
             }
         }
         targetImage.sprite = s;
-        return new ZoneConfig(buttonZoneMap[zoneButton], state, stimulatorType);  
+        brainZone.position = Position.UPPER; // TODO: make other cases
+        brainZone.stimulator = new Stimulator((ElectrodeType) state);
+        brainZone.stimulatorType = stimulatorType;
+        return brainZone;  
     }
 
     private void generateConfiguration()
     {
-        brainAreas.ForEach(zoneButton =>
-        {
-            zoneStimulatorTypeMap.Add(buttonZoneMap[zoneButton], buttonStimulatorMap[zoneButton]);
-        });
+        Debug.Log("## START CONFIGURATION ##");
+        brainZones.ForEach((zone) => Debug.Log(zone));
     }
 }

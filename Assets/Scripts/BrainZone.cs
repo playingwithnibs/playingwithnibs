@@ -7,14 +7,19 @@ namespace Application
     public Position position;
     public Stimulator stimulator;
     public int stimulatorType;
-    public BrainZone(BrainZoneNames brainZoneName, Position position, 
-      Stimulator stimulator) {
-      this.brainZoneName = brainZoneName;
-      this.position = position;
-      this.stimulator = stimulator;
+
+    public BrainZone(BrainZoneNames brainZoneName, Position position, Stimulator stimulator) : this(brainZoneName, position) {
+        this.stimulator = stimulator;
     }
 
-    public override int GetHashCode() { 
+    public BrainZone(BrainZoneNames brainZoneName, Position position)
+    {
+        this.brainZoneName = brainZoneName;
+        this.position = position; 
+        stimulator = new Stimulator();
+    }
+
+        public override int GetHashCode() { 
       return (int)brainZoneName;
     }
     
@@ -27,14 +32,18 @@ namespace Application
       return bz.brainZoneName.Equals(this.brainZoneName);
     }
 
-    public bool isActive() {
+    public override string ToString()
+    {
+        return brainZoneName + " [" + position + "]: (stimulator: " + stimulator.electrodeType + "), (type: " + stimulatorType + ")";
+    }
+
+        public bool isActive() {
       return stimulator.electrodeType != ElectrodeType.NO;
     }
 
-    public void applicate(Stimulator stimulator, Position position, int stimulatorType)
+    public void applicate(Stimulator stimulator, int stimulatorType)
         {
             this.stimulator = stimulator;
-            this.position = position;
             this.stimulator.tapCounter++;
             this.stimulatorType = stimulatorType;
         }
