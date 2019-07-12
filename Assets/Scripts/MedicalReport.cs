@@ -34,5 +34,10 @@ namespace Application {
 
       animojiPath = "Sprites/" + name + "_bad";
     }
+
+    public override string ToString(){
+      return name + ", " + surname + ", " + dateOfBirth + ", " + gender + ", " +
+        pathology;
+    }
   }
 }
