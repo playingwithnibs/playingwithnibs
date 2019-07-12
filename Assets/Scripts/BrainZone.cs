@@ -27,5 +27,4 @@
 
     public bool isActive() { return electrodeType != ElectrodeType.NO; }
   }
-
 }
