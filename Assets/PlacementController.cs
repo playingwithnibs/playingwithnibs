@@ -23,6 +23,13 @@ public class PlacementController : MonoBehaviour
     private SpriteRenderer
         medicalEquipmentRecap;
 
+    private static int MODE_NOTHING = 0;
+    private static int MODE_SELECTION = 1;
+    private static int MODE_DIRECTION = 2;
+
+    private int mode;
+    private Button selectedStimulator;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,7 +52,23 @@ public class PlacementController : MonoBehaviour
         List<Button> toolbox = new List<Button> { eightCoilButton, circularCoilButton, hCoilButton, twoCoilButton, hdCoilButton };
         toolbox.ForEach((stimulator) => {
             stimulator.onClick.AddListener(() => {
-                Debug.Log(stimulator.name);
+                Debug.Log("Selection mode: " + stimulator.name);
+                selectedStimulator = stimulator;
+                mode = MODE_SELECTION;
+            });
+        });
+
+        
+
+        List<Button> brainAreas = new List<Button> { dlpfcZoneButton, oZoneButton, m1ZoneButton };
+        brainAreas.ForEach((area) => {
+            area.onClick.AddListener(() => {
+                if (mode == MODE_SELECTION)
+                {
+                    Debug.Log("Clicked area: " + area.name);
+                    mode = MODE_DIRECTION;
+
+                }                
             });
         });
     }
