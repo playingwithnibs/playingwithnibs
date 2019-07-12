@@ -29,7 +29,8 @@ namespace Application
     public void activateZone(BrainZoneNames brainZoneName, 
       ElectrodeType electrodeType) {
         if (electrodeType != ElectrodeType.NO) {
-          brainZones[(int)brainZoneName].stimulator.electrodeType = electrodeType;
+          brainZones[(int)brainZoneName].stimulator.electrodeType 
+            = electrodeType;
 
           countActiveZones++;
         }
@@ -38,7 +39,8 @@ namespace Application
 
     // tested
     public void deactivateZone(BrainZoneNames brainZoneName) {
-      brainZones[(int)brainZoneName].stimulator.electrodeType = ElectrodeType.NO;
+      brainZones[(int)brainZoneName].stimulator.electrodeType 
+        = ElectrodeType.NO;
 
       countActiveZones--;
     }
