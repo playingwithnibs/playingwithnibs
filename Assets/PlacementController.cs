@@ -59,9 +59,22 @@ public class PlacementController : MonoBehaviour
         toolbox = new List<Button> { eightCoilButton, circularCoilButton, hCoilButton, twoCoilButton, hdCoilButton };
         toolbox.ForEach((stimulator) => {
             stimulator.onClick.AddListener(() => {
+                if (mode == MODE_DIRECTION)
+                {
+                    toolbox.ForEach(button => changeButtonColor(button, Color.white));
+                    mode = MODE_NOTHING;
+                    return;
+                }
+                if (mode == MODE_SELECTION)
+                {
+                    toolbox.ForEach(button => changeButtonColor(button, Color.white));
+                    mode = MODE_NOTHING;
+                    return;
+                }
                 Debug.Log("Selection mode: " + stimulator.name);
                 selectedStimulator = stimulator;
                 mode = MODE_SELECTION;
+                changeButtonColor(stimulator, Color.black);
             });
         });
 
@@ -108,5 +121,10 @@ public class PlacementController : MonoBehaviour
 
         // TODO: lateral positions
         // TODO: refactor button names according to their position (left, right, center)
+    }
+
+    private void changeButtonColor(Button button, Color color)
+    {
+       button.GetComponent<Image>().color = color;
     }
 }
