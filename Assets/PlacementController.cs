@@ -15,7 +15,6 @@ public class PlacementController : MonoBehaviour
         eightCoilButton,
         circularCoilButton,
         hCoilButton,
-        twoCoilButton,
         hdCoilButton,
         dlpfcZoneButton,
         oZoneButton,
@@ -34,6 +33,8 @@ public class PlacementController : MonoBehaviour
     private List<Button> brainAreas;
 
     private Dictionary<Button, BrainZone> buttonZoneMap;
+    private Dictionary<Button, int> buttonStimulatorMap;
+
 
     // Start is called before the first frame update
     void Start()
@@ -46,7 +47,6 @@ public class PlacementController : MonoBehaviour
         eightCoilButton = GameObject.Find("eight-coil-button").GetComponent<Button>();
         circularCoilButton = GameObject.Find("circular-coil-button").GetComponent<Button>();
         hCoilButton = GameObject.Find("h-coil-button").GetComponent<Button>();
-        twoCoilButton = GameObject.Find("two-coil-button").GetComponent<Button>();
         hdCoilButton = GameObject.Find("hd-coil-button").GetComponent<Button>();
         dlpfcZoneButton = GameObject.Find("dlpfc-zone").GetComponent<Button>();
         oZoneButton = GameObject.Find("o-zone").GetComponent<Button>();
@@ -56,7 +56,7 @@ public class PlacementController : MonoBehaviour
 
         initBrainAreas();
 
-        toolbox = new List<Button> { eightCoilButton, circularCoilButton, hCoilButton, twoCoilButton, hdCoilButton };
+        toolbox = new List<Button> { eightCoilButton, circularCoilButton, hCoilButton, hdCoilButton };
         toolbox.ForEach((stimulator) => {
             stimulator.onClick.AddListener(() => {
                 if (mode == MODE_DIRECTION)
@@ -78,19 +78,26 @@ public class PlacementController : MonoBehaviour
             });
         });
 
-        
-
         brainAreas = new List<Button> { dlpfcZoneButton, oZoneButton, m1ZoneButton };
         brainAreas.ForEach((zoneButton) => {
             zoneButton.onClick.AddListener(() => {
+
                 if (mode == MODE_SELECTION || mode == MODE_DIRECTION)
                 {
                     Debug.Log("Clicked area: " + zoneButton.name);
                     mode = MODE_DIRECTION;
-                    buttonZoneMap[zoneButton].stimulator.tap();
-                    Debug.Log("counter: " + buttonZoneMap[zoneButton].stimulator.tapCounter);
-                    //zoneButton.GetComponentInChildren<Text>().text = ;
-                    changeZoneIcon(zoneButton,buttonZoneMap[zoneButton].stimulator.tapCounter);
+
+                    if (selectedStimulator.name == "circular-coil-button")
+                    {
+                        buttonZoneMap[zoneButton].stimulator.tap(4);
+                        changeZoneIcon(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TmsStimulator.CIRCULAR);
+                    } else if (selectedStimulator.name == "eight-coil-button")
+                    {
+                        changeZoneIcon(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TmsStimulator.EIGHT);
+                    } else if (selectedStimulator.name == "hd-coil-button")
+                    {
+                        changeZoneIcon(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TdcsStimulator.HD);
+                    }
 
                 }                
             });
@@ -125,34 +132,58 @@ public class PlacementController : MonoBehaviour
         // TODO: refactor button names according to their position (left, right, center)
     }
 
+    private void initStimulators()
+    {
+        buttonStimulatorMap = new Dictionary<Button, int>();
+        buttonStimulatorMap.Add(eightCoilButton, (int) TmsStimulator.EIGHT);
+        buttonStimulatorMap.Add(circularCoilButton, (int) TmsStimulator.CIRCULAR);
+        buttonStimulatorMap.Add(hCoilButton, (int) TmsStimulator.H);
+        buttonStimulatorMap.Add(hdCoilButton, (int) TdcsStimulator.HD);
+    }
+
     private void changeButtonColor(Button button, Color color)
     {
        button.GetComponent<Image>().color = color;
     }
 
-    private void changeZoneIcon(Button zoneButton, int state)
+    private void changeZoneIcon(Button zoneButton, int state, int stimulatorType)
     {
-        Sprite neutral = Resources.Load<Sprite>("Sprites/electrode-neutral");
-        Sprite negative = Resources.Load<Sprite>("Sprites/electrode-negative");
-        Sprite positive = Resources.Load<Sprite>("Sprites/electrode-positive");
-
-        Sprite s = neutral;
-        switch (state)
+        Sprite s = Resources.Load<Sprite>("Sprites/electrode-neutral");
+        if (stimulatorType == (int) TmsStimulator.CIRCULAR)
         {
-            case 0:
-                s = neutral;
-                break;
-            case 1:
-                s = neutral;
-                break;
-            case 2:
-                s = positive;
-                break;
-            case 3:
-                s = negative;
-                break;
+            Sprite neutral = Resources.Load<Sprite>("Sprites/electrode-neutral");
+            Sprite negative = Resources.Load<Sprite>("Sprites/electrode-negative");
+            Sprite positive = Resources.Load<Sprite>("Sprites/electrode-positive");
+
+            switch (state)
+            {
+                case 0:
+                    s = neutral;
+                    break;
+                case 1:
+                    s = neutral;
+                    break;
+                case 2:
+                    s = positive;
+                    break;
+                case 3:
+                    s = negative;
+                    break;
+            }
+        } else if (stimulatorType == (int) TmsStimulator.EIGHT)
+        {
+            s = Resources.Load<Sprite>("Sprites/eight-coil");
+        } else if (stimulatorType == (int) TdcsStimulator.HD)
+        {
+            s = Resources.Load<Sprite>("Sprites/hd-coil");
         }
+        
         zoneButton.GetComponentInChildren<Button>().transform.GetChild(0).GetComponent<Image>().sprite = s;
   
+    }
+
+    private void generateConfiguration()
+    {
+
     }
 }

@@ -6,6 +6,7 @@ namespace Application
     public BrainZoneNames brainZoneName;
     public Position position;
     public Stimulator stimulator;
+    public int stimulatorType;
     public BrainZone(BrainZoneNames brainZoneName, Position position, 
       Stimulator stimulator) {
       this.brainZoneName = brainZoneName;
@@ -30,11 +31,12 @@ namespace Application
       return stimulator.electrodeType != ElectrodeType.NO;
     }
 
-    public void applicate(Stimulator stimulator, Position position)
+    public void applicate(Stimulator stimulator, Position position, int stimulatorType)
         {
             this.stimulator = stimulator;
             this.position = position;
             this.stimulator.tapCounter++;
+            this.stimulatorType = stimulatorType;
         }
   }
 

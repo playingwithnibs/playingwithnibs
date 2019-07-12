@@ -15,9 +15,9 @@
       tapCounter = (int)electrodeType;
     }
 
-        public ElectrodeType tap()
+        public ElectrodeType tap(int states)
         {
-            tapCounter = ((int) ++electrodeType % 4);
+            tapCounter = ((int) ++electrodeType % states);
             return electrodeType;
         }
   } 
