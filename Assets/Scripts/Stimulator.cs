@@ -20,5 +20,9 @@
             tapCounter = ((int) ++electrodeType % states);
             return electrodeType;
         }
+
+    public override string ToString() {
+      return electrodeType.ToString();
+    }
   } 
 }
