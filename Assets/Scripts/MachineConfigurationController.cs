@@ -59,26 +59,48 @@ public class MachineConfigurationController : MonoBehaviour
 
         intensityToggle.onValueChanged.AddListener((isChecked) => {
             intensityRectangle.sprite = Resources.Load("Sprites/intensity-rectangle-" + (isChecked ? "on" : "off"), typeof(Sprite)) as Sprite;
+            mtToggle.isOn = false;
+            ampereToggle.isOn = false;
             mtToggle.interactable = isChecked;
             ampereToggle.interactable = isChecked;
+            Debug.Log("clicca sta merda");
+            Debug.Log(intensitySlider.minValue);
         });
 
         pulseToggle.onValueChanged.AddListener((isChecked) => {
             pulseRectangle.sprite = Resources.Load("Sprites/pulse-rectangle-" + (isChecked ? "on" : "off"), typeof(Sprite)) as Sprite;
+            singlePulseToggle.isOn = false;
+            rtmsHfToggle.isOn = false;
+            rtmsLfToggle.isOn = false;
             singlePulseToggle.interactable = isChecked;
             rtmsHfToggle.interactable = isChecked;
             rtmsLfToggle.interactable = isChecked;
         });
 
         mtToggle.onValueChanged.AddListener((isChecked) => {
+
             intensitySlider.minValue = isChecked ? Tms.min : Tdcs.min;
             intensitySlider.maxValue = isChecked ? Tms.max : Tdcs.max;
-            minText.text = intensitySlider.minValue.ToString();
-            maxText.text = intensitySlider.maxValue.ToString();
+            intensitySlider.value = isChecked ? Tms.min : Tdcs.min;
+
+            if (intensityToggle.isOn)
+            {
+                minText.text = intensitySlider.minValue.ToString();
+                maxText.text = intensitySlider.maxValue.ToString();
+            }
+            else
+            {
+                minText.text = "";
+                maxText.text = "";
+                currentText.text = "";
+            }
+
             intensitySlider.interactable = isChecked;
         });
 
         ampereToggle.onValueChanged.AddListener((isChecked) => {
+            Debug.Log("clicca sta ampere");
+            Debug.Log(isChecked);
             intensitySlider.interactable = isChecked;
         });
 
