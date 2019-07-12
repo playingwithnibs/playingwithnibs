@@ -1,6 +1,6 @@
 ﻿namespace Application
 {
-  public class Stimulator {
+  public class Stimulator {   
     public ElectrodeType electrodeType;
 
     public int tapCounter;

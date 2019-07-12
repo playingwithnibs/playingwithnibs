@@ -30,6 +30,9 @@ public class PlacementController : MonoBehaviour
     private int mode;
     private Button selectedStimulator;
 
+    private List<Button> toolbox;
+    private List<Button> brainAreas;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,7 +52,7 @@ public class PlacementController : MonoBehaviour
 
         //medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.ToString().ToLower(), typeof(Sprite)) as Sprite;
 
-        List<Button> toolbox = new List<Button> { eightCoilButton, circularCoilButton, hCoilButton, twoCoilButton, hdCoilButton };
+        toolbox = new List<Button> { eightCoilButton, circularCoilButton, hCoilButton, twoCoilButton, hdCoilButton };
         toolbox.ForEach((stimulator) => {
             stimulator.onClick.AddListener(() => {
                 Debug.Log("Selection mode: " + stimulator.name);
@@ -60,16 +63,38 @@ public class PlacementController : MonoBehaviour
 
         
 
-        List<Button> brainAreas = new List<Button> { dlpfcZoneButton, oZoneButton, m1ZoneButton };
+        brainAreas = new List<Button> { dlpfcZoneButton, oZoneButton, m1ZoneButton };
         brainAreas.ForEach((area) => {
             area.onClick.AddListener(() => {
                 if (mode == MODE_SELECTION)
                 {
                     Debug.Log("Clicked area: " + area.name);
                     mode = MODE_DIRECTION;
-
+                    Debug.Log(area.transform.GetChild(0).name);
+                    Stimulator stimulator = new Stimulator();
+                  
                 }                
             });
         });
+    }
+
+    private void initBrainAreas()
+    {
+        brainAreas = new List<Button> { dlpfcZoneButton, oZoneButton, m1ZoneButton };
+        Stimulator dlpfcStimulator = new Stimulator();
+        Stimulator oZoneStimulator = new Stimulator();
+        Stimulator m1ZoneStimulator = new Stimulator();
+
+        BrainZone dlpfcZoneLeft = new BrainZone(BrainZoneNames.DLPFC, Position.LEFT, dlpfcStimulator);
+        BrainZone dlpfcZoneUpper = new BrainZone(BrainZoneNames.DLPFC, Position.UPPER, dlpfcStimulator);
+        BrainZone dlpfcZoneRight = new BrainZone(BrainZoneNames.DLPFC, Position.RIGHT, dlpfcStimulator);
+
+        BrainZone oZoneLeft = new BrainZone(BrainZoneNames.O, Position.LEFT, oZoneStimulator);
+        BrainZone oZoneUpper = new BrainZone(BrainZoneNames.O, Position.UPPER, oZoneStimulator);
+        BrainZone oZoneRight = new BrainZone(BrainZoneNames.O, Position.RIGHT, oZoneStimulator);
+
+        BrainZone m1ZoneLeft = new BrainZone(BrainZoneNames.M1, Position.LEFT, m1ZoneStimulator);
+        BrainZone m1ZoneUpper = new BrainZone(BrainZoneNames.M1, Position.UPPER, m1ZoneStimulator);
+        BrainZone m1ZoneRight = new BrainZone(BrainZoneNames.M1, Position.RIGHT, m1ZoneStimulator);
     }
 }
