@@ -239,6 +239,19 @@ public class PlacementController : MonoBehaviour
     private void generateConfiguration()
     {
         Debug.Log("## START CONFIGURATION ##");
-        brainZones.ForEach((zone) => Debug.Log(zone));
+        brainZones.ForEach((zone) => { if (zone.isActive()) Debug.Log(zone); }
+        );
+        
+        pm.brainZones = new BrainZonesArray(brainZones);
+        pm.outcome = 
+            new SimulationSolution()
+            .getOutcome(
+                pm.buildMedicalEquipment(),
+                pm.medicalReport,
+                pm.brainZones);
+
+        Debug.Log(pm.medicalReport + "\n" + pm.medicalEquipment +
+            "\n" + pm.brainZones);
+        Debug.Log(pm.outcome);
     }
 }
