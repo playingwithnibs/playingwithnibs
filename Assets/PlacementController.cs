@@ -222,7 +222,7 @@ public class PlacementController : MonoBehaviour
         targetImage.sprite = s;
         brainZone.position = Position.UPPER; // TODO: make other cases
         brainZone.stimulator = new Stimulator((ElectrodeType) state);
-        brainZone.stimulatorType = stimulatorType;
+        brainZone.stimulatorType = targetImage.enabled ? stimulatorType : (int) StimulationType.NO;
         return brainZone;  
     }
 
