@@ -1724,7 +1724,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.7
-  m_Text: Migraine
+  m_Text: Parkinson
 --- !u!222 &1472055887
 CanvasRenderer:
   m_ObjectHideFlags: 0
