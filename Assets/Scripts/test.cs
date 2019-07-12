@@ -4,7 +4,7 @@ namespace Application
 {
   public class test {
     public static void Main() {
-      SimulationSolution ss = new SimulationSolution();
+      //SimulationSolution ss = new SimulationSolution();
 
       // Pathology p = new Pathology(PathologyName.POST_STROKE_HAND, 
       //   Position.RIGHT);
@@ -23,14 +23,14 @@ namespace Application
 
       // Console.WriteLine(ss.getOutcomePostStrokeHand(tdcs, new MedicalReport()));
 
-      MedicalReport mr = new MedicalReport();
-      Console.WriteLine(mr.animojiPath);
-      Console.WriteLine(mr.dateOfBirth);
-      Console.WriteLine(mr.gender);
-      Console.WriteLine(mr.name);
-      Console.WriteLine(mr.surname);
-      Console.WriteLine(mr.pathology.name);
-      Console.WriteLine(mr.pathology.position);
+      // MedicalReport mr = new MedicalReport();
+      // Console.WriteLine(mr.animojiPath);
+      // Console.WriteLine(mr.dateOfBirth);
+      // Console.WriteLine(mr.gender);
+      // Console.WriteLine(mr.name);
+      // Console.WriteLine(mr.surname);
+      // Console.WriteLine(mr.pathology.name);
+      // Console.WriteLine(mr.pathology.position);
     }
   }
 }
