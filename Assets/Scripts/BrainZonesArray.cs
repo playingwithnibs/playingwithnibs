@@ -34,6 +34,12 @@ namespace Application
         }
     }
 
+    public void activateZone(int brainZoneName,
+      ElectrodeType electrodeType) {
+      if (electrodeType != ElectrodeType.NO)
+        activateZone((BrainZoneNames)brainZoneName, electrodeType);
+    }
+
     // tested
     public void deactivateZone(BrainZoneNames brainZoneName) {
       brainZones[(int)brainZoneName].electrodeType = ElectrodeType.NO;
