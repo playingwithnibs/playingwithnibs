@@ -5,12 +5,12 @@ namespace Application
   public class BrainZone {
     public BrainZoneNames brainZoneName;
     public Position position;
-    public ElectrodeType electrodeType;
+    public Stimulator stimulator;
     public BrainZone(BrainZoneNames brainZoneName, Position position, 
-      ElectrodeType electrodeType) {
+      Stimulator stimulator) {
       this.brainZoneName = brainZoneName;
       this.position = position;
-      this.electrodeType = electrodeType;
+      this.stimulator = stimulator;
     }
 
     public override int GetHashCode() { 
@@ -27,7 +27,7 @@ namespace Application
     }
 
     public bool isActive() {
-      return electrodeType != ElectrodeType.NO;
+      return stimulator.electrodeType != ElectrodeType.NO;
     }
   }
 
