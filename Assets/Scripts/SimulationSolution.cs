@@ -128,7 +128,7 @@
         if (isTsmEightCoil(me) && 
           me.unitMeasure == UnitMeasure.PERCENTAGE_OF_MT && 
           me.pulse == Pulse.HIGH &&
-          containsOnly(brain, BrainZoneNames.DLPFC) && isNeutral(brain)) { 
+          containsOnly(brain, BrainZoneNames.DLPFC) /* && isNeutral(brain) */) { 
               
             if (me.intensity >= 90 && me.intensity < 120) {
               //Console.WriteLine("Depression, case number 1");
