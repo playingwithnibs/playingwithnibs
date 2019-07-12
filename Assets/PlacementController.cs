@@ -16,9 +16,15 @@ public class PlacementController : MonoBehaviour
         circularCoilButton,
         hCoilButton,
         hdCoilButton,
-        dlpfcZoneButton,
-        oZoneButton,
-        m1ZoneButton;
+        dlpfcUpperZoneButton,
+        dlpfcLeftZoneButton,
+        dlpfcRightZoneButton,
+        oUpperZoneButton,
+        oLeftZoneButton,
+        oRightZoneButton,
+        m1UpperZoneButton,
+        m1LeftZoneButton,
+        m1RightZoneButton;
     private SpriteRenderer
         medicalEquipmentRecap;
 
@@ -48,20 +54,30 @@ public class PlacementController : MonoBehaviour
 
         backButton = GameObject.Find("back-button").GetComponent<Button>();
         forwardButton = GameObject.Find("forward-button").GetComponent<Button>();
+
         medicalEquipmentRecap = GameObject.Find("medical-eq-recap").GetComponent<SpriteRenderer>();
+
         eightCoilButton = GameObject.Find("eight-coil-button").GetComponent<Button>();
         circularCoilButton = GameObject.Find("circular-coil-button").GetComponent<Button>();
         hCoilButton = GameObject.Find("h-coil-button").GetComponent<Button>();
         hdCoilButton = GameObject.Find("hd-coil-button").GetComponent<Button>();
-        dlpfcZoneButton = GameObject.Find("dlpfc-zone").GetComponent<Button>();
-        oZoneButton = GameObject.Find("o-zone").GetComponent<Button>();
-        m1ZoneButton = GameObject.Find("m1-zone").GetComponent<Button>();
+
+        dlpfcUpperZoneButton = GameObject.Find("Upper/dlpfc-zone").GetComponent<Button>();
+        dlpfcLeftZoneButton = GameObject.Find("Left/dlpfc-zone").GetComponent<Button>();
+        dlpfcRightZoneButton = GameObject.Find("Right/dlpfc-zone").GetComponent<Button>();
+
+        oUpperZoneButton = GameObject.Find("Upper/o-zone").GetComponent<Button>();
+        oLeftZoneButton = GameObject.Find("Left/o-zone").GetComponent<Button>();
+        oRightZoneButton = GameObject.Find("Right/o-zone").GetComponent<Button>();
+
+        m1UpperZoneButton = GameObject.Find("Upper/m1-zone").GetComponent<Button>();
+        m1LeftZoneButton = GameObject.Find("Left/m1-zone").GetComponent<Button>();
+        m1RightZoneButton = GameObject.Find("Right/m1-zone").GetComponent<Button>();
 
         //medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.ToString().ToLower(), typeof(Sprite)) as Sprite;
 
         zoneStimulationTypeMap = new Dictionary<BrainZone, int>();
         config = new Dictionary<Button, ZoneConfig>();
-        initBrainAreas();
         initStimulatorNames();
 
         toolbox = new List<Button> { eightCoilButton, circularCoilButton, hCoilButton, hdCoilButton };
@@ -86,7 +102,7 @@ public class PlacementController : MonoBehaviour
             });
         });
 
-        brainAreas = new List<Button> { dlpfcZoneButton, oZoneButton, m1ZoneButton };
+        initBrainAreas();
         brainAreas.ForEach((zoneButton) => {
             zoneButton.onClick.AddListener(() => {
                 ZoneConfig zoneConfig = null;
@@ -120,7 +136,12 @@ public class PlacementController : MonoBehaviour
 
     private void initBrainAreas()
     {
-        brainAreas = new List<Button> { dlpfcZoneButton, oZoneButton, m1ZoneButton };
+        brainAreas = new List<Button> {
+            dlpfcUpperZoneButton, oUpperZoneButton, m1UpperZoneButton,
+            dlpfcLeftZoneButton, oLeftZoneButton, m1LeftZoneButton,
+            dlpfcRightZoneButton, oRightZoneButton, m1RightZoneButton
+        };
+
         Stimulator dlpfcStimulator = new Stimulator();
         Stimulator oZoneStimulator = new Stimulator();
         Stimulator m1ZoneStimulator = new Stimulator();
@@ -144,9 +165,17 @@ public class PlacementController : MonoBehaviour
         };
 
         buttonZoneMap = new Dictionary<Button, BrainZone>();
-        buttonZoneMap.Add(dlpfcZoneButton, dlpfcZoneUpper);
-        buttonZoneMap.Add(oZoneButton, oZoneUpper);
-        buttonZoneMap.Add(m1ZoneButton, m1ZoneUpper);
+        buttonZoneMap.Add(dlpfcUpperZoneButton, dlpfcZoneUpper);
+        buttonZoneMap.Add(dlpfcLeftZoneButton, dlpfcZoneLeft);
+        buttonZoneMap.Add(dlpfcRightZoneButton, dlpfcZoneRight);
+
+        buttonZoneMap.Add(oUpperZoneButton, oZoneUpper);
+        buttonZoneMap.Add(oLeftZoneButton, oZoneLeft);
+        buttonZoneMap.Add(oRightZoneButton, oZoneRight);
+
+        buttonZoneMap.Add(m1UpperZoneButton, m1ZoneUpper);
+        buttonZoneMap.Add(m1LeftZoneButton, m1ZoneLeft);
+        buttonZoneMap.Add(m1RightZoneButton, m1ZoneRight);
 
         // TODO: lateral positions
         // TODO: refactor button names according to their position (left, right, center)
@@ -220,7 +249,6 @@ public class PlacementController : MonoBehaviour
             }
         }
         targetImage.sprite = s;
-        brainZone.position = Position.UPPER; // TODO: make other cases
         brainZone.stimulator = new Stimulator((ElectrodeType) state);
         brainZone.stimulatorType = targetImage.enabled ? stimulatorType : (int) StimulationType.NO;
         return brainZone;  
