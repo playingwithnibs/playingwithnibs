@@ -6,66 +6,99 @@ using UnityEngine.SceneManagement;
 namespace Application
 {
   public class BrainZonesArray {
-    public BrainZone[] brainZones;
+    public List<BrainZone> brainZones;
 
     public  int countActiveZones;
 
     public BrainZonesArray(List<BrainZone> brainZonesList) {
-      brainZones = new BrainZone[6];
-      Stimulator stimulator = new Stimulator();
+      brainZones = brainZonesList;
       
-      brainZones[0] = 
-        new BrainZone(BrainZoneNames.DLPFC, Position.UPPER, stimulator);
-      brainZones[1] = 
-        new BrainZone(BrainZoneNames.M1, Position.UPPER, stimulator);
-      brainZones[2] = 
-        new BrainZone(BrainZoneNames.SO, Position.UPPER, stimulator);
-      brainZones[3] = 
-        new BrainZone(BrainZoneNames.O, Position.UPPER, stimulator);
-      brainZones[4] = 
-        new BrainZone(BrainZoneNames.CP5, Position.LEFT, stimulator);
-      brainZones[5] = 
-        new BrainZone(BrainZoneNames.CP6, Position.RIGHT, stimulator);
-
-      countActiveZones = 0;
-
-      Debug.Log("inside constructor");
-      brainZonesList.ForEach(bz => {
-        if (stimulator.electrodeType != ElectrodeType.NO) {
-          Debug.Log(bz.brainZoneName);
-          Debug.Log(bz.position);
-          Debug.Log(bz.stimulator);
-          brainZones[(int)bz.brainZoneName].position = bz.position;
-          activateZone(bz.brainZoneName, bz.stimulator);
-        }
-        
+      brainZonesList.ForEach(brainZone => {
+        if (brainZone.stimulator.electrodeType != ElectrodeType.NO)
+          countActiveZones++;
       });
     }
 
-    // tested
-    public void activateZone(BrainZoneNames brainZoneName, 
-      Stimulator stimulator) {
-        if (stimulator.electrodeType != ElectrodeType.NO) {
-          brainZones[(int)brainZoneName].stimulator.electrodeType 
-            = stimulator.electrodeType;
-
-          countActiveZones++;
-        }
+    public bool contains(BrainZoneNames name, Position pos) {
+      return brainZones.Contains(new BrainZone(name, pos));
     }
 
-    public void activateZone(int brainZoneName,
-      Stimulator stimulator) {
-      if (stimulator.electrodeType != ElectrodeType.NO)
-        activateZone((BrainZoneNames)brainZoneName, stimulator);
+    public bool containsOnly(BrainZoneNames name, Position pos) {
+      return countActiveZones == 1 && contains(name, pos);
     }
 
-    // tested
-    public void deactivateZone(BrainZoneNames brainZoneName) {
-      brainZones[(int)brainZoneName].stimulator.electrodeType 
-        = ElectrodeType.NO;
+    public bool containsOnly(BrainZoneNames[] names, Position[] pos) {
+      if (names.Length != pos.Length || countActiveZones != names.Length)
+        return false;
 
-      countActiveZones--;
+      bool check = true;
+
+      for (int i = 0;  i < names.Length; i++) {
+        check = check && contains(names[i], pos[i]);
+      }
+
+      return check;
     }
+
+    public BrainZone getZone(BrainZoneNames name, Position pos) {
+      return brainZones.Find(bz => bz.Equals(name, pos));
+    }
+
+    public List<BrainZone> getZones(BrainZoneNames name)
+    {
+      return brainZones.FindAll(bz => bz.Equals(name, Position.LEFT) 
+        || bz.Equals(name, Position.RIGHT));
+    }
+
+    public bool isNeutral() {
+      return brainZones.TrueForAll(bz => bz.stimulator.electrodeType 
+        == ElectrodeType.NEUTRAL || bz.stimulator.electrodeType
+        == ElectrodeType.NO);
+    }
+
+    public bool isAnodal(BrainZone source, BrainZone destination) {
+      if (!containsOnly(
+        new[] {source.brainZoneName, destination.brainZoneName}, 
+        new[] {source.position, destination.position}))
+        return false;
+
+      return source.stimulator.electrodeType == ElectrodeType.POSITIVE &&
+        destination.stimulator.electrodeType == ElectrodeType.NEGATIVE;
+    }
+
+    public bool isCathodal(BrainZone source, BrainZone destination) {
+      if (!containsOnly(
+        new[] { source.brainZoneName, destination.brainZoneName },
+        new[] { source.position, destination.position }))
+        return false;
+      return source.stimulator.electrodeType == ElectrodeType.NEGATIVE &&
+        destination.stimulator.electrodeType == ElectrodeType.POSITIVE;
+    }
+
+    //public bool isAnodalOrCathodal()
+
+    public bool isUniqueStimulation(ElectrodeName en) {
+      return brainZones.TrueForAll(bz => bz.stimulator.electrodeName == en ||
+        bz.stimulator.electrodeName == ElectrodeName.NO);
+    }
+
+    public bool isMagneticStimulation()
+    {
+      return brainZones.TrueForAll(bz => bz.stimulator.electrodeName 
+        == ElectrodeName.CIRCULAR || bz.stimulator.electrodeName 
+        == ElectrodeName.EIGHT || bz.stimulator.electrodeName 
+        == ElectrodeName.H && bz.stimulator.electrodeName == ElectrodeName.NO);
+    }
+
+    public bool isElectricStimulation()
+    {
+      return brainZones.TrueForAll(bz => bz.stimulator.electrodeName
+        == ElectrodeName.CIRCULAR || bz.stimulator.electrodeName
+        == ElectrodeName.EIGHT || bz.stimulator.electrodeName
+        == ElectrodeName.H && bz.stimulator.electrodeName == ElectrodeName.NO);
+    }
+
+
 
     public override string ToString() {
       string result = "";

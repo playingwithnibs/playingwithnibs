@@ -21,7 +21,7 @@ public class PlayerManager
 
     public Pulse pulse;
 
-    public BrainZonesArray brainZones;
+    public Brain brain;
 
     public MedicalEquipment medicalEquipment;
 

@@ -6,11 +6,10 @@ namespace Application
     public BrainZoneNames brainZoneName;
     public Position position;
     public Stimulator stimulator;
-    public int stimulatorType;
 
-    public BrainZone(BrainZoneNames brainZoneName, Position position, Stimulator stimulator) : this(brainZoneName, position) {
-        this.stimulator = stimulator;
-    }
+    // public BrainZone(BrainZoneNames brainZoneName, Position position, Stimulator stimulator) : this(brainZoneName, position) {
+    //     this.stimulator = stimulator;
+    // }
 
     public BrainZone(BrainZoneNames brainZoneName, Position position)
     {
@@ -19,8 +18,12 @@ namespace Application
         stimulator = new Stimulator();
     }
 
-        public override int GetHashCode() { 
-      return (int)brainZoneName;
+    public override int GetHashCode() { 
+      return (int)brainZoneName + (int)position;
+    }
+
+    public bool Equals(BrainZoneNames name, Position pos) {
+      return Equals(new BrainZone(name, pos));
     }
     
     public override bool Equals(object obj) { 
@@ -29,24 +32,26 @@ namespace Application
       
       BrainZone bz = (BrainZone)obj;
 
-      return bz.brainZoneName.Equals(this.brainZoneName);
+      return bz.brainZoneName == brainZoneName && bz.position == position;
     }
 
     public override string ToString()
     {
-        return brainZoneName + " [" + position + "]: (stimulator: " + stimulator.electrodeType + "), (type: " + stimulatorType + ")";
+        return brainZoneName + " [" + position + "]: (stimulator: " + 
+          stimulator.electrodeType + "), (type: " + 
+          stimulator.electrodeName + ")";
     }
 
-        public bool isActive() {
-      return stimulator.electrodeType != ElectrodeType.NO;
+    public bool isActive() {
+      return stimulator.electrodeName != ElectrodeName.NO;
     }
 
-    public void applicate(Stimulator stimulator, int stimulatorType)
-        {
-            this.stimulator = stimulator;
-            this.stimulator.tapCounter++;
-            this.stimulatorType = stimulatorType;
-        }
+    public bool isActiveTmsEightCoil() {
+      return stimulator.electrodeName == ElectrodeName.EIGHT;
+    }
+
+    public bool isActiveTmsCircularCoil() {
+      return stimulator.electrodeName == ElectrodeName.CIRCULAR;
+    }
   }
-
 }

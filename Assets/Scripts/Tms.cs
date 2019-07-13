@@ -7,17 +7,19 @@ namespace Application
 
     public static float max = 120;
 
-    public Tms(UnitMeasure unitMeasure, double intensity, Pulse pulse,
-      BrainZonesArray brainZones, TmsStimulator stimulator, 
-      StimulationType stimulationType) 
-        : base(unitMeasure, intensity, pulse, brainZones, stimulationType) {
-      this.stimulator = stimulator;
-    }
+    // public Tms(UnitMeasure unitMeasure, double intensity, Pulse pulse,
+    //   BrainZonesArray brainZones, TmsStimulator stimulator, 
+    //   StimulationType stimulationType) 
+    //     : base(unitMeasure, intensity, pulse, brainZones, stimulationType) {
+    //   this.stimulator = stimulator;
+    // }
 
     public Tms() : base() { }
 
     public override string ToString() {
-      return "TMS";
+      return "TMS" + "\nUnit measure: " + unitMeasure +
+        "\nIntensity value: " + intensity +
+        "\nPulse: " + pulse + "\nStimulator" + stimulator;
     }
   }
 }

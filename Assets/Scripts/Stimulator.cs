@@ -2,10 +2,13 @@
 {
   public class Stimulator {   
     public ElectrodeType electrodeType;
+
+    public ElectrodeName electrodeName;
     
     public int tapCounter;
 
     public Stimulator() {
+      electrodeName = ElectrodeName.NO;
       electrodeType = ElectrodeType.NO;
       tapCounter = 0;
     }
@@ -15,6 +18,12 @@
       tapCounter = (int)electrodeType;
     }
 
+    public Stimulator(ElectrodeType electrodeType, 
+      ElectrodeName electrodeName) {
+        this.electrodeType = electrodeType;
+        this.electrodeName = electrodeName;
+    }
+
         public ElectrodeType tap(int states)
         {
             tapCounter = ((int) ++electrodeType % states);
@@ -22,7 +31,7 @@
         }
 
     public override string ToString() {
-      return electrodeType.ToString();
+      return electrodeName.ToString() + " " + electrodeType.ToString();
     }
   } 
 }

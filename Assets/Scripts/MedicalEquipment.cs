@@ -17,6 +17,36 @@ namespace Application {
         this.stimulationType = stimulationType;
     }
 
+    public bool usesMt() {
+      return unitMeasure == UnitMeasure.PERCENTAGE_OF_MT;
+    }
+
+    public bool usesMa() {
+      return unitMeasure == UnitMeasure.MILLIAMPERE;
+    }
+
+    public bool hasUnitMeasure() {
+      return unitMeasure != UnitMeasure.NO;
+    }
+
+    public bool isHighPulse() {
+      return pulse == Pulse.HIGH;
+    }
+
+    public bool isLowPulse() {
+      return pulse == Pulse.LOW;
+    }
+
+    public bool isSinglePulse() {
+      return pulse == Pulse.SINGLE;
+    }
+
+    public bool hasPulse() {
+      return pulse != Pulse.NO;
+    }
+
+
+
     public MedicalEquipment() {}
 
     public override string ToString(){
