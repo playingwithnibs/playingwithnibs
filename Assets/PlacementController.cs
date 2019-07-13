@@ -200,13 +200,16 @@ public class PlacementController : MonoBehaviour
                     break;
                 case 2:
                     s = positive;
+                    stimulatorType = (int)ElectrodeName.DEFAULT;
                     targetImage.enabled = true;
                     break;
                 case 3:
                     s = negative;
+                    stimulatorType = (int)ElectrodeName.DEFAULT;
                     targetImage.enabled = true;
                     break;
             }
+            
         }
         else if (stimulatorType == (int) TmsStimulator.EIGHT)
         {
@@ -231,8 +234,14 @@ public class PlacementController : MonoBehaviour
             }
         }
         targetImage.sprite = s;
-        brainZone.stimulator = new Stimulator((ElectrodeType) state);
-        brainZone.stimulatorType = targetImage.enabled ? stimulatorType : (int) StimulationType.NO;
+        brainZone.stimulator = 
+            new Stimulator((ElectrodeType)state, 
+                targetImage.enabled 
+                    ? (ElectrodeName)stimulatorType : ElectrodeName.NO);
+        //brainZone.stimulatorType = targetImage.enabled ? stimulatorType : (int) StimulationType.NO;
+        
+        Debug.Log("INSIDE METHOD: " + brainZone.stimulator);
+
         return brainZone;  
     }
 
@@ -245,13 +254,12 @@ public class PlacementController : MonoBehaviour
     brainZones.ForEach((zone) => { Debug.Log(zone); }
          );
 
-    pm.brainZones = new BrainZonesArray(brainZones);
         pm.outcome = 
             new SimulationSolution()
             .getOutcome(
                 pm.buildMedicalEquipment(),
                 pm.medicalReport,
-                pm.brainZones);
+                new BrainZonesArray(brainZones));
 
         // Debug.Log(pm.medicalReport + "\n" + pm.medicalEquipment +
         //     "\n" + pm.brainZones);
