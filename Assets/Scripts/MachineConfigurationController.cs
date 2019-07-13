@@ -83,7 +83,7 @@ public class MachineConfigurationController : MonoBehaviour
         });
 
         intensitySlider.onValueChanged.AddListener((value) => {
-            currentText.text = value.ToString();
+            currentText.text = value.ToString(ampereToggle.isOn ? "f1" : "f0");
         });
 
         forwardButton.onClick.AddListener(() => {
