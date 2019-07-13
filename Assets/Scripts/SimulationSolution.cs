@@ -106,7 +106,7 @@ namespace Application {
             return Outcome.UNCHANGED;
           }
         
-        // depression 3
+        // depression 3 tested
         else if (
           (
             (brain.doesNotContain(BrainZoneNames.DLPFC) && 
@@ -125,7 +125,7 @@ namespace Application {
             return Outcome.BAD;
           }
 
-        // depression 4
+        // depression 4/5 tested
         else if (
           ((brain.isMagneticStimulation() && !me.hasPulse())
           ||
