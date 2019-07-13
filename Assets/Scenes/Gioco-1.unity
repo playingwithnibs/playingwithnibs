@@ -444,7 +444,7 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
-    m_LineSpacing: 1
+    m_LineSpacing: 0.7
   m_Text: 'Pathology:'
 --- !u!222 &322485541
 CanvasRenderer:
@@ -546,7 +546,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Description...
+  m_Text: 'Description:'
 --- !u!222 &343402314
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1820,7 +1820,7 @@ GameObject:
   - component: {fileID: 1598010752}
   - component: {fileID: 1598010753}
   m_Layer: 0
-  m_Name: memoji-neutral
+  m_Name: memoji
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1834,7 +1834,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1598010751}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.15238081, y: 2.770844, z: 0}
+  m_LocalPosition: {x: 0.15238081, y: 2.72, z: 0}
   m_LocalScale: {x: 0.95238096, y: 0.95238096, z: 1}
   m_Children: []
   m_Father: {fileID: 1745968492}

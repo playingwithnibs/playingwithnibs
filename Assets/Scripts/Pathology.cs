@@ -3,6 +3,11 @@ using System;
 namespace Application {
 
   public class Pathology {
+
+        public static string[] pathologyDisplayNames = new string[] {
+            "Depression", "Post-stroke, hand", "Post-stroke, aphasia"
+        };
+
     public PathologyName name;
 
     public Position position;
@@ -79,5 +84,10 @@ namespace Application {
     public override string ToString(){
       return name + ", " + position;
     }
+
+    public string getName()
+        {
+            return pathologyDisplayNames[(int)name];
+        }
   }
 } 

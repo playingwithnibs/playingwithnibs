@@ -12,6 +12,7 @@ namespace Application {
 
         private MedicalReport mr;
 
+        private SpriteRenderer memoji;
         private Text
             name,
             sex,
@@ -60,11 +61,14 @@ namespace Application {
             age = GameObject.Find("Medical report text/age").GetComponent<Text>();
             description = GameObject.Find("Medical report text/description").GetComponent<Text>();
             pathology = GameObject.Find("Medical report text/pathology").GetComponent<Text>();
+            memoji = GameObject.Find("memoji").GetComponent<SpriteRenderer>();
 
+            memoji.sprite = Resources.Load(mr.animojiPath, typeof(Sprite)) as Sprite;
+            memoji.transform.localScale -= new Vector3(0.72381F, 0.72381F, 0);
             name.text = mr.name + " " + mr.surname;
             sex.text = "Sex: " + mr.gender;
             age.text = "Birth: " + mr.dateOfBirth.ToShortDateString();
-            pathology.text = "Pathology: " + mr.pathology;
+            pathology.text = "Pathology:\n" + mr.pathology.getName();
         }
     }
 }
