@@ -49,6 +49,7 @@ public class PlayerManager
         if (Instance == null)
         {
             Instance = new PlayerManager();
+            Instance.medicalReport = new MedicalReport();
         }
         return Instance;
     }
