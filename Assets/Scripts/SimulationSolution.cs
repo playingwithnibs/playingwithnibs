@@ -68,8 +68,8 @@ namespace Application {
     }
 
     // tested
-    public Outcome getOutcomeDepression(MedicalEquipment me,
-      MedicalReport mr, BrainZonesArray brain) {
+    public Outcome getOutcomeDepression(MedicalEquipment me, 
+      BrainZonesArray brain) {
         // depression 1.1 tested
         if (brain.isUniqueStimulation(ElectrodeName.EIGHT) &&
           inRange(me.intensity, 90, 119) &&
@@ -158,7 +158,7 @@ namespace Application {
     public Outcome getOutcome(MedicalEquipment me, MedicalReport mr, BrainZonesArray brain) {
       switch(mr.pathology.name) {
         case PathologyName.DEPRESSION:
-          return this.getOutcomeDepression(me, mr, brain);
+          return this.getOutcomeDepression(me, brain);
           
         case PathologyName.POST_STROKE_HAND:
           return this.getOutcomePostStrokeHand(me, mr, brain);
