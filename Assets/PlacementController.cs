@@ -247,12 +247,12 @@ public class PlacementController : MonoBehaviour
 
     private void generateConfiguration()
     {
-        Debug.Log("## START CONFIGURATION ##");
+        //Debug.Log("## START CONFIGURATION ##");
     // brainZones.ForEach((zone) => { if (zone.isActive()) Debug.Log(zone); }
     // );
 
-    brainZones.ForEach((zone) => { Debug.Log(zone); }
-         );
+    //brainZones.ForEach((zone) => { Debug.Log(zone); }
+    //     );
 
         pm.outcome = 
             new SimulationSolution()
