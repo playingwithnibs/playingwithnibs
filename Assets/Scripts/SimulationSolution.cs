@@ -75,8 +75,8 @@ namespace Application {
     }
 
     // tested
-    public Outcome getOutcomeDepression(MedicalEquipment me,
-      MedicalReport mr, BrainZonesArray brain) {
+    public Outcome getOutcomeDepression(MedicalEquipment me, 
+      BrainZonesArray brain) {
         // depression 1.1 tested
         if (brain.isUniqueStimulation(ElectrodeName.EIGHT) &&
           inRange(me.intensity, 90, 119) &&
@@ -84,8 +84,10 @@ namespace Application {
           me.isHighPulse() &&
           brain.isNeutral() &&
           brain.containsOnly(BrainZoneNames.DLPFC, Position.UPPER)
-          ) 
-          return Outcome.GOOD;
+          ) {
+            Debug.Log("DEPRESSION 1.1");
+            return Outcome.GOOD;
+          }
         
         // depression 1.2 tested
         else if (brain.isUniqueStimulation(ElectrodeName.EIGHT) &&
@@ -94,8 +96,10 @@ namespace Application {
           me.isHighPulse() &&
           brain.isNeutral() &&
           brain.containsOnly(BrainZoneNames.DLPFC, Position.UPPER)
-          )
-          return Outcome.VERY_GOOD;
+          ) {
+            Debug.Log("DEPRESSION 1.2");
+            return Outcome.VERY_GOOD;
+          }
         
         // depression 2 tested, TODO add h
         else if ((brain.containsOnly(BrainZoneNames.DLPFC, Position.UPPER) 
@@ -104,36 +108,52 @@ namespace Application {
           me.intensity <= 120 &&
           me.hasUnitMeasure() &&
           me.isLowPulse() &&
-          brain.isNeutral())
-          return Outcome.UNCHANGED;
+          brain.isNeutral()) {
+            Debug.Log("DEPRESSION 2");
+            return Outcome.UNCHANGED;
+          }
         
-        // depression 3
-        else if (((brain.isElectricStimulation() && 
-          brain
-          .brainZones
-          .TrueForAll(bz => 
-            bz.brainZoneName == BrainZoneNames.DLPFC && !bz.isActive())
-          && brain.isNeutral())
-            || (brain.isMagneticStimulation() && 
-              brain.brainZones.TrueForAll(bz => (bz.brainZoneName == BrainZoneNames.DLPFC || bz.brainZoneName == BrainZoneNames.SO) && !bz.isActive())) )
+        // depression 3 tested
+        else if (
+          (
+            (brain.doesNotContain(BrainZoneNames.DLPFC) && 
+              brain.isMagneticStimulation() &&
+              brain.isNeutral())
+            ||
+            (brain.doesNotContain(BrainZoneNames.DLPFC) &&
+              brain.doesNotContain(BrainZoneNames.SO) &&
+              brain.isElectricStimulation() &&
+              brain.isAnodalOrCathodal()))
           &&
           me.intensity <= 120 &&
           me.hasUnitMeasure() &&
-          me.isLowPulse())
-          return Outcome.UNCHANGED;
+          me.isLowPulse()) {
+            Debug.Log("DEPRESSIN 3");
+            return Outcome.BAD;
+          }
 
-
-        Debug.Log("config:\n" + me + "\n" + brain + "\n");
-        Debug.Log(me.intensity <= 120);
-        Debug.Log(me.hasUnitMeasure());
-        Debug.Log(me.isLowPulse());
-        Debug.Log(brain.isNeutral());
-        Debug.Log(brain.containsOnly(BrainZoneNames.DLPFC, Position.UPPER));
-        Debug.Log(brain.isUniqueStimulation(ElectrodeName.CIRCULAR));
-        Debug.Log(brain.isUniqueStimulation(ElectrodeName.H));
-
-        Debug.Log(
-          brain.containsOnly(BrainZoneNames.DLPFC, Position.UPPER));
+        // depression 4/5 tested
+        else if (
+          ((brain.isMagneticStimulation() && !me.hasPulse())
+          ||
+          (
+            brain.isElectricStimulation() && 
+            (me.isHighPulse() || me.isSinglePulse()))
+          ) 
+          && me.intensity <= 120 && me.hasUnitMeasure()) {
+            Debug.Log("DEPRESSION 4/5");
+            return Outcome.EXPLOSION;
+          }
+        
+        
+        
+        
+        
+        // Debug.Log("doesNotContain: " + brain.doesNotContain(BrainZoneNames.DLPFC));
+        // Debug.Log("ismagnetic: " +brain.isMagneticStimulation() );
+        // Debug.Log("isneutral: " + brain.isNeutral()); 
+        
+        Debug.Log("DEPRESSION UNMODELLED");
         return Outcome.EXPLOSION;
       }
 
@@ -228,7 +248,7 @@ namespace Application {
     public Outcome getOutcome(MedicalEquipment me, MedicalReport mr, BrainZonesArray brain) {
       switch(mr.pathology.name) {
         case PathologyName.DEPRESSION:
-          return this.getOutcomeDepression(me, mr, brain);
+          return this.getOutcomeDepression(me, brain);
           
         case PathologyName.POST_STROKE_HAND:
           return this.getOutcomePostStrokeHand(me, mr, brain);

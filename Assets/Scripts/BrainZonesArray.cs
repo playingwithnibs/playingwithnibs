@@ -8,7 +8,7 @@ namespace Application
   public class BrainZonesArray {
     public List<BrainZone> brainZones;
 
-    public  int countActiveZones;
+    public int countActiveZones;
 
     public BrainZonesArray(List<BrainZone> brainZonesList) {
       brainZones = brainZonesList;
@@ -20,7 +20,9 @@ namespace Application
     }
 
     public bool contains(BrainZoneNames name, Position pos) {
-      return brainZones.Contains(new BrainZone(name, pos));
+      BrainZone b = new BrainZone(name, pos);
+
+      return brainZones.Contains(b) && b.isActive();
     }
 
     public bool containsOnly(BrainZoneNames name, Position pos) {
@@ -75,7 +77,19 @@ namespace Application
         destination.stimulator.electrodeType == ElectrodeType.POSITIVE;
     }
 
-    //public bool isAnodalOrCathodal()
+    public bool isAnodalOrCathodal() {
+      int countPos = 0;
+      int countNeg = 0;
+
+      for (int i = 0; i< brainZones.Count; i++) {
+        if (brainZones[i].stimulator.electrodeType == ElectrodeType.POSITIVE)
+          countPos++;
+        else if(brainZones[i].stimulator.electrodeType == ElectrodeType.NEGATIVE)
+          countNeg++;
+      }
+
+      return countActiveZones == 2 && countPos == 1 && countNeg == 1;
+    }
 
     public bool isUniqueStimulation(ElectrodeName en) {
       return brainZones.TrueForAll(bz => bz.stimulator.electrodeName == en ||
@@ -87,15 +101,24 @@ namespace Application
       return brainZones.TrueForAll(bz => bz.stimulator.electrodeName 
         == ElectrodeName.CIRCULAR || bz.stimulator.electrodeName 
         == ElectrodeName.EIGHT || bz.stimulator.electrodeName 
-        == ElectrodeName.H && bz.stimulator.electrodeName == ElectrodeName.NO);
+        == ElectrodeName.H || bz.stimulator.electrodeName == ElectrodeName.NO);
     }
 
     public bool isElectricStimulation()
     {
       return brainZones.TrueForAll(bz => bz.stimulator.electrodeName
-        == ElectrodeName.CIRCULAR || bz.stimulator.electrodeName
-        == ElectrodeName.EIGHT || bz.stimulator.electrodeName
-        == ElectrodeName.H && bz.stimulator.electrodeName == ElectrodeName.NO);
+        == ElectrodeName.HD || bz.stimulator.electrodeName
+        == ElectrodeName.DEFAULT || bz.stimulator.electrodeName 
+        == ElectrodeName.NO);
+    }
+
+    public bool doesNotContain(BrainZoneNames name) {
+      for (int i = 0; i < brainZones.Count; i++) {
+        if (brainZones[i].brainZoneName == name && brainZones[i].isActive())
+          return false;
+      }
+
+      return true;
     }
 
 
