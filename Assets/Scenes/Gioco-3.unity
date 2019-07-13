@@ -321,7 +321,7 @@ GameObject:
   - component: {fileID: 53012712}
   - component: {fileID: 53012711}
   m_Layer: 0
-  m_Name: ltpj area text
+  m_Name: ltpj
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -831,7 +831,7 @@ GameObject:
   - component: {fileID: 262981784}
   - component: {fileID: 262981783}
   m_Layer: 0
-  m_Name: o area text
+  m_Name: o
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1221,7 +1221,7 @@ GameObject:
   - component: {fileID: 377789341}
   - component: {fileID: 377789340}
   m_Layer: 0
-  m_Name: m1 area text
+  m_Name: m1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2070,7 +2070,7 @@ GameObject:
   m_Component:
   - component: {fileID: 513961874}
   m_Layer: 0
-  m_Name: Brain areas name container
+  m_Name: Brain zone names
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2310,7 +2310,7 @@ GameObject:
   - component: {fileID: 667872097}
   - component: {fileID: 667872096}
   m_Layer: 0
-  m_Name: so area text
+  m_Name: so
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2507,7 +2507,7 @@ GameObject:
   - component: {fileID: 721257961}
   - component: {fileID: 721257960}
   m_Layer: 0
-  m_Name: f7 area text
+  m_Name: f7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4537,7 +4537,7 @@ GameObject:
   - component: {fileID: 1790429522}
   - component: {fileID: 1790429521}
   m_Layer: 0
-  m_Name: dlpfc area text
+  m_Name: dlpfc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
