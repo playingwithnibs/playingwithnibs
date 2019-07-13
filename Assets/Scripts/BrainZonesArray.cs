@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace Application
 {
@@ -26,9 +29,16 @@ namespace Application
 
       countActiveZones = 0;
 
+      Debug.Log("inside constructor");
       brainZonesList.ForEach(bz => {
-        brainZones[(int)bz.brainZoneName].position = bz.position;
-        activateZone(bz.brainZoneName, bz.stimulator);
+        if (stimulator.electrodeType != ElectrodeType.NO) {
+          Debug.Log(bz.brainZoneName);
+          Debug.Log(bz.position);
+          Debug.Log(bz.stimulator);
+          brainZones[(int)bz.brainZoneName].position = bz.position;
+          activateZone(bz.brainZoneName, bz.stimulator);
+        }
+        
       });
     }
 
