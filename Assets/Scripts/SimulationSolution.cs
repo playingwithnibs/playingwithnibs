@@ -63,6 +63,13 @@ namespace Application {
         );
     }
 
+    public bool isControLateral(Position p1, Position p2) {
+      return (
+        (p1 == Position.RIGHT && p2 == Position.LEFT) 
+        || (p1 == Position.LEFT && p2 == Position.RIGHT)
+        );
+    }
+
     public bool inRange(double val, double r1, double r2) {
       return r1 <= val && val <= r2;
     }
@@ -112,7 +119,7 @@ namespace Application {
           &&
           me.intensity <= 120 &&
           me.hasUnitMeasure() &&
-          me.isLowPulse()
+          me.isLowPulse())
           return Outcome.UNCHANGED;
 
 
@@ -132,6 +139,89 @@ namespace Application {
 
     public Outcome getOutcomePostStrokeHand(MedicalEquipment me,
       MedicalReport mr, BrainZonesArray brain) {
+
+        if(brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
+          me.intensity == 1 &&
+          me.usesMa() &&
+          !me.hasPulse() &&
+          (
+            (brain.isCathodal(
+              brain.getZone(BrainZoneNames.M1, Position.LEFT),
+              brain.getZone(BrainZoneNames.SO, Position.RIGHT)) &&
+              isControLateral(Position.LEFT, mr.pathology.position))||
+            brain.isCathodal(
+              brain.getZone(BrainZoneNames.M1, Position.RIGHT),
+              brain.getZone(BrainZoneNames.SO, Position.LEFT))&&
+              isControLateral(Position.RIGHT, mr.pathology.position))
+          )
+          return Outcome.VERY_GOOD;
+
+        if(brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
+          inRange(me.intensity, 0.8, 2) &&
+          me.usesMa() &&
+          !me.hasPulse() &&
+          (
+            (brain.isCathodal(
+              brain.getZone(BrainZoneNames.M1, Position.LEFT),
+              brain.getZone(BrainZoneNames.SO, Position.RIGHT)) &&
+              isControLateral(Position.LEFT, mr.pathology.position))||
+            brain.isCathodal(
+              brain.getZone(BrainZoneNames.M1, Position.RIGHT),
+              brain.getZone(BrainZoneNames.SO, Position.LEFT))&&
+              isControLateral(Position.RIGHT, mr.pathology.position))
+          ){
+            Debug.Log("Catodico 0.8-2 contro");
+            return Outcome.GOOD;
+          }
+          
+          if(brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
+          inRange(me.intensity, 0.8, 2) &&
+          me.usesMa() &&
+          !me.hasPulse() &&
+          (
+            (brain.isAnodal(
+              brain.getZone(BrainZoneNames.M1, Position.LEFT),
+              brain.getZone(BrainZoneNames.SO, Position.RIGHT)) &&
+              isIpsiLateral(Position.LEFT, mr.pathology.position))||
+            brain.isAnodal(
+              brain.getZone(BrainZoneNames.M1, Position.RIGHT),
+              brain.getZone(BrainZoneNames.SO, Position.LEFT))&&
+              isIpsiLateral(Position.RIGHT, mr.pathology.position))
+          )
+          {
+            Debug.Log("anodico 0.8-2 ipsi");
+            return Outcome.GOOD;
+          }
+
+          if(brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
+          me.intensity <= 0.8 &&
+          me.usesMa() &&
+          !me.hasPulse() &&
+          (
+            (brain.isCathodal(
+              brain.getZone(BrainZoneNames.M1, Position.LEFT),
+              brain.getZone(BrainZoneNames.SO, Position.RIGHT)) &&
+              isIpsiLateral(Position.LEFT, mr.pathology.position))||
+            brain.isCathodal(
+              brain.getZone(BrainZoneNames.M1, Position.RIGHT),
+              brain.getZone(BrainZoneNames.SO, Position.LEFT))&&
+              isIpsiLateral(Position.RIGHT, mr.pathology.position))
+          )
+          {
+            Debug.Log("Catodico <=0.8 ipsi");
+            return Outcome.GOOD;
+          }
+
+
+  Debug.Log(brain.isAnodal(
+              brain.getZone(BrainZoneNames.M1, Position.LEFT),
+              brain.getZone(BrainZoneNames.SO, Position.RIGHT)).ToString() + " " +
+              isControLateral(Position.LEFT, mr.pathology.position) + " " +
+            brain.isAnodal(
+              brain.getZone(BrainZoneNames.M1, Position.RIGHT),
+              brain.getZone(BrainZoneNames.SO, Position.LEFT)).ToString()+ " " +
+              isIpsiLateral(Position.RIGHT, mr.pathology.position).ToString()
+          );
         return Outcome.EXPLOSION;
     }
 

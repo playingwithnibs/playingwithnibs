@@ -22,6 +22,9 @@ public class PlacementController : MonoBehaviour
         oUpperZoneButton,
         oLeftZoneButton,
         oRightZoneButton,
+        soUpperZoneButton,
+        soLeftZoneButton,
+        soRightZoneButton,
         m1UpperZoneButton,
         m1LeftZoneButton,
         m1RightZoneButton;
@@ -65,6 +68,10 @@ public class PlacementController : MonoBehaviour
         oUpperZoneButton = GameObject.Find("Upper/o-zone").GetComponent<Button>();
         oLeftZoneButton = GameObject.Find("Left/o-zone").GetComponent<Button>();
         oRightZoneButton = GameObject.Find("Right/o-zone").GetComponent<Button>();
+
+        soUpperZoneButton = GameObject.Find("Upper/so-zone").GetComponent<Button>();
+        soLeftZoneButton = GameObject.Find("Left/so-zone").GetComponent<Button>();
+        soRightZoneButton = GameObject.Find("Right/so-zone").GetComponent<Button>();
 
         m1UpperZoneButton = GameObject.Find("Upper/m1-zone").GetComponent<Button>();
         m1LeftZoneButton = GameObject.Find("Left/m1-zone").GetComponent<Button>();
@@ -126,9 +133,9 @@ public class PlacementController : MonoBehaviour
     private void initBrainZones()
     {
         brainZoneButtons = new List<Button> {
-            dlpfcUpperZoneButton, oUpperZoneButton, m1UpperZoneButton,
-            dlpfcLeftZoneButton, oLeftZoneButton, m1LeftZoneButton,
-            dlpfcRightZoneButton, oRightZoneButton, m1RightZoneButton
+            dlpfcUpperZoneButton, oUpperZoneButton, m1UpperZoneButton, soUpperZoneButton,
+            dlpfcLeftZoneButton, oLeftZoneButton, m1LeftZoneButton, soLeftZoneButton,
+            dlpfcRightZoneButton, oRightZoneButton, m1RightZoneButton, soRightZoneButton
         };
 
         BrainZone dlpfcZoneLeft = new BrainZone(BrainZoneNames.DLPFC, Position.LEFT);
@@ -139,6 +146,10 @@ public class PlacementController : MonoBehaviour
         BrainZone oZoneUpper = new BrainZone(BrainZoneNames.O, Position.UPPER);
         BrainZone oZoneRight = new BrainZone(BrainZoneNames.O, Position.RIGHT);
 
+        BrainZone soZoneLeft = new BrainZone(BrainZoneNames.SO, Position.LEFT);
+        BrainZone soZoneUpper = new BrainZone(BrainZoneNames.SO, Position.UPPER);
+        BrainZone soZoneRight = new BrainZone(BrainZoneNames.SO, Position.RIGHT);
+
         BrainZone m1ZoneLeft = new BrainZone(BrainZoneNames.M1, Position.LEFT);
         BrainZone m1ZoneUpper = new BrainZone(BrainZoneNames.M1, Position.UPPER);
         BrainZone m1ZoneRight = new BrainZone(BrainZoneNames.M1, Position.RIGHT);
@@ -146,6 +157,7 @@ public class PlacementController : MonoBehaviour
         brainZones = new List<BrainZone> {
             dlpfcZoneLeft, dlpfcZoneUpper, dlpfcZoneRight,
             oZoneLeft, oZoneUpper, oZoneRight,
+            soZoneLeft, soZoneUpper, soZoneRight,
             m1ZoneLeft, m1ZoneUpper, m1ZoneRight
         };
 
@@ -157,6 +169,10 @@ public class PlacementController : MonoBehaviour
         buttonZoneMap.Add(oUpperZoneButton, oZoneUpper);
         buttonZoneMap.Add(oLeftZoneButton, oZoneLeft);
         buttonZoneMap.Add(oRightZoneButton, oZoneRight);
+
+        buttonZoneMap.Add(soUpperZoneButton, soZoneUpper);
+        buttonZoneMap.Add(soLeftZoneButton, soZoneLeft);
+        buttonZoneMap.Add(soRightZoneButton, soZoneRight);
 
         buttonZoneMap.Add(m1UpperZoneButton, m1ZoneUpper);
         buttonZoneMap.Add(m1LeftZoneButton, m1ZoneLeft);
