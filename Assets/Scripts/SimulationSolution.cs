@@ -160,7 +160,8 @@ namespace Application {
     public Outcome getOutcomePostStrokeHand(MedicalEquipment me,
       MedicalReport mr, BrainZonesArray brain) {
 
-        if(brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
+        if(isTdcs(me) &&
+          brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
           me.intensity == 1 &&
           me.usesMa() &&
           !me.hasPulse() &&
@@ -176,7 +177,8 @@ namespace Application {
           )
           return Outcome.VERY_GOOD;
 
-        if(brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
+        if(isTdcs(me) &&
+          brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
           inRange(me.intensity, 0.8, 2) &&
           me.usesMa() &&
           !me.hasPulse() &&
@@ -194,7 +196,8 @@ namespace Application {
             return Outcome.GOOD;
           }
           
-          if(brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
+          if(isTdcs(me) &&
+          brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
           inRange(me.intensity, 0.8, 2) &&
           me.usesMa() &&
           !me.hasPulse() &&
@@ -213,7 +216,8 @@ namespace Application {
             return Outcome.GOOD;
           }
 
-          if(brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
+          if(isTdcs(me) &&
+          brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
           me.intensity <= 0.8 &&
           me.usesMa() &&
           !me.hasPulse() &&
@@ -232,7 +236,8 @@ namespace Application {
             return Outcome.BAD;
           }
 
-          if(brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
+          if(isTdcs(me) &&
+          brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
           me.intensity <= 0.8 &&
           me.usesMa() &&
           !me.hasPulse() &&
@@ -251,7 +256,8 @@ namespace Application {
             return Outcome.BAD;
           }
 
-          if(brain.isUniqueStimulation(ElectrodeName.HD) &&
+          if(isTdcs(me) &&
+          brain.isUniqueStimulation(ElectrodeName.HD) &&
           me.intensity <= 2 &&
           me.usesMa() &&
           !me.hasPulse() &&
@@ -279,7 +285,8 @@ namespace Application {
             return Outcome.VERY_BAD;
           }
 
-          if(brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
+          if(isTdcs(me) &&
+          brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
           me.intensity < 2 &&
           me.usesMa() &&
           !me.hasPulse() &&
@@ -292,28 +299,81 @@ namespace Application {
             return Outcome.BAD;
           }
           
-          if(brain.isUniqueStimulation(ElectrodeName.EIGHT) &&
+          if(isTms(me) &&
+          brain.isUniqueStimulation(ElectrodeName.EIGHT) &&
           inRange(me.intensity,70,120) &&
           me.usesMt() &&
           me.isHighPulse() &&
           brain.isNeutral() &&
           brain.containsOnly(BrainZoneNames.M1) &&
-          (isIpsiLateral(Position.LEFT, mr.pathology.position) ||
-           isIpsiLateral(Position.RIGHT, mr.pathology.position)
-          )
+          isIpsiLateral(brain.getZones(BrainZoneNames.M1).Find(bz => bz.isActive()).position, mr.pathology.position)
           )
               
           {
             Debug.Log("eight 70-120 m1 ipsi");
             return Outcome.GOOD;
           }
-
-
-  Debug.Log(
-            brain.containsOnly(BrainZoneNames.M1).ToString() + " " +
-            brain.containsOnly(BrainZoneNames.SO).ToString()
           
-          );
+          if(isTms(me) &&
+          brain.isUniqueStimulation(ElectrodeName.EIGHT) &&
+          inRange(me.intensity,70,120) &&
+          me.usesMt() &&
+          me.isLowPulse() &&
+          brain.isNeutral() &&
+          brain.containsOnly(BrainZoneNames.M1) &&
+          isControLateral(brain.getZones(BrainZoneNames.M1).Find(bz => bz.isActive()).position, mr.pathology.position)
+          )
+              
+          {
+            Debug.Log("eight 70-120 m1 ipsi");
+            return Outcome.GOOD;
+          }
+          
+          if(isTms(me) &&
+          brain.isUniqueStimulation(ElectrodeName.EIGHT) &&
+          inRange(me.intensity,70,120) &&
+          me.usesMt() &&
+          me.isLowPulse() &&
+          brain.isNeutral() &&
+          brain.containsOnly(BrainZoneNames.M1) &&
+          isIpsiLateral(brain.getZones(BrainZoneNames.M1).Find(bz => bz.isActive()).position, mr.pathology.position)
+          )
+              
+          {
+            Debug.Log("eight 70-120 low m1 ipsi bad");
+            return Outcome.BAD;
+          }
+          
+          if(isTms(me) &&
+          (
+            brain.isUniqueStimulation(ElectrodeName.H) ||
+            brain.isUniqueStimulation(ElectrodeName.CIRCULAR)
+          ) &&
+          me.intensity < 120 &&
+          me.usesMt() &&
+          me.hasPulse() &&
+          brain.containsOnly(BrainZoneNames.M1)
+          )
+              
+          {
+            Debug.Log("eight < 120 pulse m1");
+            return Outcome.UNCHANGED;
+          }
+
+
+  // Debug.Log(
+  //           isTms(me).ToString() + " " +
+  //         brain.isUniqueStimulation(ElectrodeName.EIGHT).ToString() + " " +
+  //         inRange(me.intensity,70,120).ToString() + " " +
+  //         me.usesMt().ToString() + " " +
+  //         me.isHighPulse().ToString() + " " +
+  //         brain.isNeutral().ToString() + " " +
+  //         brain.containsOnly(BrainZoneNames.M1).ToString() + " " +
+  //         isIpsiLateral(Position.LEFT, mr.pathology.position).ToString() + " " +
+  //          isIpsiLateral(Position.RIGHT, mr.pathology.position).ToString()
+          
+          
+  //         );
         return Outcome.EXPLOSION;
     }
 

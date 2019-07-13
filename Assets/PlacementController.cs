@@ -128,6 +128,9 @@ public class PlacementController : MonoBehaviour
         });
 
         forwardButton.onClick.AddListener(() => generateConfiguration());
+        backButton.onClick.AddListener(() => {
+            SceneManager.LoadScene(Constants.GAME_2, LoadSceneMode.Single);
+        });
     }
 
     private void initBrainZones()
@@ -138,21 +141,21 @@ public class PlacementController : MonoBehaviour
             dlpfcRightZoneButton, oRightZoneButton, m1RightZoneButton, soRightZoneButton
         };
 
-        BrainZone dlpfcZoneLeft = new BrainZone(BrainZoneNames.DLPFC, Position.LEFT);
+        BrainZone dlpfcZoneLeft = new BrainZone(BrainZoneNames.DLPFC, Position.RIGHT);
         BrainZone dlpfcZoneUpper = new BrainZone(BrainZoneNames.DLPFC, Position.UPPER);
-        BrainZone dlpfcZoneRight = new BrainZone(BrainZoneNames.DLPFC, Position.RIGHT);
+        BrainZone dlpfcZoneRight = new BrainZone(BrainZoneNames.DLPFC, Position.LEFT);
 
-        BrainZone oZoneLeft = new BrainZone(BrainZoneNames.O, Position.LEFT);
+        BrainZone oZoneLeft = new BrainZone(BrainZoneNames.O, Position.RIGHT);
         BrainZone oZoneUpper = new BrainZone(BrainZoneNames.O, Position.UPPER);
-        BrainZone oZoneRight = new BrainZone(BrainZoneNames.O, Position.RIGHT);
+        BrainZone oZoneRight = new BrainZone(BrainZoneNames.O, Position.LEFT);
 
-        BrainZone soZoneLeft = new BrainZone(BrainZoneNames.SO, Position.LEFT);
+        BrainZone soZoneLeft = new BrainZone(BrainZoneNames.SO, Position.RIGHT);
         BrainZone soZoneUpper = new BrainZone(BrainZoneNames.SO, Position.UPPER);
-        BrainZone soZoneRight = new BrainZone(BrainZoneNames.SO, Position.RIGHT);
+        BrainZone soZoneRight = new BrainZone(BrainZoneNames.SO, Position.LEFT);
 
-        BrainZone m1ZoneLeft = new BrainZone(BrainZoneNames.M1, Position.LEFT);
+        BrainZone m1ZoneLeft = new BrainZone(BrainZoneNames.M1, Position.RIGHT);
         BrainZone m1ZoneUpper = new BrainZone(BrainZoneNames.M1, Position.UPPER);
-        BrainZone m1ZoneRight = new BrainZone(BrainZoneNames.M1, Position.RIGHT);
+        BrainZone m1ZoneRight = new BrainZone(BrainZoneNames.M1, Position.LEFT);
 
         brainZones = new List<BrainZone> {
             dlpfcZoneLeft, dlpfcZoneUpper, dlpfcZoneRight,
