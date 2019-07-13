@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 namespace Application
 {
@@ -22,7 +23,7 @@ namespace Application
     public bool contains(BrainZoneNames name, Position pos) {
       BrainZone b = new BrainZone(name, pos);
 
-      return brainZones.Contains(b) && b.isActive();
+      return brainZones.Exists(bz => bz.Equals(b) && bz.isActive());
     }
 
     public bool containsOnly(BrainZoneNames name, Position pos) {
@@ -32,14 +33,43 @@ namespace Application
     public bool containsOnly(BrainZoneNames[] names, Position[] pos) {
       if (names.Length != pos.Length || countActiveZones != names.Length)
         return false;
-
+      Debug.Log("passa primo");
       bool check = true;
 
       for (int i = 0;  i < names.Length; i++) {
         check = check && contains(names[i], pos[i]);
+        Debug.Log(names[i] + " " + pos[i] + " " + contains(names[i], pos[i]).ToString());
       }
 
       return check;
+    }
+
+    public bool containsOnly(BrainZoneNames[] names) {
+      if (countActiveZones != names.Length)
+        return false;
+
+      bool check = true;
+
+      for (int i = 0;  i < names.Length; i++) {
+        bool found = false;
+        foreach(int p in Enum.GetValues(typeof(Position)))
+          found = found || contains(names[i], (Position)p);
+        check = check && found;
+      }
+
+      return check;
+    }
+
+    public bool containsOnly(BrainZoneNames name) {
+      if (countActiveZones != 1)
+        return false;
+
+        bool found = false;
+
+        foreach(int p in Enum.GetValues(typeof(Position)))
+          found = found || contains(name, (Position)p);
+
+      return found;
     }
 
     public BrainZone getZone(BrainZoneNames name, Position pos) {
@@ -63,7 +93,6 @@ namespace Application
         new[] {source.brainZoneName, destination.brainZoneName}, 
         new[] {source.position, destination.position}))
         return false;
-
       return source.stimulator.electrodeType == ElectrodeType.POSITIVE &&
         destination.stimulator.electrodeType == ElectrodeType.NEGATIVE;
     }

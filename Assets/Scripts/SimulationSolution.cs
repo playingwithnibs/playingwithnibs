@@ -229,18 +229,90 @@ namespace Application {
           )
           {
             Debug.Log("Catodico <=0.8 ipsi");
+            return Outcome.BAD;
+          }
+
+          if(brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
+          me.intensity <= 0.8 &&
+          me.usesMa() &&
+          !me.hasPulse() &&
+          (
+            (brain.isAnodal(
+              brain.getZone(BrainZoneNames.M1, Position.LEFT),
+              brain.getZone(BrainZoneNames.SO, Position.RIGHT)) &&
+              isControLateral(Position.LEFT, mr.pathology.position)) ||
+            brain.isAnodal(
+              brain.getZone(BrainZoneNames.M1, Position.RIGHT),
+              brain.getZone(BrainZoneNames.SO, Position.LEFT)) &&
+              isControLateral(Position.RIGHT, mr.pathology.position))
+          )
+          {
+            Debug.Log("Anodico <=0.8 contro");
+            return Outcome.BAD;
+          }
+
+          if(brain.isUniqueStimulation(ElectrodeName.HD) &&
+          me.intensity <= 2 &&
+          me.usesMa() &&
+          !me.hasPulse() &&
+          // brain.isAnodalOrCathodal() && 
+          brain.isNeutral() &&
+          (
+            brain.containsOnly(BrainZoneNames.M1) || 
+            brain.containsOnly(BrainZoneNames.SO)
+          )
+          )
+              
+          {
+            return Outcome.UNCHANGED;
+          }
+
+          if(brain.isElectricStimulation() &&
+          me.intensity > 2 &&
+          me.usesMa() &&
+          !me.hasPulse() &&
+          brain.countActiveZones > 0
+          )
+              
+          {
+            Debug.Log("Anodo o catodo >2 dove vuoi");
+            return Outcome.VERY_BAD;
+          }
+
+          if(brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
+          me.intensity < 2 &&
+          me.usesMa() &&
+          !me.hasPulse() &&
+          brain.doesNotContain(BrainZoneNames.M1) &&
+          brain.countActiveZones > 0
+          )
+              
+          {
+            Debug.Log("Anodo o catodo < 2 no m1");
+            return Outcome.BAD;
+          }
+          
+          if(brain.isUniqueStimulation(ElectrodeName.EIGHT) &&
+          inRange(me.intensity,70,120) &&
+          me.usesMt() &&
+          me.isHighPulse() &&
+          brain.isNeutral() &&
+          brain.containsOnly(BrainZoneNames.M1) &&
+          (isIpsiLateral(Position.LEFT, mr.pathology.position) ||
+           isIpsiLateral(Position.RIGHT, mr.pathology.position)
+          )
+          )
+              
+          {
+            Debug.Log("eight 70-120 m1 ipsi");
             return Outcome.GOOD;
           }
 
 
-  Debug.Log(brain.isAnodal(
-              brain.getZone(BrainZoneNames.M1, Position.LEFT),
-              brain.getZone(BrainZoneNames.SO, Position.RIGHT)).ToString() + " " +
-              isControLateral(Position.LEFT, mr.pathology.position) + " " +
-            brain.isAnodal(
-              brain.getZone(BrainZoneNames.M1, Position.RIGHT),
-              brain.getZone(BrainZoneNames.SO, Position.LEFT)).ToString()+ " " +
-              isIpsiLateral(Position.RIGHT, mr.pathology.position).ToString()
+  Debug.Log(
+            brain.containsOnly(BrainZoneNames.M1).ToString() + " " +
+            brain.containsOnly(BrainZoneNames.SO).ToString()
+          
           );
         return Outcome.EXPLOSION;
     }

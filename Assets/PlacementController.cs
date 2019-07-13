@@ -263,9 +263,9 @@ public class PlacementController : MonoBehaviour
 
     private void generateConfiguration()
     {
-        //Debug.Log("## START CONFIGURATION ##");
-    // brainZones.ForEach((zone) => { if (zone.isActive()) Debug.Log(zone); }
-    // );
+        Debug.Log("## START CONFIGURATION ##");
+    brainZones.ForEach((zone) => { if (zone.isActive()) Debug.Log(zone); }
+    );
 
     //brainZones.ForEach((zone) => { Debug.Log(zone); }
     //     );
