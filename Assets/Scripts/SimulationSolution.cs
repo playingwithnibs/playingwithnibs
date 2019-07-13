@@ -78,7 +78,7 @@ namespace Application {
     public Outcome getOutcomeDepression(MedicalEquipment me, 
       BrainZonesArray brain) {
         // depression 1.1 tested
-        if (brain.isUniqueStimulation(ElectrodeName.EIGHT) &&
+        if (isTms(me) && brain.isUniqueStimulation(ElectrodeName.EIGHT) &&
           inRange(me.intensity, 90, 119) &&
           me.usesMt() &&
           me.isHighPulse() &&
@@ -90,7 +90,7 @@ namespace Application {
           }
         
         // depression 1.2 tested
-        else if (brain.isUniqueStimulation(ElectrodeName.EIGHT) &&
+        else if (isTms(me) && brain.isUniqueStimulation(ElectrodeName.EIGHT) &&
           me.intensity == 120 &&
           me.usesMt() &&
           me.isHighPulse() &&
@@ -102,7 +102,8 @@ namespace Application {
           }
         
         // depression 2 tested, TODO add h
-        else if ((brain.containsOnly(BrainZoneNames.DLPFC, Position.UPPER) 
+        else if (isTms(me) && 
+            (brain.containsOnly(BrainZoneNames.DLPFC, Position.UPPER) 
             && brain.isUniqueStimulation(ElectrodeName.CIRCULAR) ||
             brain.isUniqueStimulation(ElectrodeName.H)) &&
           me.intensity <= 120 &&
@@ -118,12 +119,12 @@ namespace Application {
           (
             (brain.doesNotContain(BrainZoneNames.DLPFC) && 
               brain.isMagneticStimulation() &&
-              brain.isNeutral())
+              brain.isNeutral() && isTms(me))
             ||
             (brain.doesNotContain(BrainZoneNames.DLPFC) &&
               brain.doesNotContain(BrainZoneNames.SO) &&
               brain.isElectricStimulation() &&
-              brain.isAnodalOrCathodal()))
+              brain.isAnodalOrCathodal() && isTdcs(me)))
           &&
           me.intensity <= 120 &&
           me.hasUnitMeasure() &&
@@ -134,10 +135,10 @@ namespace Application {
 
         // depression 4/5 tested
         else if (
-          ((brain.isMagneticStimulation() && !me.hasPulse())
+          ((brain.isMagneticStimulation() && !me.hasPulse() && isTms(me))
           ||
           (
-            brain.isElectricStimulation() && 
+            brain.isElectricStimulation() && isTdcs(me) &&
             (me.isHighPulse() || me.isSinglePulse()))
           ) 
           && me.intensity <= 120 && me.hasUnitMeasure()) {
