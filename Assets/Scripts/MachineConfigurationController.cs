@@ -4,6 +4,7 @@ using Application;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class MachineConfigurationController : MonoBehaviour
 {
@@ -57,18 +58,76 @@ public class MachineConfigurationController : MonoBehaviour
         subtitle.text = "Configure the " + pm.medicalEquipment + " you have selected";
         medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.ToString().ToLower(), typeof(Sprite)) as Sprite;
 
+        if(pm.unitMeasure != UnitMeasure.NO) {
+            intensityToggle.isOn = true;
+            intensityToggle.interactable = true;
+            intensitySlider.interactable = true;
+            ampereToggle.interactable = true;
+            mtToggle.interactable = true;
+
+            switch(pm.unitMeasure){
+                case UnitMeasure.MILLIAMPERE:
+                    ampereToggle.isOn = true;
+                    intensitySlider.minValue = Tdcs.min;
+                    intensitySlider.maxValue = Tdcs.max;
+                    intensitySlider.value = (float)Math.Round(pm.intensity, 1);
+                    break;
+                case UnitMeasure.PERCENTAGE_OF_MT:
+                    mtToggle.isOn = true;
+                    intensitySlider.minValue = Tms.min;
+                    intensitySlider.maxValue = Tms.max;
+                    intensitySlider.value = (float)Math.Round(pm.intensity);
+                    break;
+            }
+            
+            minText.text = intensitySlider.minValue.ToString();
+            maxText.text = intensitySlider.maxValue.ToString();
+            currentText.text = intensitySlider.value.ToString();
+            intensityRectangle.sprite = Resources.Load("Sprites/intensity-rectangle-on", typeof(Sprite)) as Sprite;
+        }
+
+        if(pm.pulse != Pulse.NO) {
+            pulseToggle.isOn = true;
+            pulseToggle.interactable = true;
+            switch (pm.pulse)
+            {
+                case Pulse.LOW:
+                    rtmsLfToggle.isOn = true;
+                    break;
+
+                case Pulse.HIGH:
+                    rtmsHfToggle.isOn = true;
+                    break;
+
+                case Pulse.SINGLE:
+                    singlePulseToggle.isOn = true;
+                    break;
+ 
+            }
+            singlePulseToggle.interactable = true;
+            rtmsHfToggle.interactable = true;
+            rtmsLfToggle.interactable = true;
+
+            pulseRectangle.sprite = Resources.Load("Sprites/pulse-rectangle-on", typeof(Sprite)) as Sprite;
+        }
+
+
         intensityToggle.onValueChanged.AddListener((isChecked) => {
+            Debug.Log("intensityToggle" + isChecked.ToString());
             intensityRectangle.sprite = Resources.Load("Sprites/intensity-rectangle-" + (isChecked ? "on" : "off"), typeof(Sprite)) as Sprite;
-            mtToggle.isOn = false;
-            ampereToggle.isOn = false;
+            if(!isChecked){
+                mtToggle.isOn = false;
+                ampereToggle.isOn = false;
+            }
             mtToggle.interactable = isChecked;
             ampereToggle.interactable = isChecked;
-            intensitySlider.interactable = isChecked;
-            Debug.Log("clicca sta merda");
-            Debug.Log(intensitySlider.minValue);
+            
+            // Debug.Log("clicca sta merda");
+            // Debug.Log(intensitySlider.minValue);
         });
 
         pulseToggle.onValueChanged.AddListener((isChecked) => {
+            Debug.Log("pulseToggle" + isChecked.ToString());
             pulseRectangle.sprite = Resources.Load("Sprites/pulse-rectangle-" + (isChecked ? "on" : "off"), typeof(Sprite)) as Sprite;
             singlePulseToggle.isOn = false;
             rtmsHfToggle.isOn = false;
@@ -79,15 +138,17 @@ public class MachineConfigurationController : MonoBehaviour
         });
 
         mtToggle.onValueChanged.AddListener((isChecked) => {
-
+            Debug.Log("mtToggle" + isChecked.ToString());
+            intensitySlider.interactable = isChecked;
             intensitySlider.minValue = isChecked ? Tms.min : Tdcs.min;
             intensitySlider.maxValue = isChecked ? Tms.max : Tdcs.max;
             intensitySlider.value = isChecked ? Tms.min : Tdcs.min;
 
-            if (intensityToggle.isOn)
+            if (isChecked)
             {
                 minText.text = intensitySlider.minValue.ToString();
                 maxText.text = intensitySlider.maxValue.ToString();
+                currentText.text = intensitySlider.value.ToString();
             }
             else
             {
@@ -95,18 +156,26 @@ public class MachineConfigurationController : MonoBehaviour
                 maxText.text = "";
                 currentText.text = "";
             }
-
-            intensitySlider.interactable = isChecked;
         });
 
         ampereToggle.onValueChanged.AddListener((isChecked) => {
+            
+            intensitySlider.interactable = isChecked;
             intensitySlider.minValue = isChecked ? Tdcs.min : Tms.min;
             intensitySlider.maxValue = isChecked ? Tdcs.max : Tms.max;
-            minText.text = intensitySlider.minValue.ToString();
-            maxText.text = intensitySlider.maxValue.ToString();
-            Debug.Log("clicca sta ampere");
-            Debug.Log(isChecked);
-            intensitySlider.interactable = isChecked;
+            intensitySlider.value = isChecked ? Tdcs.min : Tms.min;
+             if (isChecked)
+            {
+                minText.text = intensitySlider.minValue.ToString();
+                maxText.text = intensitySlider.maxValue.ToString();
+                currentText.text = intensitySlider.value.ToString();
+            }
+            else
+            {
+                minText.text = "";
+                maxText.text = "";
+                currentText.text = "";
+            }
         });
 
         intensitySlider.onValueChanged.AddListener((value) => {
@@ -119,6 +188,9 @@ public class MachineConfigurationController : MonoBehaviour
         });
 
         backButton.onClick.AddListener(() => {
+            pm.unitMeasure = UnitMeasure.NO;
+            pm.pulse = Pulse.NO;
+            pm.intensity = 0;
             SceneManager.LoadScene(Constants.GAME_1, LoadSceneMode.Single);
         });
     }
