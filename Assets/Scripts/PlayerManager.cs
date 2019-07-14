@@ -3,8 +3,12 @@ using Application;
 using System;
 using System.Collections.Generic;
 
-public class PlayerManager
-{
+public class PlayerManager { 
+
+    private const int TIME_BONUS = 20;
+    private const int SAVED_TIME_BONUS_MOLTIPLICATOR = 5;
+    private const int DEVICE_CONFIG_SCORE_PERCENTAGE = 40;
+
     public static PlayerManager Instance;
 
     public Pathology pathology;
@@ -29,19 +33,39 @@ public class PlayerManager
 
     public MedicalReport medicalReport;
 
+    public ScoreCalculator sc;
+
     public double getCurrentTimestampInSeconds() 
     {
         return (DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1))
             .TotalSeconds;
-    } 
+    }
 
-    public double computeScore()
+    public double computeMedicalEquipmentScore()
     {
-        ScoreCalculator sc = new ScoreCalculator();
+        return (int)outcome * DEVICE_CONFIG_SCORE_PERCENTAGE / 100;
+    }
 
-        return sc.computeTimeBonus(startTime, endTime) + 
-            sc.computeOutcomeScore(outcome) + 
-            sc.computeMedicalEquipmentScore(outcome);
+    public double computeOutcomeScore()
+    {
+        return (int)outcome;
+    }
+
+    public double computeTimeBonus()
+    {
+        return TIME_BONUS +
+            (endTime - startTime);
+    }
+
+    public string computePatientFace()
+    {
+        return "Sprites/" + ((int)medicalReport.name).ToString() + "_" +
+          outcome.ToString().ToLower();
+    }
+
+    public double getTotalScore()
+    {
+        return computeMedicalEquipmentScore()+ computeOutcomeScore() + computeTimeBonus();
     }
 
     public static PlayerManager getInstance()

@@ -6,6 +6,8 @@
 
   public const string PATHOLOGIES = "Patologie";
 
+  public const string RESULT = "Result";
+
   public const string GAME_1 = "Gioco-1";
 
   public const string GAME_2 = "Gioco-2";

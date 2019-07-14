@@ -318,8 +318,10 @@ public class PlacementController : MonoBehaviour
     brainZones.ForEach((zone) => { if (zone.isActive()) Debug.Log(zone); }
     );
 
-    //brainZones.ForEach((zone) => { Debug.Log(zone); }
-    //     );
+        //brainZones.ForEach((zone) => { Debug.Log(zone); }
+        //     );
+
+        pm.endTime = pm.getCurrentTimestampInSeconds();
 
         pm.outcome = 
             new SimulationSolution()
@@ -331,5 +333,7 @@ public class PlacementController : MonoBehaviour
         // Debug.Log(pm.medicalReport + "\n" + pm.medicalEquipment +
         //     "\n" + pm.brainZones);
         Debug.Log(pm.outcome);
+
+        SceneManager.LoadScene(Constants.RESULT, LoadSceneMode.Single);
     }
 }
