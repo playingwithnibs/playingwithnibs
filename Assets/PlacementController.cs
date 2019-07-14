@@ -54,7 +54,6 @@ public class PlacementController : MonoBehaviour
     private Dictionary<Button, BrainZone> buttonZoneMap;
     private Dictionary<Button, int> buttonStimulatorNameMap;
     private Dictionary<BrainZone, Text> zoneTextMap;
-    private HashSet<BrainZone> activeZones;
 
     // Start is called before the first frame update
     void Start()
@@ -141,7 +140,19 @@ public class PlacementController : MonoBehaviour
                         buttonZoneMap[zoneButton].stimulator.tap(2);
                         handleBrainZoneClick(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TdcsStimulator.HD);
                     }
-                }                
+                }
+
+                // activate forward button only if there is at least one active zone
+                bool atLeastOneActive = false;
+                brainZones.ForEach(zone =>
+                {
+                    if (zone.isActive())
+                    {
+                        atLeastOneActive = true;
+                        return;
+                    }
+                });
+                forwardButton.interactable = atLeastOneActive;
             });
         });
 
@@ -307,8 +318,7 @@ public class PlacementController : MonoBehaviour
                 return;
             }
         });
-        zoneTextMap[brainZone].font = atLeastOneActive ? boldFont : regularFont;
-        
+        zoneTextMap[brainZone].font = atLeastOneActive ? boldFont : regularFont;        
         return brainZone;  
     }
 
