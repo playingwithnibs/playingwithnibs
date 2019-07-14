@@ -53,8 +53,7 @@ public class PlayerManager {
 
     public double computeTimeBonus()
     {
-        return TIME_BONUS +
-            (endTime - startTime);
+        return endTime - startTime - TIME_BONUS;
     }
 
     public string computePatientFace()
@@ -86,5 +85,41 @@ public class PlayerManager {
         medicalEquipment.pulse = pulse;
 
         return medicalEquipment;
+    }
+
+    public string getQualitativeScore() {
+        switch(outcome) {
+            case (Outcome.VERY_BAD):
+                return "Very bad 🤬";
+            case (Outcome.BAD):
+                return "Bad 😡";
+            case (Outcome.EXPLOSION):
+              return "EXPLOSION! 💥";
+            case (Outcome.GOOD):
+              return "Good 👏🏻";
+            case (Outcome.UNCHANGED):
+              return "Neutral 🙂";
+            case (Outcome.VERY_GOOD):
+              return "Very good 😎";
+            default:
+                return "Unchanged 🙂";
+        }
+    }
+
+    public string getQualitativeTimeScore() {
+        double elapsedTime = computeTimeBonus();
+
+        if (elapsedTime <= 0)
+            return "Very good 😎";
+        else if (elapsedTime > 0 && elapsedTime < 20)
+            return "Good 👏🏻";
+        else if (elapsedTime >= 20 && elapsedTime < 40)
+            return "Neutral 🙂";
+        else if (elapsedTime >= 40 && elapsedTime < 60)
+            return "Bad 😡";
+        else if (elapsedTime >= 60 && elapsedTime < 80)
+            return "Very bad 🤬";
+        else
+            return "A TRAGEDY! 🤦";
     }
 }
