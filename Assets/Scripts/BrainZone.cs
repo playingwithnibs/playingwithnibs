@@ -1,21 +1,29 @@
-﻿using System;
-using Application;
+using System;
 
 namespace Application
 {
   public class BrainZone {
     public BrainZoneNames brainZoneName;
     public Position position;
-    public ElectrodeType electrodeType;
-    public BrainZone(BrainZoneNames brainZoneName, Position position, 
-      ElectrodeType electrodeType) {
-      this.brainZoneName = brainZoneName;
-      this.position = position;
-      this.electrodeType = electrodeType;
+    public Stimulator stimulator;
+
+    // public BrainZone(BrainZoneNames brainZoneName, Position position, Stimulator stimulator) : this(brainZoneName, position) {
+    //     this.stimulator = stimulator;
+    // }
+
+    public BrainZone(BrainZoneNames brainZoneName, Position position)
+    {
+        this.brainZoneName = brainZoneName;
+        this.position = position; 
+        stimulator = new Stimulator();
     }
 
     public override int GetHashCode() { 
-      return (int)brainZoneName;
+      return (int)brainZoneName + (int)position;
+    }
+
+    public bool Equals(BrainZoneNames name, Position pos) {
+      return Equals(new BrainZone(name, pos));
     }
     
     public override bool Equals(object obj) { 
@@ -24,12 +32,26 @@ namespace Application
       
       BrainZone bz = (BrainZone)obj;
 
-      return bz.brainZoneName.Equals(this.brainZoneName);
+      return bz.brainZoneName == brainZoneName && bz.position == position;
     }
 
-    public Boolean isActive() {
-      return electrodeType != ElectrodeType.NO;
+    public override string ToString()
+    {
+        return brainZoneName + " [" + position + "]: (stimulator: " + 
+          stimulator.electrodeType + "), (type: " + 
+          stimulator.electrodeName + ")";
+    }
+
+    public bool isActive() {
+      return stimulator.electrodeName != ElectrodeName.NO;
+    }
+
+    public bool isActiveTmsEightCoil() {
+      return stimulator.electrodeName == ElectrodeName.EIGHT;
+    }
+
+    public bool isActiveTmsCircularCoil() {
+      return stimulator.electrodeName == ElectrodeName.CIRCULAR;
     }
   }
-
 }

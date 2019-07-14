@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Application;
-
 namespace Application {
   public class ScoreCalculator {
 
@@ -23,11 +18,15 @@ namespace Application {
       return (int)simulationOutcome;
     }
 
-    // to get the start and end timestamps:
-    // https://stackoverflow.com/questions/21219797/how-to-get-correct-timestamp-in-c-sharp/21219819
-    public double computeTimeBonus(DateTime simStart, DateTime simEnd) {
+    public double computeTimeBonus(double simStart, double simEnd) {
         return TIME_BONUS +
-          (simEnd - simStart).TotalSeconds * SAVED_TIME_BONUS_MOLTIPLICATOR;
+          (simEnd - simStart) * SAVED_TIME_BONUS_MOLTIPLICATOR;
       }
+
+    public string computePatientFace(Outcome simulationOutcome, 
+      MedicalReport mr) {
+        return "Sprites/" + ((int)mr.name).ToString() + "_" +
+          simulationOutcome.ToString().ToLower();
+    }
   }
 }

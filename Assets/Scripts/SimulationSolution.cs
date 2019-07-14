@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using Application;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Application {
   public class SimulationSolution {
 
-    public Boolean isTms(MedicalEquipment me) { return me is Tms; }
+    // tested
+    public bool isTms(MedicalEquipment me) { return me is Tms; }
 
-    private Boolean isTdcs(MedicalEquipment me) { return me is Tdcs; }
+    // tested
+    public bool isTdcs(MedicalEquipment me) { return me is Tdcs; }
 
-
-    private Boolean isTsmEightCoil(MedicalEquipment me) {
+    // tested
+    public bool isTsmEightCoil(MedicalEquipment me) {
       if (!isTms(me) || me == null) return false;
 
       Tms tms = (Tms)me;
@@ -20,7 +19,8 @@ namespace Application {
       return tms.stimulator == TmsStimulator.EIGHT;
     }
 
-    private Boolean isTsmHCoil(MedicalEquipment me) {
+    // tested
+    public bool isTsmHCoil(MedicalEquipment me) {
       if (!isTms(me) || me == null) return false;
 
       Tms tms = (Tms)me;
@@ -28,7 +28,8 @@ namespace Application {
       return tms.stimulator == TmsStimulator.H;
     }
 
-    private Boolean isTsmCircularCoil(MedicalEquipment me) {
+    // tested
+    public bool isTsmCircularCoil(MedicalEquipment me) {
       if (!isTms(me) || me == null) return false;
 
       Tms tms = (Tms)me;
@@ -36,7 +37,8 @@ namespace Application {
       return tms.stimulator == TmsStimulator.CIRCULAR;
     }
 
-    private Boolean isTdcsHd(MedicalEquipment me)
+    // tested
+    public bool isTdcsHd(MedicalEquipment me)
     {
       if (!isTdcs(me) || me == null) return false;
 
@@ -45,336 +47,348 @@ namespace Application {
       return tdcs.stimulator == TdcsStimulator.HD;
     }
 
-    private Boolean usesMt(MedicalEquipment me) {
-      return me.unitMeasure == UnitMeasure.PERCENTAGE_OF_MT;
+    public bool isTdcsDefault(MedicalEquipment me)
+    {
+      if (!isTdcs(me) || me == null) return false;
+
+      Tdcs tdcs = (Tdcs)me;
+
+      return tdcs.stimulator == TdcsStimulator.DEFAULT;
     }
 
-    private Boolean usesMa(MedicalEquipment me) {
-      return me.unitMeasure == UnitMeasure.MILLIAMPERE;
-    }
-
-    private Boolean containsOnly(MedicalEquipment me, 
-      BrainZoneNames brainZone) {
-        return me.brainZones.countActiveZones == 1 &&
-          me.brainZones.brainZones[(int)brainZone].isActive();
-    }
-
-    private Boolean isAnodal(BrainZone source, BrainZone destination) {
-      return source.electrodeType == ElectrodeType.POSITIVE &&
-        destination.electrodeType == ElectrodeType.NEGATIVE;
-    }
-
-    private Boolean isCathodal(BrainZone source, BrainZone destination) {
-      return source.electrodeType == ElectrodeType.NEGATIVE &&
-        destination.electrodeType == ElectrodeType.POSITIVE;
-
-      // since there are more combinations, I wouldn't trust this other idea.
-      // Anyway, there it is:
-      //return isAnodal(destination, source);
-    }
-
-    private Boolean isNeutral(BrainZone source, BrainZone destination) {
-      return source.electrodeType == ElectrodeType.NEUTRAL &&
-        destination.electrodeType == ElectrodeType.NEUTRAL;
-    }
-
-    private Boolean isControLateral(Position p1, Position p2) {
-      return (
-        (p1 == Position.RIGHT && p2 == Position.LEFT) 
-        || (p1 == Position.LEFT && p2 == Position.RIGHT)
-        );
-    }
-
-    private Boolean isIpsiLateral(Position p1, Position p2) {
+    public bool isIpsiLateral(Position p1, Position p2) {
       return (
         (p1 == Position.RIGHT && p2 == Position.RIGHT)
         || (p1 == Position.LEFT && p2 == Position.LEFT)
         );
     }
 
-    private Outcome getOutcomeDepression(MedicalEquipment me,
-      Pathology pathology) {
-
-        // Depression, case number 1
-        if (isTsmEightCoil(me) && usesMa(me) && me.pulse == Pulse.HIGH &&
-              containsOnly(me, BrainZoneNames.DLPFC) && 
-              me.stimulationType == StimulationType.NO) { 
-              
-            if (me.intensity >= 90 && me.intensity < 120) 
-              return Outcome.GOOD;
-
-            else if (me.intensity == 120)
-              return Outcome.VERY_GOOD;
-
-            // had to do it, in order to prevent the "not all code paths return
-            // a value" compilation error :)
-            else return Outcome.UNCHANGED; 
-
-        }
-
-        // Depression, case number 2
-        else if ((isTms(me) || isTdcs(me)) && !isTsmEightCoil(me) && 
-          me.intensity <= 120 && me.unitMeasure != UnitMeasure.NO &&
-          me.pulse == Pulse.LOW &&
-          containsOnly(me, BrainZoneNames.DLPFC) &&
-          me.stimulationType == Application.StimulationType.NO
-          )
-          
-          return Outcome.UNCHANGED;
-
-        // Depression, case number 4
-        //TODO should we catch this while creating the med. equip.?
-        else if (isTms(me) && me.intensity <= 120 &&
-          me.unitMeasure != UnitMeasure.NO && me.pulse == Pulse.NO && 
-          me.brainZones.countActiveZones > 0
-          )
-          
-          return Outcome.EXPLOSION;
-
-        // Depression, case number 5
-        //TODO should we catch this while creating the med. equip.?
-        else if (isTdcs(me) && 
-            me.intensity <= 120 && me.unitMeasure != 0 &&
-            (me.pulse == Pulse.LOW || me.pulse == Pulse.HIGH || 
-              me.pulse == Pulse.SINGLE
-            ) && me.brainZones.countActiveZones > 0           
-          )
-            return Outcome.EXPLOSION;
-
-        // Depression, case number 3
-        else if (
-          me != null && me.intensity <= 120 && 
-          me.unitMeasure != UnitMeasure.NO && me.pulse == Pulse.LOW &&
-          !me.brainZones.brainZones[(int)BrainZoneNames.DLPFC].isActive() && (
-            (
-              isTms(me) && 
-              me.stimulationType == StimulationType.NO
-            ) || (
-                isTdcs(me) &&
-                !me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() && 
-                (me.stimulationType == StimulationType.ANODAL ||
-                  me.stimulationType == StimulationType.CATHODAL)
-              )
-            ) 
-          )
-            return Outcome.BAD; 
-
-        else 
-          return Outcome.UNCHANGED;
-      }
-
-    private Outcome getOutcomePostStrokeHand(MedicalEquipment me,
-      Pathology pathology) {
-        //Post Stroke: Hand, case number 1.1
-        if (isTdcs(me) && (
-            (me.intensity >= 0.8 && me.intensity < 1) ||
-            (me.intensity > 1 && me.intensity <= 2)) && 
-          me.unitMeasure == UnitMeasure.MILLIAMPERE &&
-          me.pulse == Pulse.NO && 
-          me.stimulationType == StimulationType.CATHODAL &&
-          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive() &&
-          me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() &&
-          isControLateral(
-            me.brainZones.brainZones[(int)BrainZoneNames.M1].position, 
-            pathology.position)
-        )
-          return Outcome.GOOD;
-
-        //Post Stroke: Hand, case number 1.2
-        else if (isTdcs(me) && me.intensity == 1 &&
-          me.unitMeasure == UnitMeasure.MILLIAMPERE &&
-          me.pulse == Pulse.NO &&
-          me.stimulationType == StimulationType.CATHODAL &&
-          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive() &&
-          me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() &&
-          isControLateral(
-            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
-            pathology.position)
-        )
-          return Outcome.VERY_GOOD;
-
-        //Post Stroke: Hand, case number 2
-        else if (isTdcs(me) && me.intensity >= 0.8 && me.intensity <= 2 &&
-          me.unitMeasure == UnitMeasure.MILLIAMPERE &&
-          me.pulse == Pulse.NO &&
-          me.stimulationType == StimulationType.ANODAL &&
-          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive() &&
-          me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() &&
-          isIpsiLateral(
-            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
-            pathology.position)
-        )
-          return Outcome.GOOD;
-
-        //Post Stroke: Hand, case number 3
-        else if (isTdcs(me) && me.intensity < 0.8 &&
-          me.unitMeasure == UnitMeasure.MILLIAMPERE &&
-          me.pulse == Pulse.NO &&
-          me.stimulationType == StimulationType.CATHODAL &&
-          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive() &&
-          me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() &&
-          isIpsiLateral(
-            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
-            pathology.position)
-        )
-          return Outcome.BAD;
-
-        //Post Stroke: Hand, case number 4
-        else if (isTdcs(me) && me.intensity < 0.8 &&
-          me.unitMeasure == UnitMeasure.MILLIAMPERE &&
-          me.pulse == Pulse.NO &&
-          me.stimulationType == StimulationType.ANODAL &&
-          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive() &&
-          me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive() &&
-          isControLateral(
-            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
-            pathology.position)
-        )
-          return Outcome.BAD;
-        
-        //Post Stroke: Hand, case number 5
-        else if (isTdcsHd(me) && me.intensity < 2 &&
-          me.unitMeasure == UnitMeasure.MILLIAMPERE &&
-          me.pulse == Pulse.NO &&
-          (
-            me.stimulationType == StimulationType.ANODAL || 
-            me.stimulationType == StimulationType.CATHODAL
-          ) && 
-          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive() &&
-          me.brainZones.brainZones[(int)BrainZoneNames.SO].isActive()
-        )
-          return Outcome.UNCHANGED;
-        
-        //Post Stroke: Hand, case number 6
-        else if (isTdcs(me) && me.intensity > 2 &&
-          me.unitMeasure == UnitMeasure.MILLIAMPERE &&
-          me.pulse == Pulse.NO &&
-          (
-            me.stimulationType == StimulationType.ANODAL || 
-            me.stimulationType == StimulationType.CATHODAL
-          ) && 
-          me.brainZones.countActiveZones > 0
-        )
-          return Outcome.VERY_BAD;
-
-        //Post Stroke: Hand, case number 7
-        else if (isTdcs(me) && me.intensity < 2 &&
-          me.unitMeasure == UnitMeasure.MILLIAMPERE &&
-          me.pulse == Pulse.NO &&
-          (
-            me.stimulationType == StimulationType.ANODAL || 
-            me.stimulationType == StimulationType.CATHODAL
-          ) && 
-          me.brainZones.countActiveZones > 0 && 
-          !me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive()
-        )
-          return Outcome.BAD;
-
-        //Post Stroke: Hand, case number 8 and 11
-        else if (isTsmEightCoil(me) && me.intensity >= 70 
-          && me.intensity <= 120 &&
-          me.unitMeasure == UnitMeasure.PERCENTAGE_OF_MT &&
-          me.pulse == Pulse.HIGH && 
-          me.stimulationType == StimulationType.MAGNETIC && 
-          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive()
-        ) {
-          // this is case number 8
-          if (isIpsiLateral(
-            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
-            pathology.position))
-              return Outcome.GOOD;
-          // this is case number 11
-          else if (isControLateral(
-            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
-            pathology.position))
-              return Outcome.BAD;
-          
-          // had to do it, in order to avoi the "not all code paths return a 
-          // value" error.
-          else
-            return Outcome.UNCHANGED;
-        }
-
-        //Post Stroke: Hand, case number 9 and 10
-        else if (isTsmEightCoil(me) && me.intensity >= 70 
-          && me.intensity <= 120 &&
-          me.unitMeasure == UnitMeasure.PERCENTAGE_OF_MT &&
-          me.pulse == Pulse.LOW && 
-          me.stimulationType == StimulationType.MAGNETIC && 
-          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive()
-        ) {
-          // this is case number 10
-          if (isIpsiLateral(
-            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
-            pathology.position))
-              return Outcome.BAD;
-          // this is case number 9
-          else if (isControLateral(
-            me.brainZones.brainZones[(int)BrainZoneNames.M1].position,
-            pathology.position))
-              return Outcome.GOOD;
-
-          // had to do it, in order to avoi the "not all code paths return a 
-          // value" error.
-          else
-            return Outcome.UNCHANGED;
-        }
-
-        //Post Stroke: Hand, case number 12
-        else if ((isTsmCircularCoil(me) || isTsmHCoil(me)) && 
-          me.intensity < 120 && 
-          me.unitMeasure == UnitMeasure.PERCENTAGE_OF_MT &&
-          me.pulse != Pulse.NO &&
-          me.brainZones.brainZones[(int)BrainZoneNames.M1].isActive()
-        )
-          return Outcome.UNCHANGED;
-
-        //Post Stroke: Hand, case number 13
-        //TODO decide whether we want to catch somewhere else during the config
-        //     process
-        else if (isTms(me) && 
-          (
-            (me.intensity <= 120 
-              && me.unitMeasure == UnitMeasure.PERCENTAGE_OF_MT) 
-              || 
-            (me.intensity <= 2 && me.unitMeasure == UnitMeasure.MILLIAMPERE)
-          ) && me.pulse == Pulse.NO && 
-          me.stimulationType != StimulationType.NO &&
-          me.brainZones.countActiveZones > 0
-        )
-          return Outcome.EXPLOSION;
-        
-        //Post Stroke: Hand, case number 14
-        //TODO decide whether we want to catch somewhere else during the config
-        //     process
-        else if (isTdcs(me) && 
-          (
-            (me.intensity <= 120 
-              && me.unitMeasure == UnitMeasure.PERCENTAGE_OF_MT) 
-              || 
-            (me.intensity <= 2 && me.unitMeasure == UnitMeasure.MILLIAMPERE)
-          ) && me.pulse != Pulse.NO && 
-          me.stimulationType != StimulationType.NO &&
-          me.brainZones.countActiveZones > 0
-        )
-          return Outcome.EXPLOSION;
-
-        else return Outcome.BAD;
+    public bool isControLateral(Position p1, Position p2) {
+      return (
+        (p1 == Position.RIGHT && p2 == Position.LEFT) 
+        || (p1 == Position.LEFT && p2 == Position.RIGHT)
+        );
     }
 
-    public Outcome getOutcome(MedicalEquipment me, 
-      Pathology pathology) {
+    public bool inRange(double val, double r1, double r2) {
+      return r1 <= val && val <= r2;
+    }
 
-        switch(pathology.name) {
-          case PathologyName.DEPRESSION:
-            return getOutcomeDepression(me, pathology);
-          
-          case PathologyName.POST_STROKE_HAND:
-            return getOutcomePostStrokeHand(me, pathology);
-
-          default:
+    // tested
+    public Outcome getOutcomeDepression(MedicalEquipment me, 
+      BrainZonesArray brain) {
+        // depression 1.1 tested
+        if (isTms(me) && brain.isUniqueStimulation(ElectrodeName.EIGHT) &&
+          inRange(me.intensity, 90, 119) &&
+          me.usesMt() &&
+          me.isHighPulse() &&
+          brain.isNeutral() &&
+          brain.containsOnly(BrainZoneNames.DLPFC, Position.UPPER)
+          ) {
+            Debug.Log("DEPRESSION 1.1");
+            return Outcome.GOOD;
+          }
+        
+        // depression 1.2 tested
+        else if (isTms(me) && brain.isUniqueStimulation(ElectrodeName.EIGHT) &&
+          me.intensity == 120 &&
+          me.usesMt() &&
+          me.isHighPulse() &&
+          brain.isNeutral() &&
+          brain.containsOnly(BrainZoneNames.DLPFC, Position.UPPER)
+          ) {
+            Debug.Log("DEPRESSION 1.2");
+            return Outcome.VERY_GOOD;
+          }
+        
+        // depression 2 tested, TODO add h
+        else if (isTms(me) && 
+            (brain.containsOnly(BrainZoneNames.DLPFC, Position.UPPER) 
+            && brain.isUniqueStimulation(ElectrodeName.CIRCULAR) ||
+            brain.isUniqueStimulation(ElectrodeName.H)) &&
+          me.intensity <= 120 &&
+          me.hasUnitMeasure() &&
+          me.isLowPulse() &&
+          brain.isNeutral()) {
+            Debug.Log("DEPRESSION 2");
             return Outcome.UNCHANGED;
-        }
+          }
+        
+        // depression 3 tested
+        else if (
+          (
+            (brain.doesNotContain(BrainZoneNames.DLPFC) && 
+              brain.isMagneticStimulation() &&
+              brain.isNeutral() && isTms(me))
+            ||
+            (brain.doesNotContain(BrainZoneNames.DLPFC) &&
+              brain.doesNotContain(BrainZoneNames.SO) &&
+              brain.isElectricStimulation() &&
+              brain.isAnodalOrCathodal() && isTdcs(me)))
+          &&
+          me.intensity <= 120 &&
+          me.hasUnitMeasure() &&
+          me.isLowPulse()) {
+            Debug.Log("DEPRESSIN 3");
+            return Outcome.BAD;
+          }
+
+        // depression 4/5 tested
+        else if (
+          ((brain.isMagneticStimulation() && !me.hasPulse() && isTms(me))
+          ||
+          (
+            brain.isElectricStimulation() && isTdcs(me) &&
+            (me.isHighPulse() || me.isSinglePulse()))
+          ) 
+          && me.intensity <= 120 && me.hasUnitMeasure()) {
+            Debug.Log("DEPRESSION 4/5");
+            return Outcome.EXPLOSION;
+          }
+        
+        
+        
+        
+        
+        // Debug.Log("doesNotContain: " + brain.doesNotContain(BrainZoneNames.DLPFC));
+        // Debug.Log("ismagnetic: " +brain.isMagneticStimulation() );
+        // Debug.Log("isneutral: " + brain.isNeutral()); 
+        
+        Debug.Log("DEPRESSION UNMODELLED");
+        return Outcome.EXPLOSION;
       }
+
+    public Outcome getOutcomePostStrokeHand(MedicalEquipment me,
+      MedicalReport mr, BrainZonesArray brain) {
+
+        if(isTdcs(me) &&
+          brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
+          me.intensity == 1 &&
+          me.usesMa() &&
+          !me.hasPulse() &&
+          (
+            (brain.isCathodal(
+              brain.getZone(BrainZoneNames.M1, Position.LEFT),
+              brain.getZone(BrainZoneNames.SO, Position.RIGHT)) &&
+              isControLateral(Position.LEFT, mr.pathology.position))||
+            brain.isCathodal(
+              brain.getZone(BrainZoneNames.M1, Position.RIGHT),
+              brain.getZone(BrainZoneNames.SO, Position.LEFT))&&
+              isControLateral(Position.RIGHT, mr.pathology.position))
+          )
+          return Outcome.VERY_GOOD;
+
+        if(isTdcs(me) &&
+          brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
+          inRange(me.intensity, 0.8, 2) &&
+          me.usesMa() &&
+          !me.hasPulse() &&
+          (
+            (brain.isCathodal(
+              brain.getZone(BrainZoneNames.M1, Position.LEFT),
+              brain.getZone(BrainZoneNames.SO, Position.RIGHT)) &&
+              isControLateral(Position.LEFT, mr.pathology.position))||
+            brain.isCathodal(
+              brain.getZone(BrainZoneNames.M1, Position.RIGHT),
+              brain.getZone(BrainZoneNames.SO, Position.LEFT))&&
+              isControLateral(Position.RIGHT, mr.pathology.position))
+          ){
+            Debug.Log("Catodico 0.8-2 contro");
+            return Outcome.GOOD;
+          }
+          
+          if(isTdcs(me) &&
+          brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
+          inRange(me.intensity, 0.8, 2) &&
+          me.usesMa() &&
+          !me.hasPulse() &&
+          (
+            (brain.isAnodal(
+              brain.getZone(BrainZoneNames.M1, Position.LEFT),
+              brain.getZone(BrainZoneNames.SO, Position.RIGHT)) &&
+              isIpsiLateral(Position.LEFT, mr.pathology.position))||
+            brain.isAnodal(
+              brain.getZone(BrainZoneNames.M1, Position.RIGHT),
+              brain.getZone(BrainZoneNames.SO, Position.LEFT))&&
+              isIpsiLateral(Position.RIGHT, mr.pathology.position))
+          )
+          {
+            Debug.Log("anodico 0.8-2 ipsi");
+            return Outcome.GOOD;
+          }
+
+          if(isTdcs(me) &&
+          brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
+          me.intensity <= 0.8 &&
+          me.usesMa() &&
+          !me.hasPulse() &&
+          (
+            (brain.isCathodal(
+              brain.getZone(BrainZoneNames.M1, Position.LEFT),
+              brain.getZone(BrainZoneNames.SO, Position.RIGHT)) &&
+              isIpsiLateral(Position.LEFT, mr.pathology.position))||
+            brain.isCathodal(
+              brain.getZone(BrainZoneNames.M1, Position.RIGHT),
+              brain.getZone(BrainZoneNames.SO, Position.LEFT))&&
+              isIpsiLateral(Position.RIGHT, mr.pathology.position))
+          )
+          {
+            Debug.Log("Catodico <=0.8 ipsi");
+            return Outcome.BAD;
+          }
+
+          if(isTdcs(me) &&
+          brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
+          me.intensity <= 0.8 &&
+          me.usesMa() &&
+          !me.hasPulse() &&
+          (
+            (brain.isAnodal(
+              brain.getZone(BrainZoneNames.M1, Position.LEFT),
+              brain.getZone(BrainZoneNames.SO, Position.RIGHT)) &&
+              isControLateral(Position.LEFT, mr.pathology.position)) ||
+            brain.isAnodal(
+              brain.getZone(BrainZoneNames.M1, Position.RIGHT),
+              brain.getZone(BrainZoneNames.SO, Position.LEFT)) &&
+              isControLateral(Position.RIGHT, mr.pathology.position))
+          )
+          {
+            Debug.Log("Anodico <=0.8 contro");
+            return Outcome.BAD;
+          }
+
+          if(isTdcs(me) &&
+          brain.isUniqueStimulation(ElectrodeName.HD) &&
+          me.intensity <= 2 &&
+          me.usesMa() &&
+          !me.hasPulse() &&
+          // brain.isAnodalOrCathodal() && 
+          brain.isNeutral() &&
+          (
+            brain.containsOnly(BrainZoneNames.M1) || 
+            brain.containsOnly(BrainZoneNames.SO)
+          )
+          )
+              
+          {
+            return Outcome.UNCHANGED;
+          }
+
+          if(brain.isElectricStimulation() &&
+          me.intensity > 2 &&
+          me.usesMa() &&
+          !me.hasPulse() &&
+          brain.countActiveZones > 0
+          )
+              
+          {
+            Debug.Log("Anodo o catodo >2 dove vuoi");
+            return Outcome.VERY_BAD;
+          }
+
+          if(isTdcs(me) &&
+          brain.isUniqueStimulation(ElectrodeName.DEFAULT) &&
+          me.intensity < 2 &&
+          me.usesMa() &&
+          !me.hasPulse() &&
+          brain.doesNotContain(BrainZoneNames.M1) &&
+          brain.countActiveZones > 0
+          )
+              
+          {
+            Debug.Log("Anodo o catodo < 2 no m1");
+            return Outcome.BAD;
+          }
+          
+          if(isTms(me) &&
+          brain.isUniqueStimulation(ElectrodeName.EIGHT) &&
+          inRange(me.intensity,70,120) &&
+          me.usesMt() &&
+          me.isHighPulse() &&
+          brain.isNeutral() &&
+          brain.containsOnly(BrainZoneNames.M1) &&
+          isIpsiLateral(brain.getZones(BrainZoneNames.M1).Find(bz => bz.isActive()).position, mr.pathology.position)
+          )
+              
+          {
+            Debug.Log("eight 70-120 m1 ipsi");
+            return Outcome.GOOD;
+          }
+          
+          if(isTms(me) &&
+          brain.isUniqueStimulation(ElectrodeName.EIGHT) &&
+          inRange(me.intensity,70,120) &&
+          me.usesMt() &&
+          me.isLowPulse() &&
+          brain.isNeutral() &&
+          brain.containsOnly(BrainZoneNames.M1) &&
+          isControLateral(brain.getZones(BrainZoneNames.M1).Find(bz => bz.isActive()).position, mr.pathology.position)
+          )
+              
+          {
+            Debug.Log("eight 70-120 m1 ipsi");
+            return Outcome.GOOD;
+          }
+          
+          if(isTms(me) &&
+          brain.isUniqueStimulation(ElectrodeName.EIGHT) &&
+          inRange(me.intensity,70,120) &&
+          me.usesMt() &&
+          me.isLowPulse() &&
+          brain.isNeutral() &&
+          brain.containsOnly(BrainZoneNames.M1) &&
+          isIpsiLateral(brain.getZones(BrainZoneNames.M1).Find(bz => bz.isActive()).position, mr.pathology.position)
+          )
+              
+          {
+            Debug.Log("eight 70-120 low m1 ipsi bad");
+            return Outcome.BAD;
+          }
+          
+          if(isTms(me) &&
+          (
+            brain.isUniqueStimulation(ElectrodeName.H) ||
+            brain.isUniqueStimulation(ElectrodeName.CIRCULAR)
+          ) &&
+          me.intensity < 120 &&
+          me.usesMt() &&
+          me.hasPulse() &&
+          brain.containsOnly(BrainZoneNames.M1)
+          )
+              
+          {
+            Debug.Log("eight < 120 pulse m1");
+            return Outcome.UNCHANGED;
+          }
+
+
+  // Debug.Log(
+  //           isTms(me).ToString() + " " +
+  //         brain.isUniqueStimulation(ElectrodeName.EIGHT).ToString() + " " +
+  //         inRange(me.intensity,70,120).ToString() + " " +
+  //         me.usesMt().ToString() + " " +
+  //         me.isHighPulse().ToString() + " " +
+  //         brain.isNeutral().ToString() + " " +
+  //         brain.containsOnly(BrainZoneNames.M1).ToString() + " " +
+  //         isIpsiLateral(Position.LEFT, mr.pathology.position).ToString() + " " +
+  //          isIpsiLateral(Position.RIGHT, mr.pathology.position).ToString()
+          
+          
+  //         );
+        return Outcome.EXPLOSION;
+    }
+
+    public Outcome getOutcome(MedicalEquipment me, MedicalReport mr, BrainZonesArray brain) {
+      switch(mr.pathology.name) {
+        case PathologyName.DEPRESSION:
+          return this.getOutcomeDepression(me, brain);
+          
+        case PathologyName.POST_STROKE_HAND:
+          return this.getOutcomePostStrokeHand(me, mr, brain);
+
+        default:
+          return Outcome.UNCHANGED;
+      }
+    }
   }
 }
