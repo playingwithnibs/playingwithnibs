@@ -55,6 +55,9 @@ public class PlacementController : MonoBehaviour
     private Dictionary<Button, int> buttonStimulatorNameMap;
     private Dictionary<BrainZone, Text> zoneTextMap;
 
+    private HashSet<BrainZone> activeZones;
+    private AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -94,24 +97,29 @@ public class PlacementController : MonoBehaviour
         soZoneText = GameObject.Find("Brain zone names/so").GetComponent<Text>();
         oZoneText = GameObject.Find("Brain zone names/o").GetComponent<Text>();
         
+
+        audioSource = GameObject.Find("sound-effects").GetComponent<AudioSource>();
+        
         medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.name, typeof(Sprite)) as Sprite;
+
 
         initStimulatorNames();
 
         toolbox = new List<Button> { eightCoilButton, circularCoilButton, hCoilButton, hdCoilButton };
         toolbox.ForEach((stimulator) => {
             stimulator.onClick.AddListener(() => {
+                audioSource.Play();
                 if (mode == MODE_DIRECTION)
                 {
                     toolbox.ForEach(button => changeButtonColor(button, Color.white));
                     mode = MODE_NOTHING;
-                    return;
+                    
                 }
                 if (mode == MODE_SELECTION)
                 {
                     toolbox.ForEach(button => changeButtonColor(button, Color.white));
                     mode = MODE_NOTHING;
-                    return;
+                    
                 }
                 Debug.Log("Selection mode: " + stimulator.name);
                 selectedStimulator = stimulator;
