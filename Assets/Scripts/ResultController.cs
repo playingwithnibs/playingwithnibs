@@ -44,12 +44,20 @@ public class ResultController : MonoBehaviour
         qualitativeDeviceText.color = computeColor(qualitativeDeviceText.text);
         qualitativeTheoryText.color = computeColor(qualitativeTheoryText.text);
         qualitativeTimeText.color = computeColor(qualitativeTimeText.text);
+
+        deviceConfigurationText.color = qualitativeDeviceText.color;
+        theoryApplicationText.color = qualitativeTheoryText.color;
+        timeMalusText.color = qualitativeTimeText.color;
+
+        totalText.color = int.Parse(totalText.text) < 0 ? red : green;
+        outcomeText.color = computeColor(outcomeText.text);
     }
 
     private Color computeColor(string outcome)
     {
-        if (outcome.Equals("Very good") || outcome.Equals("Good")) return green;
-        if (outcome.Equals("Neutral")) return grey;
+        outcome = outcome.ToLower();
+        if (outcome.Equals("very good") || outcome.Equals("good")) return green;
+        if (outcome.Equals("neutral")) return grey;
         return red;
     }
 
