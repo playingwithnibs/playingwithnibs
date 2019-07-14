@@ -32,6 +32,9 @@ public class MachineConfigurationController : MonoBehaviour
         forwardButton,
         backButton;
 
+    private AudioSource audioSource;
+    private float audioTimer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -54,6 +57,8 @@ public class MachineConfigurationController : MonoBehaviour
         minText = GameObject.Find("min-text").GetComponent<Text>();
         maxText = GameObject.Find("max-text").GetComponent<Text>();
         currentText = GameObject.Find("current-text").GetComponent<Text>();
+        audioSource = GameObject.Find("sound-effects").GetComponent<AudioSource>();
+        audioTimer = audioSource.clip.length;
 
         subtitle.text = "Configure the " + pm.medicalEquipment + " you have selected";
         medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.ToString().ToLower(), typeof(Sprite)) as Sprite;
@@ -113,6 +118,7 @@ public class MachineConfigurationController : MonoBehaviour
 
 
         intensityToggle.onValueChanged.AddListener((isChecked) => {
+            audioSource.Play();
             Debug.Log("intensityToggle" + isChecked.ToString());
             intensityRectangle.sprite = Resources.Load("Sprites/intensity-rectangle-" + (isChecked ? "on" : "off"), typeof(Sprite)) as Sprite;
             if(!isChecked){
@@ -127,6 +133,7 @@ public class MachineConfigurationController : MonoBehaviour
         });
 
         pulseToggle.onValueChanged.AddListener((isChecked) => {
+            audioSource.Play();
             Debug.Log("pulseToggle" + isChecked.ToString());
             pulseRectangle.sprite = Resources.Load("Sprites/pulse-rectangle-" + (isChecked ? "on" : "off"), typeof(Sprite)) as Sprite;
             singlePulseToggle.isOn = false;
@@ -138,6 +145,7 @@ public class MachineConfigurationController : MonoBehaviour
         });
 
         mtToggle.onValueChanged.AddListener((isChecked) => {
+            audioSource.Play();
             Debug.Log("mtToggle" + isChecked.ToString());
             intensitySlider.interactable = isChecked;
             intensitySlider.minValue = isChecked ? Tms.min : Tdcs.min;
@@ -159,7 +167,7 @@ public class MachineConfigurationController : MonoBehaviour
         });
 
         ampereToggle.onValueChanged.AddListener((isChecked) => {
-            
+            audioSource.Play();
             intensitySlider.interactable = isChecked;
             intensitySlider.minValue = isChecked ? Tdcs.min : Tms.min;
             intensitySlider.maxValue = isChecked ? Tdcs.max : Tms.max;
@@ -182,9 +190,22 @@ public class MachineConfigurationController : MonoBehaviour
             currentText.text = value.ToString(ampereToggle.isOn ? "f1" : "f0");
         });
 
+        rtmsHfToggle.onValueChanged.AddListener((value) => {
+            audioSource.Play();
+        });
+
+        rtmsLfToggle.onValueChanged.AddListener((value) => {
+            audioSource.Play();
+        });
+
+        singlePulseToggle.onValueChanged.AddListener((value) => {
+            audioSource.Play();
+        });
+
         forwardButton.onClick.AddListener(() => {
+            audioSource.Play();
             saveConfig();
-            SceneManager.LoadScene(Constants.GAME_3, LoadSceneMode.Single);
+            StartCoroutine(LoadLevelTimer(audioTimer, Constants.GAME_3));
         });
 
         backButton.onClick.AddListener(() => {
@@ -214,5 +235,11 @@ public class MachineConfigurationController : MonoBehaviour
         else if (rtmsHfToggle.isOn) pm.pulse = Pulse.HIGH;
         else if (rtmsLfToggle.isOn) pm.pulse = Pulse.LOW;
         else pm.pulse = Pulse.NO;
+    }
+
+    IEnumerator LoadLevelTimer(float audioTimer, string name)
+    {
+        yield return new WaitForSeconds(audioTimer);
+        SceneManager.LoadScene(name, LoadSceneMode.Single);
     }
 }
