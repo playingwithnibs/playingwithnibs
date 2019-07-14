@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Gioco-1.unity
     guid: dada5687eacbb764db1124dd7fe908c6
+  - enabled: 1
+    path: Assets/Scenes/Result.unity
+    guid: 9930249c2190041049c73005a83cc1ad
   m_configObjects: {}

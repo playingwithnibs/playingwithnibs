@@ -14,7 +14,9 @@ namespace Application
     //   this.stimulator = stimulator;
     // }
 
-    public Tms() : base() { }
+    public Tms() : base() {
+        name = "TMS";
+    }
 
     public override string ToString() {
       return "TMS" + "\nUnit measure: " + unitMeasure +

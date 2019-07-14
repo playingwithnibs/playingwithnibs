@@ -60,8 +60,8 @@ public class MachineConfigurationController : MonoBehaviour
         audioSource = GameObject.Find("sound-effects").GetComponent<AudioSource>();
         audioTimer = audioSource.clip.length;
 
-        subtitle.text = "Configure the " + pm.medicalEquipment + " you have selected";
-        medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.ToString().ToLower(), typeof(Sprite)) as Sprite;
+        subtitle.text = "Configure the " + pm.medicalEquipment.name + " you have selected";
+        medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.name, typeof(Sprite)) as Sprite;
 
         if(pm.unitMeasure != UnitMeasure.NO) {
             intensityToggle.isOn = true;

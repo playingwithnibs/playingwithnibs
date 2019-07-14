@@ -48,7 +48,9 @@ namespace Application
             name.text = mr.name + " " + mr.surname;
             sex.text = "Sex: " + mr.gender;
             age.text = "Birth: " + mr.dateOfBirth.ToShortDateString();
-            pathology.text = "Pathology:\n" + mr.pathology.getName();
+
+            string position = mr.pathology.name != (int)PathologyName.DEPRESSION ? ("\n" + mr.pathology.position) : "";
+            pathology.text = "Pathology:\n" + mr.pathology.getName() + position;
         }
     }
 }

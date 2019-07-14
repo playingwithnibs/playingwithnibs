@@ -54,8 +54,10 @@ public class PlacementController : MonoBehaviour
     private Dictionary<Button, BrainZone> buttonZoneMap;
     private Dictionary<Button, int> buttonStimulatorNameMap;
     private Dictionary<BrainZone, Text> zoneTextMap;
+
     private HashSet<BrainZone> activeZones;
     private AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -95,9 +97,11 @@ public class PlacementController : MonoBehaviour
         soZoneText = GameObject.Find("Brain zone names/so").GetComponent<Text>();
         oZoneText = GameObject.Find("Brain zone names/o").GetComponent<Text>();
         
-        audioSource = GameObject.Find("sound-effects").GetComponent<AudioSource>();
 
-        //medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.ToString().ToLower(), typeof(Sprite)) as Sprite;
+        audioSource = GameObject.Find("sound-effects").GetComponent<AudioSource>();
+        
+        medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.name, typeof(Sprite)) as Sprite;
+
 
         initStimulatorNames();
 
@@ -144,7 +148,19 @@ public class PlacementController : MonoBehaviour
                         buttonZoneMap[zoneButton].stimulator.tap(2);
                         handleBrainZoneClick(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TdcsStimulator.HD);
                     }
-                }                
+                }
+
+                // activate forward button only if there is at least one active zone
+                bool atLeastOneActive = false;
+                brainZones.ForEach(zone =>
+                {
+                    if (zone.isActive())
+                    {
+                        atLeastOneActive = true;
+                        return;
+                    }
+                });
+                forwardButton.interactable = atLeastOneActive;
             });
         });
 
@@ -310,8 +326,7 @@ public class PlacementController : MonoBehaviour
                 return;
             }
         });
-        zoneTextMap[brainZone].font = atLeastOneActive ? boldFont : regularFont;
-        
+        zoneTextMap[brainZone].font = atLeastOneActive ? boldFont : regularFont;        
         return brainZone;  
     }
 
@@ -321,8 +336,10 @@ public class PlacementController : MonoBehaviour
     brainZones.ForEach((zone) => { if (zone.isActive()) Debug.Log(zone); }
     );
 
-    //brainZones.ForEach((zone) => { Debug.Log(zone); }
-    //     );
+        //brainZones.ForEach((zone) => { Debug.Log(zone); }
+        //     );
+
+        pm.endTime = pm.getCurrentTimestampInSeconds();
 
         pm.outcome = 
             new SimulationSolution()
@@ -334,5 +351,7 @@ public class PlacementController : MonoBehaviour
         // Debug.Log(pm.medicalReport + "\n" + pm.medicalEquipment +
         //     "\n" + pm.brainZones);
         Debug.Log(pm.outcome);
+
+        SceneManager.LoadScene(Constants.RESULT, LoadSceneMode.Single);
     }
 }
