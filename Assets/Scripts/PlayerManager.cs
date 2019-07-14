@@ -64,7 +64,7 @@ public class PlayerManager {
 
     public double getTotalScore()
     {
-        return computeMedicalEquipmentScore()+ computeOutcomeScore() + computeTimeBonus();
+        return computeMedicalEquipmentScore() + computeOutcomeScore() - computeTimeBonus();
     }
 
     public static PlayerManager getInstance()

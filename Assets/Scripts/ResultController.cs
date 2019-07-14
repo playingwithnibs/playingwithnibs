@@ -34,7 +34,7 @@ public class ResultController : MonoBehaviour
 
         deviceConfigurationText.text = pm.computeMedicalEquipmentScore().ToString("f0");
         theoryApplicationText.text = pm.computeOutcomeScore().ToString("f0");
-        timeMalusText.text = pm.computeTimeBonus().ToString("f0");
+        timeMalusText.text = (-pm.computeTimeBonus()).ToString("f0");
         totalText.text = pm.getTotalScore().ToString("f0");
         outcomeText.text = pm.outcome.ToString().Replace("_", " ");
 
