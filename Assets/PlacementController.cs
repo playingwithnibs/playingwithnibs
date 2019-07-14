@@ -95,7 +95,7 @@ public class PlacementController : MonoBehaviour
         soZoneText = GameObject.Find("Brain zone names/so").GetComponent<Text>();
         oZoneText = GameObject.Find("Brain zone names/o").GetComponent<Text>();
         
-        //medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.ToString().ToLower(), typeof(Sprite)) as Sprite;
+        medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.name, typeof(Sprite)) as Sprite;
 
         initStimulatorNames();
 

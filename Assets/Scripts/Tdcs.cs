@@ -14,7 +14,9 @@ namespace Application
     //   this.stimulator = stimulator;
     // }
 
-    public Tdcs() : base() {}
+    public Tdcs() : base() {
+        name = "tDCS";
+    }
 
     public override string ToString() {
       return "tDCS" + "\nUnit measure: " + unitMeasure +
