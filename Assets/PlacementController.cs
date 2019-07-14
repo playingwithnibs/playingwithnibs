@@ -9,6 +9,9 @@ public class PlacementController : MonoBehaviour
 {
     private PlayerManager pm;
 
+    Font regularFont;
+    Font boldFont;
+
     private Button
         backButton,
         forwardButton,
@@ -30,6 +33,11 @@ public class PlacementController : MonoBehaviour
         m1RightZoneButton;
     private SpriteRenderer
         medicalEquipmentRecap;
+    private Text
+        dlpfcZoneText,
+        oZoneText,
+        soZoneText,
+        m1ZoneText;
 
     private static int MODE_NOTHING = 0;
     private static int MODE_SELECTION = 1;
@@ -45,11 +53,16 @@ public class PlacementController : MonoBehaviour
 
     private Dictionary<Button, BrainZone> buttonZoneMap;
     private Dictionary<Button, int> buttonStimulatorNameMap;
+    private Dictionary<BrainZone, Text> zoneTextMap;
+    private HashSet<BrainZone> activeZones;
 
     // Start is called before the first frame update
     void Start()
     {
         pm = PlayerManager.getInstance();
+
+        regularFont = Resources.Load<Font>("Fonts/TitilliumWeb-Regular") as Font;
+        boldFont = Resources.Load<Font>("Fonts/TitilliumWeb-Bold") as Font;
 
         backButton = GameObject.Find("back-button").GetComponent<Button>();
         forwardButton = GameObject.Find("forward-button").GetComponent<Button>();
@@ -77,6 +90,11 @@ public class PlacementController : MonoBehaviour
         m1LeftZoneButton = GameObject.Find("Left/m1-zone").GetComponent<Button>();
         m1RightZoneButton = GameObject.Find("Right/m1-zone").GetComponent<Button>();
 
+        dlpfcZoneText = GameObject.Find("Brain zone names/dlpfc").GetComponent<Text>();
+        m1ZoneText= GameObject.Find("Brain zone names/m1").GetComponent<Text>();
+        soZoneText = GameObject.Find("Brain zone names/so").GetComponent<Text>();
+        oZoneText = GameObject.Find("Brain zone names/o").GetComponent<Text>();
+        
         //medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.ToString().ToLower(), typeof(Sprite)) as Sprite;
 
         initStimulatorNames();
@@ -180,6 +198,23 @@ public class PlacementController : MonoBehaviour
         buttonZoneMap.Add(m1UpperZoneButton, m1ZoneUpper);
         buttonZoneMap.Add(m1LeftZoneButton, m1ZoneLeft);
         buttonZoneMap.Add(m1RightZoneButton, m1ZoneRight);
+
+        zoneTextMap = new Dictionary<BrainZone, Text>();
+        zoneTextMap.Add(dlpfcZoneUpper, dlpfcZoneText);
+        zoneTextMap.Add(dlpfcZoneLeft, dlpfcZoneText);
+        zoneTextMap.Add(dlpfcZoneRight, dlpfcZoneText);
+
+        zoneTextMap.Add(oZoneUpper, oZoneText);
+        zoneTextMap.Add(oZoneLeft, oZoneText);
+        zoneTextMap.Add(oZoneRight, oZoneText);
+
+        zoneTextMap.Add(soZoneUpper, soZoneText);
+        zoneTextMap.Add(soZoneLeft, soZoneText);
+        zoneTextMap.Add(soZoneRight, soZoneText);
+
+        zoneTextMap.Add(m1ZoneUpper, m1ZoneText);
+        zoneTextMap.Add(m1ZoneLeft, m1ZoneText);
+        zoneTextMap.Add(m1ZoneRight, m1ZoneText);
     }
 
     private void initStimulatorNames()
@@ -258,9 +293,22 @@ public class PlacementController : MonoBehaviour
                 targetImage.enabled 
                     ? (ElectrodeName)stimulatorType : ElectrodeName.NO);
         //brainZone.stimulatorType = targetImage.enabled ? stimulatorType : (int) StimulationType.NO;
-        
-        Debug.Log("INSIDE METHOD: " + brainZone.stimulator);
 
+        //Debug.Log("INSIDE METHOD: " + brainZone.stimulator);
+
+ 
+        // highlight brain area text of type T, only if there is at least one active zone of type T.
+        bool atLeastOneActive = false;
+        brainZones.ForEach(z =>
+        {
+            if (z.brainZoneName == brainZone.brainZoneName && z.isActive())
+            {
+                atLeastOneActive = true;
+                return;
+            }
+        });
+        zoneTextMap[brainZone].font = atLeastOneActive ? boldFont : regularFont;
+        
         return brainZone;  
     }
 

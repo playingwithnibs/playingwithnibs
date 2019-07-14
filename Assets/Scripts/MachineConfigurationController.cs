@@ -61,6 +61,7 @@ public class MachineConfigurationController : MonoBehaviour
             intensityRectangle.sprite = Resources.Load("Sprites/intensity-rectangle-" + (isChecked ? "on" : "off"), typeof(Sprite)) as Sprite;
             mtToggle.interactable = isChecked;
             ampereToggle.interactable = isChecked;
+            intensitySlider.interactable = isChecked;
         });
 
         pulseToggle.onValueChanged.AddListener((isChecked) => {
@@ -79,11 +80,15 @@ public class MachineConfigurationController : MonoBehaviour
         });
 
         ampereToggle.onValueChanged.AddListener((isChecked) => {
+            intensitySlider.minValue = isChecked ? Tdcs.min : Tms.min;
+            intensitySlider.maxValue = isChecked ? Tdcs.max : Tms.max;
+            minText.text = intensitySlider.minValue.ToString();
+            maxText.text = intensitySlider.maxValue.ToString();
             intensitySlider.interactable = isChecked;
         });
 
         intensitySlider.onValueChanged.AddListener((value) => {
-            currentText.text = value.ToString();
+            currentText.text = value.ToString(ampereToggle.isOn ? "f1" : "f0");
         });
 
         forwardButton.onClick.AddListener(() => {

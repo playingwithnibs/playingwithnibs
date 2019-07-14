@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.UI;
 using static Constants;
 
 namespace Application {
@@ -11,9 +12,8 @@ namespace Application {
 
         private void Start()
         {
-            PlayerManager.getInstance().medicalReport = new MedicalReport();
             Debug.Log(PlayerManager.getInstance().medicalReport.pathology.name + " " + PlayerManager.getInstance().medicalReport.pathology.position);
-            PlayerManager.getInstance().startTime = PlayerManager.getInstance().getCurrentTimestampInSeconds();
+            PlayerManager.getInstance().startTime = PlayerManager.getInstance().getCurrentTimestampInSeconds();            
         }
 
         public void onTdcsSelected()
