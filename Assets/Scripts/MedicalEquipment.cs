@@ -1,5 +1,7 @@
 namespace Application {
   public class MedicalEquipment {
+    public string name;
+
     public UnitMeasure unitMeasure;
 
     public double intensity;

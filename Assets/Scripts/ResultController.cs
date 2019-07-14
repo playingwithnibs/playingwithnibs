@@ -12,7 +12,8 @@ public class ResultController : MonoBehaviour
         deviceConfigurationText,
         theoryApplicationText,
         timeMalusText,
-        totalText;
+        totalText,
+        outcomeText;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,7 @@ public class ResultController : MonoBehaviour
         theoryApplicationText.text = pm.computeOutcomeScore().ToString("f0");
         timeMalusText.text = pm.computeTimeBonus().ToString("f0");
         totalText.text = pm.getTotalScore().ToString("f0");
+        outcomeText.text = pm.outcome.ToString().Replace("_", " ");
     }
 
     // Update is called once per frame
@@ -38,5 +40,6 @@ public class ResultController : MonoBehaviour
         theoryApplicationText = GameObject.Find("theory-application").GetComponent<Text>();
         timeMalusText = GameObject.Find("time-malus").GetComponent<Text>();
         totalText = GameObject.Find("total").GetComponent<Text>();
+        outcomeText = GameObject.Find("outcome").GetComponent<Text>();
     }
 }
