@@ -16,6 +16,7 @@ public class ResultController : MonoBehaviour
         qualitativeDeviceText,
         qualitativeTheoryText,
         qualitativeTimeText;
+    private SpriteRenderer memoji;
 
     private Color green;
     private Color red;
@@ -51,6 +52,8 @@ public class ResultController : MonoBehaviour
 
         totalText.color = int.Parse(totalText.text) < 0 ? red : green;
         outcomeText.color = computeColor(outcomeText.text);
+
+        memoji.sprite = Resources.Load(pm.medicalReport.getMemojiPathWithOutcome(pm.outcome.ToString()), typeof(Sprite)) as Sprite;
     }
 
     private Color computeColor(string outcome)
@@ -78,5 +81,7 @@ public class ResultController : MonoBehaviour
         qualitativeDeviceText = GameObject.Find("qd").GetComponent<Text>();
         qualitativeTheoryText = GameObject.Find("qt").GetComponent<Text>();
         qualitativeTimeText = GameObject.Find("qb").GetComponent<Text>();
+
+        memoji = GameObject.Find("memoji").GetComponent<SpriteRenderer>();
     }
 }
