@@ -63,12 +63,9 @@ public class MachineConfigurationController : MonoBehaviour
             ampereToggle.isOn = false;
             mtToggle.interactable = isChecked;
             ampereToggle.interactable = isChecked;
-<<<<<<< HEAD
             intensitySlider.interactable = isChecked;
-=======
             Debug.Log("clicca sta merda");
             Debug.Log(intensitySlider.minValue);
->>>>>>> screen-size
         });
 
         pulseToggle.onValueChanged.AddListener((isChecked) => {
@@ -103,15 +100,12 @@ public class MachineConfigurationController : MonoBehaviour
         });
 
         ampereToggle.onValueChanged.AddListener((isChecked) => {
-<<<<<<< HEAD
             intensitySlider.minValue = isChecked ? Tdcs.min : Tms.min;
             intensitySlider.maxValue = isChecked ? Tdcs.max : Tms.max;
             minText.text = intensitySlider.minValue.ToString();
             maxText.text = intensitySlider.maxValue.ToString();
-=======
             Debug.Log("clicca sta ampere");
             Debug.Log(isChecked);
->>>>>>> screen-size
             intensitySlider.interactable = isChecked;
         });
 
