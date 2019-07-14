@@ -90,19 +90,19 @@ public class PlayerManager {
     public string getQualitativeScore() {
         switch(outcome) {
             case (Outcome.VERY_BAD):
-                return "Very bad 🤬";
+                return "Very bad";
             case (Outcome.BAD):
-                return "Bad 😡";
+                return "Bad";
             case (Outcome.EXPLOSION):
-              return "EXPLOSION! 💥";
+              return "EXPLOSION!";
             case (Outcome.GOOD):
-              return "Good 👏🏻";
+              return "Good";
             case (Outcome.UNCHANGED):
-              return "Neutral 🙂";
+              return "Neutral";
             case (Outcome.VERY_GOOD):
-              return "Very good 😎";
+              return "Very good";
             default:
-                return "Unchanged 🙂";
+                return "Neutral";
         }
     }
 
@@ -110,16 +110,16 @@ public class PlayerManager {
         double elapsedTime = computeTimeBonus();
 
         if (elapsedTime <= 0)
-            return "Very good 😎";
+            return "Very good";
         else if (elapsedTime > 0 && elapsedTime < 20)
-            return "Good 👏🏻";
+            return "Good";
         else if (elapsedTime >= 20 && elapsedTime < 40)
-            return "Neutral 🙂";
+            return "Neutral";
         else if (elapsedTime >= 40 && elapsedTime < 60)
-            return "Bad 😡";
+            return "Bad";
         else if (elapsedTime >= 60 && elapsedTime < 80)
-            return "Very bad 🤬";
+            return "Very bad";
         else
-            return "A TRAGEDY! 🤦";
+            return "A TRAGEDY!";
     }
 }
