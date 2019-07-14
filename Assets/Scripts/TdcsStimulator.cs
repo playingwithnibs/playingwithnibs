@@ -1,7 +1,7 @@
 namespace Application {
   public enum TdcsStimulator { 
-    HD, 
+    HD = 3, 
     
-    DEFAULT
+    DEFAULT = 4
   }
 } 

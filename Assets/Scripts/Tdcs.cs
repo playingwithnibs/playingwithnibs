@@ -7,17 +7,19 @@ namespace Application
 
     public static float max = 10;
     
-    public Tdcs(UnitMeasure unitMeasure, double intensity, Pulse pulse,
-      BrainZonesArray brainZones, TdcsStimulator stimulator,
-      StimulationType stimulationType) 
-        : base(unitMeasure, intensity, pulse, brainZones, stimulationType) {
-      this.stimulator = stimulator;
-    }
+    // public Tdcs(UnitMeasure unitMeasure, double intensity, Pulse pulse,
+    //   BrainZonesArray brainZones, TdcsStimulator stimulator,
+    //   StimulationType stimulationType) 
+    //     : base(unitMeasure, intensity, pulse, brainZones, stimulationType) {
+    //   this.stimulator = stimulator;
+    // }
 
     public Tdcs() : base() {}
 
     public override string ToString() {
-      return "tDCS";
+      return "tDCS" + "\nUnit measure: " + unitMeasure +
+        "\nIntensity value: " + intensity +
+        "\nPulse: " + pulse + "\nStimulator" + stimulator; 
     }
   }
 }

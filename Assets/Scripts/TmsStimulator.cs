@@ -1,9 +1,9 @@
 namespace Application {
   public enum TmsStimulator { 
-    EIGHT, 
+    EIGHT = 0, 
 
-    H,
+    H = 1,
 
-    CIRCULAR
+    CIRCULAR = 2
   }
 } 

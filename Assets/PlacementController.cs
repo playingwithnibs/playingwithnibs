@@ -9,19 +9,35 @@ public class PlacementController : MonoBehaviour
 {
     private PlayerManager pm;
 
+    Font regularFont;
+    Font boldFont;
+
     private Button
         backButton,
         forwardButton,
         eightCoilButton,
         circularCoilButton,
         hCoilButton,
-        twoCoilButton,
         hdCoilButton,
-        dlpfcZoneButton,
-        oZoneButton,
-        m1ZoneButton;
+        dlpfcUpperZoneButton,
+        dlpfcLeftZoneButton,
+        dlpfcRightZoneButton,
+        oUpperZoneButton,
+        oLeftZoneButton,
+        oRightZoneButton,
+        soUpperZoneButton,
+        soLeftZoneButton,
+        soRightZoneButton,
+        m1UpperZoneButton,
+        m1LeftZoneButton,
+        m1RightZoneButton;
     private SpriteRenderer
         medicalEquipmentRecap;
+    private Text
+        dlpfcZoneText,
+        oZoneText,
+        soZoneText,
+        m1ZoneText;
 
     private static int MODE_NOTHING = 0;
     private static int MODE_SELECTION = 1;
@@ -31,32 +47,59 @@ public class PlacementController : MonoBehaviour
     private Button selectedStimulator;
 
     private List<Button> toolbox;
-    private List<Button> brainAreas;
+    private List<Button> brainZoneButtons;
+
+    private List<BrainZone> brainZones;
 
     private Dictionary<Button, BrainZone> buttonZoneMap;
+    private Dictionary<Button, int> buttonStimulatorNameMap;
+    private Dictionary<BrainZone, Text> zoneTextMap;
+    private HashSet<BrainZone> activeZones;
 
     // Start is called before the first frame update
     void Start()
     {
         pm = PlayerManager.getInstance();
 
+        regularFont = Resources.Load<Font>("Fonts/TitilliumWeb-Regular") as Font;
+        boldFont = Resources.Load<Font>("Fonts/TitilliumWeb-Bold") as Font;
+
         backButton = GameObject.Find("back-button").GetComponent<Button>();
         forwardButton = GameObject.Find("forward-button").GetComponent<Button>();
+
         medicalEquipmentRecap = GameObject.Find("medical-eq-recap").GetComponent<SpriteRenderer>();
+
         eightCoilButton = GameObject.Find("eight-coil-button").GetComponent<Button>();
         circularCoilButton = GameObject.Find("circular-coil-button").GetComponent<Button>();
         hCoilButton = GameObject.Find("h-coil-button").GetComponent<Button>();
-        twoCoilButton = GameObject.Find("two-coil-button").GetComponent<Button>();
         hdCoilButton = GameObject.Find("hd-coil-button").GetComponent<Button>();
-        dlpfcZoneButton = GameObject.Find("dlpfc-zone").GetComponent<Button>();
-        oZoneButton = GameObject.Find("o-zone").GetComponent<Button>();
-        m1ZoneButton = GameObject.Find("m1-zone").GetComponent<Button>();
 
+        dlpfcUpperZoneButton = GameObject.Find("Upper/dlpfc-zone").GetComponent<Button>();
+        dlpfcLeftZoneButton = GameObject.Find("Left/dlpfc-zone").GetComponent<Button>();
+        dlpfcRightZoneButton = GameObject.Find("Right/dlpfc-zone").GetComponent<Button>();
+
+        oUpperZoneButton = GameObject.Find("Upper/o-zone").GetComponent<Button>();
+        oLeftZoneButton = GameObject.Find("Left/o-zone").GetComponent<Button>();
+        oRightZoneButton = GameObject.Find("Right/o-zone").GetComponent<Button>();
+
+        soUpperZoneButton = GameObject.Find("Upper/so-zone").GetComponent<Button>();
+        soLeftZoneButton = GameObject.Find("Left/so-zone").GetComponent<Button>();
+        soRightZoneButton = GameObject.Find("Right/so-zone").GetComponent<Button>();
+
+        m1UpperZoneButton = GameObject.Find("Upper/m1-zone").GetComponent<Button>();
+        m1LeftZoneButton = GameObject.Find("Left/m1-zone").GetComponent<Button>();
+        m1RightZoneButton = GameObject.Find("Right/m1-zone").GetComponent<Button>();
+
+        dlpfcZoneText = GameObject.Find("Brain zone names/dlpfc").GetComponent<Text>();
+        m1ZoneText= GameObject.Find("Brain zone names/m1").GetComponent<Text>();
+        soZoneText = GameObject.Find("Brain zone names/so").GetComponent<Text>();
+        oZoneText = GameObject.Find("Brain zone names/o").GetComponent<Text>();
+        
         //medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.ToString().ToLower(), typeof(Sprite)) as Sprite;
 
-        initBrainAreas();
+        initStimulatorNames();
 
-        toolbox = new List<Button> { eightCoilButton, circularCoilButton, hCoilButton, twoCoilButton, hdCoilButton };
+        toolbox = new List<Button> { eightCoilButton, circularCoilButton, hCoilButton, hdCoilButton };
         toolbox.ForEach((stimulator) => {
             stimulator.onClick.AddListener(() => {
                 if (mode == MODE_DIRECTION)
@@ -78,51 +121,109 @@ public class PlacementController : MonoBehaviour
             });
         });
 
-        
-
-        brainAreas = new List<Button> { dlpfcZoneButton, oZoneButton, m1ZoneButton };
-        brainAreas.ForEach((zoneButton) => {
+        initBrainZones();
+        brainZoneButtons.ForEach((zoneButton) => {
             zoneButton.onClick.AddListener(() => {
                 if (mode == MODE_SELECTION || mode == MODE_DIRECTION)
                 {
-                    Debug.Log("Clicked area: " + zoneButton.name);
                     mode = MODE_DIRECTION;
-                    buttonZoneMap[zoneButton].stimulator.tap();
-                    Debug.Log("counter: " + buttonZoneMap[zoneButton].stimulator.tapCounter);
-                    //zoneButton.GetComponentInChildren<Text>().text = ;
-                    changeZoneIcon(zoneButton,buttonZoneMap[zoneButton].stimulator.tapCounter);
 
+                    if (selectedStimulator.name == "circular-coil-button")
+                    {
+                        buttonZoneMap[zoneButton].stimulator.tap(4);
+                        handleBrainZoneClick(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TmsStimulator.CIRCULAR);
+                    } else if (selectedStimulator.name == "eight-coil-button")
+                    {
+                        buttonZoneMap[zoneButton].stimulator.tap(2);
+                        handleBrainZoneClick(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TmsStimulator.EIGHT);
+                    } else if (selectedStimulator.name == "hd-coil-button")
+                    {
+                        buttonZoneMap[zoneButton].stimulator.tap(2);
+                        handleBrainZoneClick(zoneButton, buttonZoneMap[zoneButton].stimulator.tapCounter, (int) TdcsStimulator.HD);
+                    }
                 }                
             });
         });
+
+        forwardButton.onClick.AddListener(() => generateConfiguration());
+        backButton.onClick.AddListener(() => {
+            SceneManager.LoadScene(Constants.GAME_2, LoadSceneMode.Single);
+        });
     }
 
-    private void initBrainAreas()
+    private void initBrainZones()
     {
-        brainAreas = new List<Button> { dlpfcZoneButton, oZoneButton, m1ZoneButton };
-        Stimulator dlpfcStimulator = new Stimulator();
-        Stimulator oZoneStimulator = new Stimulator();
-        Stimulator m1ZoneStimulator = new Stimulator();
+        brainZoneButtons = new List<Button> {
+            dlpfcUpperZoneButton, oUpperZoneButton, m1UpperZoneButton, soUpperZoneButton,
+            dlpfcLeftZoneButton, oLeftZoneButton, m1LeftZoneButton, soLeftZoneButton,
+            dlpfcRightZoneButton, oRightZoneButton, m1RightZoneButton, soRightZoneButton
+        };
 
-        BrainZone dlpfcZoneLeft = new BrainZone(BrainZoneNames.DLPFC, Position.LEFT, dlpfcStimulator);
-        BrainZone dlpfcZoneUpper = new BrainZone(BrainZoneNames.DLPFC, Position.UPPER, dlpfcStimulator);
-        BrainZone dlpfcZoneRight = new BrainZone(BrainZoneNames.DLPFC, Position.RIGHT, dlpfcStimulator);
+        BrainZone dlpfcZoneLeft = new BrainZone(BrainZoneNames.DLPFC, Position.RIGHT);
+        BrainZone dlpfcZoneUpper = new BrainZone(BrainZoneNames.DLPFC, Position.UPPER);
+        BrainZone dlpfcZoneRight = new BrainZone(BrainZoneNames.DLPFC, Position.LEFT);
 
-        BrainZone oZoneLeft = new BrainZone(BrainZoneNames.O, Position.LEFT, oZoneStimulator);
-        BrainZone oZoneUpper = new BrainZone(BrainZoneNames.O, Position.UPPER, oZoneStimulator);
-        BrainZone oZoneRight = new BrainZone(BrainZoneNames.O, Position.RIGHT, oZoneStimulator);
+        BrainZone oZoneLeft = new BrainZone(BrainZoneNames.O, Position.RIGHT);
+        BrainZone oZoneUpper = new BrainZone(BrainZoneNames.O, Position.UPPER);
+        BrainZone oZoneRight = new BrainZone(BrainZoneNames.O, Position.LEFT);
 
-        BrainZone m1ZoneLeft = new BrainZone(BrainZoneNames.M1, Position.LEFT, m1ZoneStimulator);
-        BrainZone m1ZoneUpper = new BrainZone(BrainZoneNames.M1, Position.UPPER, m1ZoneStimulator);
-        BrainZone m1ZoneRight = new BrainZone(BrainZoneNames.M1, Position.RIGHT, m1ZoneStimulator);
+        BrainZone soZoneLeft = new BrainZone(BrainZoneNames.SO, Position.RIGHT);
+        BrainZone soZoneUpper = new BrainZone(BrainZoneNames.SO, Position.UPPER);
+        BrainZone soZoneRight = new BrainZone(BrainZoneNames.SO, Position.LEFT);
+
+        BrainZone m1ZoneLeft = new BrainZone(BrainZoneNames.M1, Position.RIGHT);
+        BrainZone m1ZoneUpper = new BrainZone(BrainZoneNames.M1, Position.UPPER);
+        BrainZone m1ZoneRight = new BrainZone(BrainZoneNames.M1, Position.LEFT);
+
+        brainZones = new List<BrainZone> {
+            dlpfcZoneLeft, dlpfcZoneUpper, dlpfcZoneRight,
+            oZoneLeft, oZoneUpper, oZoneRight,
+            soZoneLeft, soZoneUpper, soZoneRight,
+            m1ZoneLeft, m1ZoneUpper, m1ZoneRight
+        };
 
         buttonZoneMap = new Dictionary<Button, BrainZone>();
-        buttonZoneMap.Add(dlpfcZoneButton, dlpfcZoneUpper);
-        buttonZoneMap.Add(oZoneButton, oZoneUpper);
-        buttonZoneMap.Add(m1ZoneButton, m1ZoneUpper);
+        buttonZoneMap.Add(dlpfcUpperZoneButton, dlpfcZoneUpper);
+        buttonZoneMap.Add(dlpfcLeftZoneButton, dlpfcZoneLeft);
+        buttonZoneMap.Add(dlpfcRightZoneButton, dlpfcZoneRight);
 
-        // TODO: lateral positions
-        // TODO: refactor button names according to their position (left, right, center)
+        buttonZoneMap.Add(oUpperZoneButton, oZoneUpper);
+        buttonZoneMap.Add(oLeftZoneButton, oZoneLeft);
+        buttonZoneMap.Add(oRightZoneButton, oZoneRight);
+
+        buttonZoneMap.Add(soUpperZoneButton, soZoneUpper);
+        buttonZoneMap.Add(soLeftZoneButton, soZoneLeft);
+        buttonZoneMap.Add(soRightZoneButton, soZoneRight);
+
+        buttonZoneMap.Add(m1UpperZoneButton, m1ZoneUpper);
+        buttonZoneMap.Add(m1LeftZoneButton, m1ZoneLeft);
+        buttonZoneMap.Add(m1RightZoneButton, m1ZoneRight);
+
+        zoneTextMap = new Dictionary<BrainZone, Text>();
+        zoneTextMap.Add(dlpfcZoneUpper, dlpfcZoneText);
+        zoneTextMap.Add(dlpfcZoneLeft, dlpfcZoneText);
+        zoneTextMap.Add(dlpfcZoneRight, dlpfcZoneText);
+
+        zoneTextMap.Add(oZoneUpper, oZoneText);
+        zoneTextMap.Add(oZoneLeft, oZoneText);
+        zoneTextMap.Add(oZoneRight, oZoneText);
+
+        zoneTextMap.Add(soZoneUpper, soZoneText);
+        zoneTextMap.Add(soZoneLeft, soZoneText);
+        zoneTextMap.Add(soZoneRight, soZoneText);
+
+        zoneTextMap.Add(m1ZoneUpper, m1ZoneText);
+        zoneTextMap.Add(m1ZoneLeft, m1ZoneText);
+        zoneTextMap.Add(m1ZoneRight, m1ZoneText);
+    }
+
+    private void initStimulatorNames()
+    {
+        buttonStimulatorNameMap = new Dictionary<Button, int>();
+        buttonStimulatorNameMap.Add(eightCoilButton, (int) TmsStimulator.EIGHT);
+        buttonStimulatorNameMap.Add(circularCoilButton, (int) TmsStimulator.CIRCULAR);
+        buttonStimulatorNameMap.Add(hCoilButton, (int) TmsStimulator.H);
+        buttonStimulatorNameMap.Add(hdCoilButton, (int) TdcsStimulator.HD);
     }
 
     private void changeButtonColor(Button button, Color color)
@@ -130,29 +231,105 @@ public class PlacementController : MonoBehaviour
        button.GetComponent<Image>().color = color;
     }
 
-    private void changeZoneIcon(Button zoneButton, int state)
+    private BrainZone handleBrainZoneClick(Button zoneButton, int state, int stimulatorType)
     {
-        Sprite neutral = Resources.Load<Sprite>("Sprites/electrode-neutral");
-        Sprite negative = Resources.Load<Sprite>("Sprites/electrode-negative");
-        Sprite positive = Resources.Load<Sprite>("Sprites/electrode-positive");
+        BrainZone brainZone = buttonZoneMap[zoneButton];
+        Image targetImage = zoneButton.GetComponentInChildren<Button>().transform.GetChild(0).GetComponent<Image>();
+        Sprite s = Resources.Load<Sprite>("none");
 
-        Sprite s = neutral;
-        switch (state)
+        if (stimulatorType == (int) TmsStimulator.CIRCULAR)
         {
-            case 0:
-                s = neutral;
-                break;
-            case 1:
-                s = neutral;
-                break;
-            case 2:
-                s = positive;
-                break;
-            case 3:
-                s = negative;
-                break;
+            Sprite neutral = Resources.Load<Sprite>("Sprites/electrode-neutral");
+            Sprite negative = Resources.Load<Sprite>("Sprites/electrode-negative");
+            Sprite positive = Resources.Load<Sprite>("Sprites/electrode-positive");
+
+            switch (state)
+            {
+                case 0:
+                    targetImage.enabled = false;
+                    break;
+                case 1:
+                    s = neutral;
+                    targetImage.enabled = true;
+                    break;
+                case 2:
+                    s = positive;
+                    stimulatorType = (int)ElectrodeName.DEFAULT;
+                    targetImage.enabled = true;
+                    break;
+                case 3:
+                    s = negative;
+                    stimulatorType = (int)ElectrodeName.DEFAULT;
+                    targetImage.enabled = true;
+                    break;
+            }
+            
         }
-        zoneButton.GetComponentInChildren<Button>().transform.GetChild(0).GetComponent<Image>().sprite = s;
-  
+        else if (stimulatorType == (int) TmsStimulator.EIGHT)
+        {
+            if (state == 1)
+            {
+                targetImage.enabled = true;
+                s = Resources.Load<Sprite>("Sprites/eight-coil");
+            }
+            else {
+                targetImage.enabled = false;
+            }
+        }
+        else if (stimulatorType == (int) TdcsStimulator.HD)
+        {
+            if (state == 1)
+            {
+                targetImage.enabled = true;
+                s = Resources.Load<Sprite>("Sprites/hd-coil");
+            }
+            else {
+                targetImage.enabled = false;
+            }
+        }
+        targetImage.sprite = s;
+        brainZone.stimulator = 
+            new Stimulator((ElectrodeType)state, 
+                targetImage.enabled 
+                    ? (ElectrodeName)stimulatorType : ElectrodeName.NO);
+        //brainZone.stimulatorType = targetImage.enabled ? stimulatorType : (int) StimulationType.NO;
+
+        //Debug.Log("INSIDE METHOD: " + brainZone.stimulator);
+
+ 
+        // highlight brain area text of type T, only if there is at least one active zone of type T.
+        bool atLeastOneActive = false;
+        brainZones.ForEach(z =>
+        {
+            if (z.brainZoneName == brainZone.brainZoneName && z.isActive())
+            {
+                atLeastOneActive = true;
+                return;
+            }
+        });
+        zoneTextMap[brainZone].font = atLeastOneActive ? boldFont : regularFont;
+        
+        return brainZone;  
+    }
+
+    private void generateConfiguration()
+    {
+        Debug.Log("## START CONFIGURATION ##");
+    brainZones.ForEach((zone) => { if (zone.isActive()) Debug.Log(zone); }
+    );
+
+    //brainZones.ForEach((zone) => { Debug.Log(zone); }
+    //     );
+
+        pm.outcome = 
+            new SimulationSolution()
+            .getOutcome(
+                pm.buildMedicalEquipment(),
+                pm.medicalReport,
+                new BrainZonesArray(brainZones));
+
+        // Debug.Log(pm.medicalReport + "\n" + pm.medicalEquipment +
+        //     "\n" + pm.brainZones);
+        Debug.Log(pm.outcome);
     }
 }

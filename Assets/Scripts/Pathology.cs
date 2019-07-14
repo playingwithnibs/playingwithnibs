@@ -3,6 +3,11 @@ using System;
 namespace Application {
 
   public class Pathology {
+
+        public static string[] pathologyDisplayNames = new string[] {
+            "Depression", "Post-stroke, hand", "Post-stroke, aphasia"
+        };
+
     public PathologyName name;
 
     public Position position;
@@ -59,7 +64,7 @@ namespace Application {
       Array values = Enum.GetValues(typeof(PathologyName));
 
       name = (PathologyName)values
-        .GetValue(new Random().Next(0, 2));
+        .GetValue(new Random().Next(1, 2));
 
       values = Enum.GetValues(typeof(Position));
       if (name == PathologyName.POST_STROKE_HAND ||
@@ -84,5 +89,14 @@ namespace Application {
     public string getDescription() {
       return descriptions[(int)name];
     }
+
+    public override string ToString(){
+      return name + ", " + position;
+    }
+
+    public string getName()
+        {
+            return pathologyDisplayNames[(int)name];
+        }
   }
 } 

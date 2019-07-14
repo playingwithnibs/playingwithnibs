@@ -1,4 +1,5 @@
-﻿namespace Application {
+﻿using System;
+namespace Application {
   public class ScoreCalculator {
 
     private const int TIME_BONUS = 20;
@@ -21,5 +22,11 @@
         return TIME_BONUS +
           (simEnd - simStart) * SAVED_TIME_BONUS_MOLTIPLICATOR;
       }
+
+    public string computePatientFace(Outcome simulationOutcome, 
+      MedicalReport mr) {
+        return "Sprites/" + ((int)mr.name).ToString() + "_" +
+          simulationOutcome.ToString().ToLower();
+    }
   }
 }

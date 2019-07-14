@@ -32,7 +32,12 @@ namespace Application {
 
       pathology = new Pathology();
 
-      animojiPath = "Sprites/" + name + "_bad";
+      animojiPath = "Sprites/" + (int) name + "_bad";
+    }
+
+    public override string ToString(){
+      return name + ", " + surname + ", " + dateOfBirth + ", " + gender + ", " +
+        pathology;
     }
   }
 }
