@@ -35,6 +35,11 @@ namespace Application {
       animojiPath = "Sprites/" + (int) name + "_bad";
     }
 
+    public string getMemojiPathWithOutcome(string outcome)
+    {
+        return "Sprites/" + (int)name + "_" + outcome.ToLower();
+    }
+
     public override string ToString(){
       return name + ", " + surname + ", " + dateOfBirth + ", " + gender + ", " +
         pathology;

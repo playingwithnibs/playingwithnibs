@@ -55,8 +55,8 @@ public class MachineConfigurationController : MonoBehaviour
         maxText = GameObject.Find("max-text").GetComponent<Text>();
         currentText = GameObject.Find("current-text").GetComponent<Text>();
 
-        subtitle.text = "Configure the " + pm.medicalEquipment + " you have selected";
-        medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.ToString().ToLower(), typeof(Sprite)) as Sprite;
+        subtitle.text = "Configure the " + pm.medicalEquipment.name + " you have selected";
+        medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.name, typeof(Sprite)) as Sprite;
 
         if(pm.unitMeasure != UnitMeasure.NO) {
             intensityToggle.isOn = true;
