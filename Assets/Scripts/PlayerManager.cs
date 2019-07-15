@@ -2,12 +2,15 @@
 using Application;
 using System;
 using System.Collections.Generic;
+using System.Timers;
 
 public class PlayerManager { 
 
     private const int TIME_BONUS = 20;
     private const int SAVED_TIME_BONUS_MOLTIPLICATOR = 5;
     private const int DEVICE_CONFIG_SCORE_PERCENTAGE = 40;
+
+    public float time = 121;
 
     public static PlayerManager Instance;
 
@@ -64,7 +67,21 @@ public class PlayerManager {
 
     public double getTotalScore()
     {
-        return computeMedicalEquipmentScore() + computeOutcomeScore() - computeTimeBonus();
+        return computeMedicalEquipmentScore() + computeOutcomeScore() + time;
+    }
+
+    public static PlayerManager getInstance(PathologyName pathologyName) {
+        Debug.Log("getIstance, got pathologyName = " + pathologyName);
+        if (Instance == null)
+        {
+            Instance = new PlayerManager();
+            Instance.medicalReport = new MedicalReport();
+        }
+
+        Instance.medicalReport.pathology = new Pathology(pathologyName);
+        Debug.Log("getIstance, set: " + Instance.medicalReport.pathology);
+
+        return Instance;
     }
 
     public static PlayerManager getInstance()
@@ -107,19 +124,23 @@ public class PlayerManager {
     }
 
     public string getQualitativeTimeScore() {
-        double elapsedTime = computeTimeBonus();
-
-        if (elapsedTime <= 0)
+        
+        if (time >= 100) 
             return "Very good";
-        else if (elapsedTime > 0 && elapsedTime < 20)
+        else if (time > 80 && time < 100) 
             return "Good";
-        else if (elapsedTime >= 20 && elapsedTime < 40)
+        else if (time > 60 && time <= 80)
             return "Neutral";
-        else if (elapsedTime >= 40 && elapsedTime < 60)
+        else if (time > 40 && time <= 60)
             return "Bad";
-        else if (elapsedTime >= 60 && elapsedTime < 80)
+        else if (time > 20 && time <= 40)
             return "Very bad";
         else
             return "A TRAGEDY!";
+    }
+
+    public void destroy() {
+        Instance = null;
+        new PlayerManager();
     }
 }

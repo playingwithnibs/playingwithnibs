@@ -1,12 +1,16 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using Application;
 using UnityEngine;
+using UnityEngine.Video;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PlacementController : MonoBehaviour
 {
+    public GameObject cam;
+    public VideoClip videoClip;
     private PlayerManager pm;
 
     Font regularFont;
@@ -58,10 +62,48 @@ public class PlacementController : MonoBehaviour
     private HashSet<BrainZone> activeZones;
     private AudioSource audioSource;
 
+    private AudioSource audioSourceElect;
+
+    private AudioSource audioSourceMagn;
+
     // Start is called before the first frame update
     void Start()
     {
         pm = PlayerManager.getInstance();
+
+        pm.time -= Time.deltaTime;
+
+        if (pm.time <= 0)
+        {
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .text
+                = "Malus:\n" +
+                    ((int)pm.time).ToString() +
+                    " pts.";
+
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .color = new Color(1f, 0.13f, 0f, 1f);
+        }
+        else
+        {
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .text
+                = "Bonus\n" +
+                    ((int)pm.time).ToString() +
+                    " pts. ";
+
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .color = new Color(0.5647059f, 1f, 0.48f, 1f);
+        }
+
 
         regularFont = Resources.Load<Font>("Fonts/TitilliumWeb-Regular") as Font;
         boldFont = Resources.Load<Font>("Fonts/TitilliumWeb-Bold") as Font;
@@ -99,6 +141,12 @@ public class PlacementController : MonoBehaviour
         
 
         audioSource = GameObject.Find("sound-effects").GetComponent<AudioSource>();
+
+        audioSourceElect = 
+            GameObject.Find("sound-effect-elec").GetComponent<AudioSource>();
+
+        audioSourceMagn = 
+            GameObject.Find("sound-effect-magn").GetComponent<AudioSource>();
         
         medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.name, typeof(Sprite)) as Sprite;
 
@@ -121,7 +169,7 @@ public class PlacementController : MonoBehaviour
                     mode = MODE_NOTHING;
                     
                 }
-                Debug.Log("Selection mode: " + stimulator.name);
+                //Debug.Log("Selection mode: " + stimulator.name);
                 selectedStimulator = stimulator;
                 mode = MODE_SELECTION;
                 changeButtonColor(stimulator, Color.black);
@@ -168,6 +216,43 @@ public class PlacementController : MonoBehaviour
         backButton.onClick.AddListener(() => {
             SceneManager.LoadScene(Constants.GAME_2, LoadSceneMode.Single);
         });
+    }
+
+    private void Update()
+    {
+        pm.time -= Time.deltaTime;
+
+        if (pm.time <= 0)
+        {
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .text
+                = "Malus:\n" +
+                    ((int)pm.time).ToString() +
+                    " pts.";
+
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .color = new Color(1f, 0.13f, 0f, 1f);
+        }
+        else
+        {
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .text
+                = "Bonus\n" +
+                    ((int)pm.time).ToString() +
+                    " pts. ";
+
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .color = new Color(0.5647059f, 1f, 0.48f, 1f);
+        }
+
     }
 
     private void initBrainZones()
@@ -270,16 +355,19 @@ public class PlacementController : MonoBehaviour
                 case 1:
                     s = neutral;
                     targetImage.enabled = true;
+                    audioSourceMagn.Play();
                     break;
                 case 2:
                     s = positive;
                     stimulatorType = (int)ElectrodeName.DEFAULT;
                     targetImage.enabled = true;
+                    audioSourceElect.Play();
                     break;
                 case 3:
                     s = negative;
                     stimulatorType = (int)ElectrodeName.DEFAULT;
                     targetImage.enabled = true;
+                    audioSourceElect.Play();
                     break;
             }
             
@@ -288,6 +376,7 @@ public class PlacementController : MonoBehaviour
         {
             if (state == 1)
             {
+                audioSourceMagn.Play();
                 targetImage.enabled = true;
                 s = Resources.Load<Sprite>("Sprites/eight-coil");
             }
@@ -299,6 +388,7 @@ public class PlacementController : MonoBehaviour
         {
             if (state == 1)
             {
+                audioSourceMagn.Play();
                 targetImage.enabled = true;
                 s = Resources.Load<Sprite>("Sprites/hd-coil");
             }
@@ -332,9 +422,9 @@ public class PlacementController : MonoBehaviour
 
     private void generateConfiguration()
     {
-        Debug.Log("## START CONFIGURATION ##");
-    brainZones.ForEach((zone) => { if (zone.isActive()) Debug.Log(zone); }
-    );
+        //Debug.Log("## START CONFIGURATION ##");
+        //brainZones.ForEach((zone) => { if (zone.isActive()) Debug.Log(zone); }
+        //);
 
         //brainZones.ForEach((zone) => { Debug.Log(zone); }
         //     );
@@ -350,7 +440,7 @@ public class PlacementController : MonoBehaviour
 
         // Debug.Log(pm.medicalReport + "\n" + pm.medicalEquipment +
         //     "\n" + pm.brainZones);
-        Debug.Log(pm.outcome);
+        //Debug.Log(pm.outcome);
 
         SceneManager.LoadScene(Constants.RESULT, LoadSceneMode.Single);
     }

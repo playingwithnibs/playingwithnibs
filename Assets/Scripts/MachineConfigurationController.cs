@@ -214,12 +214,76 @@ public class MachineConfigurationController : MonoBehaviour
             pm.intensity = 0;
             SceneManager.LoadScene(Constants.GAME_1, LoadSceneMode.Single);
         });
+
+        pm.time -= Time.deltaTime;
+
+        if (pm.time <= 0)
+        {
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .text
+                = "Malus:\n" +
+                    ((int)pm.time).ToString() +
+                    " pts.";
+
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .color = new Color(1f, 0.13f, 0f, 1f);
+        }
+        else
+        {
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .text
+                = "Bonus\n" +
+                    ((int)pm.time).ToString() +
+                    " pts. ";
+
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .color = new Color(0.5647059f, 1f, 0.48f, 1f);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+        pm.time -= Time.deltaTime;
+
+        if (pm.time <= 0)
+        {
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .text
+                = "Malus:\n" +
+                    ((int)pm.time).ToString() +
+                    " pts.";
+
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .color = new Color(1f, 0.13f, 0f, 1f);
+        }
+        else
+        {
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .text
+                = "Bonus\n" +
+                    ((int)pm.time).ToString() +
+                    " pts. ";
+
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .color = new Color(0.5647059f, 1f, 0.48f, 1f);
+        }
     }
 
     private void saveConfig()
