@@ -27,20 +27,32 @@ public class ResultController : MonoBehaviour
     private Color red;
     private Color grey;
 
+    private AudioSource resultAudio;
+
+    private AudioSource cricket;
+
     // Start is called before the first frame update
     void Start()
     {
       pm = PlayerManager.getInstance();
       initUI();
 
-      videoPlayer
-          = GameObject.Find("Video Player").GetComponent<VideoPlayer>();
-
-      if (pm.outcome == Outcome.EXPLOSION)
-      {
+      if (pm.outcome == Outcome.EXPLOSION) {
+        videoPlayer
+            = GameObject.Find("Video Player").GetComponent<VideoPlayer>();
+        
         videoPlayer.Play();
 
         Destroy(videoPlayer, 3.6f);
+      } else if (pm.outcome == Outcome.VERY_GOOD || pm.outcome == Outcome.GOOD) {
+          resultAudio = GameObject.Find("pokHeal").GetComponent<AudioSource>();
+          resultAudio.Play();
+      } else if (pm.outcome == Outcome.UNCHANGED) {
+          resultAudio = GameObject.Find("cricket").GetComponent<AudioSource>();
+          resultAudio.Play();
+      } else {
+          resultAudio = GameObject.Find("ouch").GetComponent<AudioSource>();
+          resultAudio.Play();
       }
 
       green = new Color(0.5647059f, 1f, 0.48f, 1f);
