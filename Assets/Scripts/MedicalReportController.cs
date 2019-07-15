@@ -49,7 +49,7 @@ namespace Application
             sex.text = "Sex: " + mr.gender;
             age.text = "Birth: " + mr.dateOfBirth.ToShortDateString();
 
-            string position = mr.pathology.name != (int)PathologyName.DEPRESSION ? ("\n" + mr.pathology.position) : "";
+            string position = mr.pathology.name != (int)PathologyName.DEPRESSION ? ("\n" + mr.pathology.position + " hand") : "";
             pathology.text = "Pathology:\n" + mr.pathology.getName() + position;
 
             description.text 
