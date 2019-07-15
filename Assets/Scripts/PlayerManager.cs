@@ -124,4 +124,9 @@ public class PlayerManager {
         else
             return "A TRAGEDY!";
     }
+
+    public void destroy() {
+        Instance = null;
+        new PlayerManager();
+    }
 }
