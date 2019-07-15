@@ -67,7 +67,7 @@ public class PlayerManager {
 
     public double getTotalScore()
     {
-        return computeMedicalEquipmentScore() + computeOutcomeScore() - computeTimeBonus();
+        return computeMedicalEquipmentScore() + computeOutcomeScore() + time;
     }
 
     public static PlayerManager getInstance()
@@ -110,17 +110,16 @@ public class PlayerManager {
     }
 
     public string getQualitativeTimeScore() {
-        double elapsedTime = computeTimeBonus();
-
-        if (elapsedTime <= 0)
+        
+        if (time >= 100) 
             return "Very good";
-        else if (elapsedTime > 0 && elapsedTime < 20)
+        else if (time > 80 && time < 100) 
             return "Good";
-        else if (elapsedTime >= 20 && elapsedTime < 40)
+        else if (time > 60 && time <= 80)
             return "Neutral";
-        else if (elapsedTime >= 40 && elapsedTime < 60)
+        else if (time > 40 && time <= 60)
             return "Bad";
-        else if (elapsedTime >= 60 && elapsedTime < 80)
+        else if (time > 20 && time <= 40)
             return "Very bad";
         else
             return "A TRAGEDY!";
