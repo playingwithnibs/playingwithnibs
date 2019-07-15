@@ -64,7 +64,7 @@ namespace Application {
       Array values = Enum.GetValues(typeof(PathologyName));
 
       name = (PathologyName)values
-        .GetValue(new Random().Next(0, 1));
+        .GetValue(new Random().Next(0, 3));
 
       values = Enum.GetValues(typeof(Position));
       if (name == PathologyName.POST_STROKE_HAND ||
