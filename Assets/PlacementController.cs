@@ -442,11 +442,6 @@ public class PlacementController : MonoBehaviour
         //     "\n" + pm.brainZones);
         //Debug.Log(pm.outcome);
 
-        if (pm.medicalEquipment.name.Equals("TMS"))
-            audioSourceMagn.Play();
-        else
-            audioSourceElect.Play();
-
         SceneManager.LoadScene(Constants.RESULT, LoadSceneMode.Single);
     }
 }
