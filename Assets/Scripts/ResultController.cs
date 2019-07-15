@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine.Video;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Threading;
+using UnityEngine.SceneManagement;
+using System;
 
 namespace Application {
 public class ResultController : MonoBehaviour
@@ -29,7 +30,7 @@ public class ResultController : MonoBehaviour
 
     private AudioSource resultAudio;
 
-    private AudioSource cricket;
+    private SpriteRenderer retryButton;
 
     // Start is called before the first frame update
     void Start()
@@ -43,10 +44,16 @@ public class ResultController : MonoBehaviour
         
         videoPlayer.Play();
 
+
+
         Destroy(videoPlayer, 3.6f);
       } else if (pm.outcome == Outcome.VERY_GOOD || pm.outcome == Outcome.GOOD) {
           resultAudio = GameObject.Find("pokHeal").GetComponent<AudioSource>();
           resultAudio.Play();
+            GameObject
+                .Find("retryButton")
+                .GetComponent<Image>()
+                .enabled = false;
       } else if (pm.outcome == Outcome.UNCHANGED) {
           resultAudio = GameObject.Find("cricket").GetComponent<AudioSource>();
           resultAudio.Play();
@@ -110,6 +117,16 @@ public class ResultController : MonoBehaviour
       qualitativeTimeText = GameObject.Find("qb").GetComponent<Text>();
 
       memoji = GameObject.Find("memoji").GetComponent<SpriteRenderer>();
+    }
+
+    public void goHome() {
+        PlayerManager.Instance.destroy();
+        
+        SceneManager.LoadScene(Constants.MENU, LoadSceneMode.Single);
+    }
+
+    public void retry() {
+
     }
   }
 
