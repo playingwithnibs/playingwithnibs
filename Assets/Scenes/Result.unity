@@ -1141,7 +1141,7 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
-    m_LineSpacing: 1
+    m_LineSpacing: 0.7
   m_Text: 'Description:'
 --- !u!222 &478196974
 CanvasRenderer:
