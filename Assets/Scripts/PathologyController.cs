@@ -12,7 +12,12 @@ namespace Application {
         }
 
          public void setPathology(int pathology) {
-            PlayerManager.getInstance().pathology = new Pathology((PathologyName)pathology);
+            //PlayerManager.getInstance().pathology = new Pathology((PathologyName)pathology);
+            Debug.Log("setPathology, pathologyName = " 
+                + pathology + ", " + (PathologyName)pathology);
+            
+            PlayerManager.getInstance((PathologyName)pathology);
+            
             SceneManager.LoadScene(GAME_1);
         }
     }

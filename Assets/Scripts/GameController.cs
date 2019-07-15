@@ -116,8 +116,8 @@ namespace Application {
 
         public void exitSession()
         {
-            // TODO: void the simulation session
-             StartCoroutine(LoadLevelTimer(audioTimer, GAME_SELECTION));
+            pm.destroy();
+            StartCoroutine(LoadLevelTimer(audioTimer, GAME_SELECTION));
         }
         
     }

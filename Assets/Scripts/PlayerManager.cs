@@ -70,6 +70,20 @@ public class PlayerManager {
         return computeMedicalEquipmentScore() + computeOutcomeScore() + time;
     }
 
+    public static PlayerManager getInstance(PathologyName pathologyName) {
+        Debug.Log("getIstance, got pathologyName = " + pathologyName);
+        if (Instance == null)
+        {
+            Instance = new PlayerManager();
+            Instance.medicalReport = new MedicalReport();
+        }
+
+        Instance.medicalReport.pathology = new Pathology(pathologyName);
+        Debug.Log("getIstance, set: " + Instance.medicalReport.pathology);
+
+        return Instance;
+    }
+
     public static PlayerManager getInstance()
     {
         if (Instance == null)
@@ -123,5 +137,10 @@ public class PlayerManager {
             return "Very bad";
         else
             return "A TRAGEDY!";
+    }
+
+    public void destroy() {
+        Instance = null;
+        new PlayerManager();
     }
 }
