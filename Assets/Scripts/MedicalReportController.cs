@@ -51,6 +51,9 @@ namespace Application
 
             string position = mr.pathology.name != (int)PathologyName.DEPRESSION ? ("\n" + mr.pathology.position) : "";
             pathology.text = "Pathology:\n" + mr.pathology.getName() + position;
+
+            description.text 
+                = mr.pathology.descriptions[(int)mr.pathology.name];
         }
     }
 }
