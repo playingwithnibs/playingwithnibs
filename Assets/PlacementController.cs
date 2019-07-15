@@ -64,6 +64,10 @@ public class PlacementController : MonoBehaviour
     private HashSet<BrainZone> activeZones;
     private AudioSource audioSource;
 
+    private AudioSource audioSourceElect;
+
+    private AudioSource audioSourceMagn;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -170,6 +174,12 @@ public class PlacementController : MonoBehaviour
         
 
         audioSource = GameObject.Find("sound-effects").GetComponent<AudioSource>();
+
+        audioSourceElect = 
+            GameObject.Find("sound-effect-elec").GetComponent<AudioSource>();
+
+        audioSourceMagn = 
+            GameObject.Find("sound-effect-magn").GetComponent<AudioSource>();
         
         medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.name, typeof(Sprite)) as Sprite;
 
@@ -378,16 +388,19 @@ public class PlacementController : MonoBehaviour
                 case 1:
                     s = neutral;
                     targetImage.enabled = true;
+                    audioSourceMagn.Play();
                     break;
                 case 2:
                     s = positive;
                     stimulatorType = (int)ElectrodeName.DEFAULT;
                     targetImage.enabled = true;
+                    audioSourceElect.Play();
                     break;
                 case 3:
                     s = negative;
                     stimulatorType = (int)ElectrodeName.DEFAULT;
                     targetImage.enabled = true;
+                    audioSourceElect.Play();
                     break;
             }
             
@@ -396,6 +409,7 @@ public class PlacementController : MonoBehaviour
         {
             if (state == 1)
             {
+                audioSourceMagn.Play();
                 targetImage.enabled = true;
                 s = Resources.Load<Sprite>("Sprites/eight-coil");
             }
@@ -407,6 +421,7 @@ public class PlacementController : MonoBehaviour
         {
             if (state == 1)
             {
+                audioSourceMagn.Play();
                 targetImage.enabled = true;
                 s = Resources.Load<Sprite>("Sprites/hd-coil");
             }
