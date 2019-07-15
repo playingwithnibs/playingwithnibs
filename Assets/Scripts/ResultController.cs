@@ -94,7 +94,7 @@ public class ResultController : MonoBehaviour
     {
       outcome = outcome.ToLower();
       if (outcome.Equals("very good") || outcome.Equals("good")) return green;
-      if (outcome.Equals("neutral")) return grey;
+      if (outcome.Equals("neutral") || outcome.Equals("unchanged")) return grey;
       return red;
     }
 
