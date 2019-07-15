@@ -1,12 +1,16 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using Application;
 using UnityEngine;
+using UnityEngine.Video;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class PlacementController : MonoBehaviour
 {
+    public GameObject cam;
+    public VideoClip videoClip;
     private PlayerManager pm;
 
     Font regularFont;
@@ -57,6 +61,10 @@ public class PlacementController : MonoBehaviour
 
     private HashSet<BrainZone> activeZones;
     private AudioSource audioSource;
+
+    private AudioSource audioSourceElect;
+
+    private AudioSource audioSourceMagn;
 
     // Start is called before the first frame update
     void Start()
@@ -133,6 +141,12 @@ public class PlacementController : MonoBehaviour
         
 
         audioSource = GameObject.Find("sound-effects").GetComponent<AudioSource>();
+
+        audioSourceElect = 
+            GameObject.Find("sound-effect-elec").GetComponent<AudioSource>();
+
+        audioSourceMagn = 
+            GameObject.Find("sound-effect-magn").GetComponent<AudioSource>();
         
         medicalEquipmentRecap.sprite = Resources.Load("Sprites/medical-eq-recap-" + pm.medicalEquipment.name, typeof(Sprite)) as Sprite;
 
@@ -155,7 +169,7 @@ public class PlacementController : MonoBehaviour
                     mode = MODE_NOTHING;
                     
                 }
-                Debug.Log("Selection mode: " + stimulator.name);
+                //Debug.Log("Selection mode: " + stimulator.name);
                 selectedStimulator = stimulator;
                 mode = MODE_SELECTION;
                 changeButtonColor(stimulator, Color.black);
@@ -341,16 +355,19 @@ public class PlacementController : MonoBehaviour
                 case 1:
                     s = neutral;
                     targetImage.enabled = true;
+                    audioSourceMagn.Play();
                     break;
                 case 2:
                     s = positive;
                     stimulatorType = (int)ElectrodeName.DEFAULT;
                     targetImage.enabled = true;
+                    audioSourceElect.Play();
                     break;
                 case 3:
                     s = negative;
                     stimulatorType = (int)ElectrodeName.DEFAULT;
                     targetImage.enabled = true;
+                    audioSourceElect.Play();
                     break;
             }
             
@@ -359,6 +376,7 @@ public class PlacementController : MonoBehaviour
         {
             if (state == 1)
             {
+                audioSourceMagn.Play();
                 targetImage.enabled = true;
                 s = Resources.Load<Sprite>("Sprites/eight-coil");
             }
@@ -370,6 +388,7 @@ public class PlacementController : MonoBehaviour
         {
             if (state == 1)
             {
+                audioSourceMagn.Play();
                 targetImage.enabled = true;
                 s = Resources.Load<Sprite>("Sprites/hd-coil");
             }
@@ -403,9 +422,9 @@ public class PlacementController : MonoBehaviour
 
     private void generateConfiguration()
     {
-        Debug.Log("## START CONFIGURATION ##");
-    brainZones.ForEach((zone) => { if (zone.isActive()) Debug.Log(zone); }
-    );
+        //Debug.Log("## START CONFIGURATION ##");
+        //brainZones.ForEach((zone) => { if (zone.isActive()) Debug.Log(zone); }
+        //);
 
         //brainZones.ForEach((zone) => { Debug.Log(zone); }
         //     );
@@ -421,7 +440,7 @@ public class PlacementController : MonoBehaviour
 
         // Debug.Log(pm.medicalReport + "\n" + pm.medicalEquipment +
         //     "\n" + pm.brainZones);
-        Debug.Log(pm.outcome);
+        //Debug.Log(pm.outcome);
 
         SceneManager.LoadScene(Constants.RESULT, LoadSceneMode.Single);
     }
