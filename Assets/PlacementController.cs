@@ -63,6 +63,40 @@ public class PlacementController : MonoBehaviour
     {
         pm = PlayerManager.getInstance();
 
+        pm.time -= Time.deltaTime;
+
+        if (pm.time <= 0)
+        {
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .text
+                = "Malus:\n" +
+                    ((int)pm.time).ToString() +
+                    " pts.";
+
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .color = new Color(1f, 0.13f, 0f, 1f);
+        }
+        else
+        {
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .text
+                = "Bonus\n" +
+                    ((int)pm.time).ToString() +
+                    " pts. ";
+
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .color = new Color(0.5647059f, 1f, 0.48f, 1f);
+        }
+
+
         regularFont = Resources.Load<Font>("Fonts/TitilliumWeb-Regular") as Font;
         boldFont = Resources.Load<Font>("Fonts/TitilliumWeb-Bold") as Font;
 
@@ -168,6 +202,43 @@ public class PlacementController : MonoBehaviour
         backButton.onClick.AddListener(() => {
             SceneManager.LoadScene(Constants.GAME_2, LoadSceneMode.Single);
         });
+    }
+
+    private void Update()
+    {
+        pm.time -= Time.deltaTime;
+
+        if (pm.time <= 0)
+        {
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .text
+                = "Malus:\n" +
+                    ((int)pm.time).ToString() +
+                    " pts.";
+
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .color = new Color(1f, 0.13f, 0f, 1f);
+        }
+        else
+        {
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .text
+                = "Bonus\n" +
+                    ((int)pm.time).ToString() +
+                    " pts. ";
+
+        GameObject
+            .Find("BonusText")
+            .GetComponent<Text>()
+            .color = new Color(0.5647059f, 1f, 0.48f, 1f);
+        }
+
     }
 
     private void initBrainZones()
