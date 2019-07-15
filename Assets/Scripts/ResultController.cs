@@ -126,6 +126,13 @@ public class ResultController : MonoBehaviour
     }
 
     public void retry() {
+        int pathologyBackup = (int)pm.medicalReport.pathology.name;
+        
+        PlayerManager.Instance.destroy();
+
+        new PathologyController().setPathology(pathologyBackup);
+
+        SceneManager.LoadScene(Constants.GAME_1, LoadSceneMode.Single);
 
     }
   }
