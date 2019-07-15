@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Video;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Threading;
 
 namespace Application {
 public class ResultController : MonoBehaviour
@@ -37,7 +38,9 @@ public class ResultController : MonoBehaviour
 
       if (pm.outcome == Outcome.EXPLOSION)
       {
-          videoPlayer.Play();
+        videoPlayer.Play();
+
+        Destroy(videoPlayer, 3.6f);
       }
 
       green = new Color(0.5647059f, 1f, 0.48f, 1f);
