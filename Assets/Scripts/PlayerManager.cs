@@ -2,12 +2,15 @@
 using Application;
 using System;
 using System.Collections.Generic;
+using System.Timers;
 
 public class PlayerManager { 
 
     private const int TIME_BONUS = 20;
     private const int SAVED_TIME_BONUS_MOLTIPLICATOR = 5;
     private const int DEVICE_CONFIG_SCORE_PERCENTAGE = 40;
+
+    public float time = 121;
 
     public static PlayerManager Instance;
 
