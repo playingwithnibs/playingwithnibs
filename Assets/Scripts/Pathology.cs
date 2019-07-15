@@ -25,10 +25,10 @@ namespace Application {
       descriptions = new string[6];
 
       descriptions[0] = "I'm always sad beacuse I only see negative things " +
-        "happening in my life.\nI can't seem to control this negative " + 
-        "feelings anymore... 😭";
+        "happening in my life.\nI can't seem to control these negative " + 
+        "feelings anymore...";
       descriptions[1] = "I recently had a stroke and now my " +
-        position.ToString().ToLower() + " hand is constantly shaking... 😐";
+        position.ToString().ToLower() + " hand is constantly shaking...";
       descriptions[2] = "POST_STROKE_APHASIA DESCRIPTION";
       descriptions[3] = "OTHER PATHOLOGY DESC";
       descriptions[4] = "LIKE ABOVE";
@@ -48,10 +48,10 @@ namespace Application {
       descriptions = new string[6];
 
       descriptions[0] = "I'm always sad beacuse I only see negative things " +
-        "happening in my life.\nI can't seem to control this negative " +
-        "feelings anymore... 😭";
+        "happening in my life.\nI can't seem to control these negative " +
+        "feelings anymore...";
       descriptions[1] = "I recently had a stroke and now my " +
-        position.ToString().ToLower() + " hand is constantly shaking... 😐";
+        position.ToString().ToLower() + " hand is constantly shaking...";
       descriptions[2] = "POST_STROKE_APHASIA DESCRIPTION";
       descriptions[3] = "OTHER PATHOLOGY DESC";
       descriptions[4] = "LIKE ABOVE";
@@ -76,10 +76,10 @@ namespace Application {
       descriptions = new string[6];
 
       descriptions[0] = "I'm always sad beacuse I only see negative things " +
-        "happening in my life.\nI can't seem to control this negative " +
-        "feelings anymore... 😭";
+        "happening in my life.\nI can't seem to control these negative " +
+        "feelings anymore...";
       descriptions[1] = "I recently had a stroke and now my " +
-        position.ToString().ToLower() + " hand is constantly shaking... 😐";
+        position.ToString().ToLower() + " hand is constantly shaking...";
       descriptions[2] = "POST_STROKE_APHASIA DESCRIPTION";
       descriptions[3] = "OTHER PATHOLOGY DESC";
       descriptions[4] = "LIKE ABOVE";
