@@ -26,9 +26,9 @@ namespace Application {
         .GetValues(typeof(PersonSurname))
         .GetValue(new Random().Next(0, 7));
 
-      DateTime start = new DateTime(1970, 1, 1);
+      DateTime start = new DateTime(1950, 1, 1);
       dateOfBirth = start
-        .AddDays(new Random().Next((DateTime.Today - start).Days));
+        .AddDays(new Random().Next((DateTime.Today.AddYears(-18) - start).Days));
 
       pathology = new Pathology();
 

@@ -47,7 +47,7 @@ namespace Application
             memoji.transform.localScale -= new Vector3(0.72381F, 0.72381F, 0);
             name.text = mr.name + " " + mr.surname;
             sex.text = "Sex: " + mr.gender;
-            age.text = "Birth: " + mr.dateOfBirth.ToShortDateString();
+            age.text = "Birth: " + mr.dateOfBirth.ToString("dd/MM/yyyy");
 
             string position = mr.pathology.name != (int)PathologyName.DEPRESSION ? ("\n" + mr.pathology.position + " hand") : "";
             pathology.text = "Pathology:\n" + mr.pathology.getName() + position;
