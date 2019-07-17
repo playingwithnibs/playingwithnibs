@@ -32,7 +32,17 @@ public class ResultController : MonoBehaviour
 
     private SpriteRenderer retryButton;
 
-    // Start is called before the first frame update
+    private Image videoBd;
+
+        // Start is called before the first frame update
+
+    IEnumerator disableDackdrop(float audioTimer)
+    {
+        yield return new WaitForSeconds(audioTimer);
+        videoBd.enabled = false;
+        Destroy(videoPlayer);
+    }
+
     void Start()
     {
       pm = PlayerManager.getInstance();
@@ -41,12 +51,10 @@ public class ResultController : MonoBehaviour
       if (pm.outcome == Outcome.EXPLOSION) {
         videoPlayer
             = GameObject.Find("Video Player").GetComponent<VideoPlayer>();
-        
+        videoBd.enabled = true;
         videoPlayer.Play();
+        StartCoroutine(disableDackdrop(3.6f));
 
-
-
-        Destroy(videoPlayer, 3.6f);
       } else if (pm.outcome == Outcome.VERY_GOOD || pm.outcome == Outcome.GOOD) {
           resultAudio = GameObject.Find("pokHeal").GetComponent<AudioSource>();
           resultAudio.Play();
@@ -117,6 +125,7 @@ public class ResultController : MonoBehaviour
       qualitativeTimeText = GameObject.Find("qb").GetComponent<Text>();
 
       memoji = GameObject.Find("memoji").GetComponent<SpriteRenderer>();
+      videoBd = GameObject.Find("video-backdrop").GetComponent<Image>();
     }
 
     public void goHome() {
@@ -134,6 +143,11 @@ public class ResultController : MonoBehaviour
 
         SceneManager.LoadScene(Constants.GAME_1, LoadSceneMode.Single);
 
+    }
+
+    public void onDestroy(){
+      Debug.Log("destroy");
+      videoBd.enabled = false;
     }
   }
 
