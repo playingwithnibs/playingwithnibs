@@ -2387,7 +2387,7 @@ GameObject:
   - component: {fileID: 844010700}
   - component: {fileID: 844010701}
   m_Layer: 0
-  m_Name: sundeep
+  m_Name: mentor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2401,8 +2401,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 844010699}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.538, y: -1.193, z: 0}
-  m_LocalScale: {x: 0.22692199, y: 0.219936, z: 1}
+  m_LocalPosition: {x: -1.51, y: -1.1, z: 0}
+  m_LocalScale: {x: 0.1546792, y: 0.14991724, z: 0.6816404}
   m_Children: []
   m_Father: {fileID: 996335965}
   m_RootOrder: 0
