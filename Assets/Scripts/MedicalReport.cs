@@ -20,7 +20,7 @@ namespace Application {
 
       name = (PersonName)Enum
         .GetValues(typeof(PersonName))
-        .GetValue(new Random().Next(0, 3)) + (int)gender;
+        .GetValue(new Random().Next(0, 6) % 3) + (int)gender;
 
       surname = (PersonSurname)Enum
         .GetValues(typeof(PersonSurname))
