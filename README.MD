@@ -1,5 +1,5 @@
 <h1 align="center">
- <img src="https://drive.google.com/uc?export=view&id=19JhchsBpcHoRNldE2Thy8q40xOjONN92" alt="playing-with-nibs" /></a>
+ <img src="./Assets/Assets/NIBS_black.png" alt="playing-with-nibs" /></a>
 </h1>
 <div align="center">
    🖥️🎮Simulator for educational and informative purpose
