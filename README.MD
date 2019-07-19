@@ -14,11 +14,12 @@ We developed a gamified solution that can help students to become familiar with 
 ## Download
 
 You can download your version of the simulator
-|DEVICE                         |LINK                         |
-|-------------------------------|-----------------------------|
-|Windows                        |[Download](#)|
-|MacOS                          |[Download](#)|
-|Linux                          |[Download](#)|
+
+| DEVICE  | LINK |
+| ------- | --- |
+| Windows | [Download](#) |
+| MacOS   | [Download](#) |
+| Linux   | [Download](#) |
 
 ## Contributors
 * **Luca Pierfederici** - [LucaPierfederici](https://github.com/LucaPierfederici)
