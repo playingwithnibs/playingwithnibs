@@ -132,7 +132,6 @@ public class MachineConfigurationController : MonoBehaviour
             mtToggle.interactable = isChecked;
             ampereToggle.interactable = isChecked;
             
-            // Debug.Log("clicca sta merda");
             // Debug.Log(intensitySlider.minValue);
         });
 
