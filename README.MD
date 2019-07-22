@@ -17,9 +17,8 @@ You can download your version of the simulator
 
 | DEVICE  | LINK |
 | ------- | --- |
-| Windows | [Download](#) |
-| MacOS   | [Download](#) |
-| Linux   | [Download](#) |
+| Windows | [Download](https://github.com/playingwithnibs/playingwithnibs/releases/download/0.1/PlayingWithNIBS-Win.zip) |
+| MacOS   | [Download](https://github.com/playingwithnibs/playingwithnibs/releases/download/0.1/PlayingWithNIBS-Mac.zip) |
 
 ## Contributors
 * **Luca Pierfederici** - [LucaPierfederici](https://github.com/LucaPierfederici)
