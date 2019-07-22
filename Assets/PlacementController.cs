@@ -41,6 +41,7 @@ public class PlacementController : MonoBehaviour
         dlpfcZoneText,
         oZoneText,
         soZoneText,
+        placementText,
         m1ZoneText;
 
     private static int MODE_NOTHING = 0;
@@ -153,22 +154,26 @@ public class PlacementController : MonoBehaviour
 
         initStimulatorNames();
 
+        placementText = GameObject.Find("Subtitle").GetComponent<Text>();
+
         toolbox = new List<Button> { eightCoilButton, circularCoilButton, hCoilButton, hdCoilButton };
         toolbox.ForEach((stimulator) => {
             stimulator.onClick.AddListener(() => {
                 audioSource.Play();
+
+                placementText.text = "Now place the selected stimulator in the correct brain zone";
+
                 if (mode == MODE_DIRECTION)
                 {
                     toolbox.ForEach(button => changeButtonColor(button, Color.white));
                     mode = MODE_NOTHING;
-                    
                 }
                 if (mode == MODE_SELECTION)
                 {
                     toolbox.ForEach(button => changeButtonColor(button, Color.white));
                     mode = MODE_NOTHING;
-                    
                 }
+                
                 //Debug.Log("Selection mode: " + stimulator.name);
                 selectedStimulator = stimulator;
                 mode = MODE_SELECTION;
