@@ -1,6 +1,3 @@
----
-layout: default
----
 <h1 align="center">
  <img src="./Assets/Assets/NIBS_black.png" alt="playing-with-nibs" /></a>
 </h1>
