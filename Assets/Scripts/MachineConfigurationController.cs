@@ -31,6 +31,7 @@ public class MachineConfigurationController : MonoBehaviour
     private Button
         forwardButton,
         backButton;
+    private Sprite forwardSprite;
 
     private AudioSource audioSource;
     private float audioTimer;
@@ -53,6 +54,7 @@ public class MachineConfigurationController : MonoBehaviour
         rtmsHfToggle = GameObject.Find("rtms-hf-toggle").GetComponent<Toggle>();
         rtmsLfToggle = GameObject.Find("rtms-lf-toggle").GetComponent<Toggle>();
         forwardButton = GameObject.Find("forward-button").GetComponent<Button>();
+        forwardSprite = GameObject.Find("forward-button").GetComponent<Sprite>();
         backButton = GameObject.Find("back-button").GetComponent<Button>();
         minText = GameObject.Find("min-text").GetComponent<Text>();
         maxText = GameObject.Find("max-text").GetComponent<Text>();
@@ -119,6 +121,8 @@ public class MachineConfigurationController : MonoBehaviour
 
         intensityToggle.onValueChanged.AddListener((isChecked) => {
             audioSource.Play();
+            forwardButton.enabled = isChecked;
+            forwardButton.GetComponent<Image>().sprite = Resources.Load("Sprites/play-button-" + (isChecked ? "on" : "off"), typeof(Sprite)) as Sprite;
             Debug.Log("intensityToggle" + isChecked.ToString());
             intensityRectangle.sprite = Resources.Load("Sprites/intensity-rectangle-" + (isChecked ? "on" : "off"), typeof(Sprite)) as Sprite;
             if(!isChecked){
@@ -134,6 +138,8 @@ public class MachineConfigurationController : MonoBehaviour
 
         pulseToggle.onValueChanged.AddListener((isChecked) => {
             audioSource.Play();
+            forwardButton.enabled = isChecked;
+            forwardButton.GetComponent<Image>().sprite = Resources.Load("Sprites/play-button-" + (isChecked ? "on" : "off"), typeof(Sprite)) as Sprite;
             Debug.Log("pulseToggle" + isChecked.ToString());
             pulseRectangle.sprite = Resources.Load("Sprites/pulse-rectangle-" + (isChecked ? "on" : "off"), typeof(Sprite)) as Sprite;
             singlePulseToggle.isOn = false;
@@ -144,7 +150,7 @@ public class MachineConfigurationController : MonoBehaviour
             rtmsLfToggle.interactable = isChecked;
         });
 
-        mtToggle.onValueChanged.AddListener((isChecked) => {
+        mtToggle.onValueChanged.AddListener((isChecked) => {           
             audioSource.Play();
             Debug.Log("mtToggle" + isChecked.ToString());
             intensitySlider.interactable = isChecked;
