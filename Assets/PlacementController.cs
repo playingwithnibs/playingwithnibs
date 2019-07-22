@@ -165,19 +165,19 @@ public class PlacementController : MonoBehaviour
 
                 if (mode == MODE_DIRECTION)
                 {
-                    toolbox.ForEach(button => changeButtonColor(button, Color.white));
+                    changeToolboxColors(stimulator, true);
                     mode = MODE_NOTHING;
                 }
                 if (mode == MODE_SELECTION)
                 {
-                    toolbox.ForEach(button => changeButtonColor(button, Color.white));
+                    changeToolboxColors(stimulator, true);
                     mode = MODE_NOTHING;
                 }
                 
                 //Debug.Log("Selection mode: " + stimulator.name);
                 selectedStimulator = stimulator;
                 mode = MODE_SELECTION;
-                changeButtonColor(stimulator, Color.black);
+                changeToolboxColors(stimulator, false);
             });
         });
 
@@ -335,9 +335,24 @@ public class PlacementController : MonoBehaviour
         buttonStimulatorNameMap.Add(hdCoilButton, (int) TdcsStimulator.HD);
     }
 
-    private void changeButtonColor(Button button, Color color)
+    private void changeToolboxColors(Button button, bool interactable)
     {
-       button.GetComponent<Image>().color = color;
+        Color normalColor = new Color(1f, 1f, 1f, 1f);
+        Color disabledColor = new Color(0.7843137f, 0.7843137f, 0.7843137f, 0.3f);
+
+        ColorBlock otherButtonColors = new ColorBlock();
+        otherButtonColors.normalColor = interactable ? normalColor : disabledColor;
+        otherButtonColors.highlightedColor = normalColor;
+        otherButtonColors.colorMultiplier = 1;
+
+        ColorBlock currentButtonColor = new ColorBlock();
+        currentButtonColor.normalColor = normalColor;
+        currentButtonColor.disabledColor = disabledColor;
+        currentButtonColor.highlightedColor = normalColor;
+        currentButtonColor.colorMultiplier = 1;
+        
+        toolbox.FindAll(btn => !btn.Equals(button)).ForEach(btn => btn.colors = otherButtonColors);
+        button.colors = currentButtonColor;
     }
 
     private BrainZone handleBrainZoneClick(Button zoneButton, int state, int stimulatorType)
