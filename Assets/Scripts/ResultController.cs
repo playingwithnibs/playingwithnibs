@@ -49,6 +49,8 @@ public class ResultController : MonoBehaviour
       initUI();
 
       if (pm.outcome == Outcome.EXPLOSION) {
+        resultAudio = GameObject.Find("explosion").GetComponent<AudioSource>();
+        resultAudio.Play();
         // videoPlayer
         //     = GameObject.Find("Video Player").GetComponent<VideoPlayer>();
         // videoBd.enabled = true;
