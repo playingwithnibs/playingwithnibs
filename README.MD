@@ -11,6 +11,8 @@ There are many simulators that allow to study the behaviour of electromagnetic m
 **That's where gamification came in!**
 We developed a gamified solution that can help students to become familiar with  the machines.
 
+More information at [GamificationLab@Uniroma1](http://gamificationlab.uniroma1.it/corsi/gamification-and-game-design/progetti-gamificationlab-2019/#playing-with-nibs) (IT)
+
 ## Download
 
 You can download your version of the simulator
