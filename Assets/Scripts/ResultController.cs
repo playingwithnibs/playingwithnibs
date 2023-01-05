@@ -49,11 +49,13 @@ public class ResultController : MonoBehaviour
       initUI();
 
       if (pm.outcome == Outcome.EXPLOSION) {
-        videoPlayer
-            = GameObject.Find("Video Player").GetComponent<VideoPlayer>();
-        videoBd.enabled = true;
-        videoPlayer.Play();
-        StartCoroutine(disableDackdrop(3.6f));
+        resultAudio = GameObject.Find("explosion").GetComponent<AudioSource>();
+        resultAudio.Play();
+        // videoPlayer
+        //     = GameObject.Find("Video Player").GetComponent<VideoPlayer>();
+        // videoBd.enabled = true;
+        // videoPlayer.Play();
+        // StartCoroutine(disableDackdrop(3.6f));
 
       } else if (pm.outcome == Outcome.VERY_GOOD || pm.outcome == Outcome.GOOD) {
           resultAudio = GameObject.Find("pokHeal").GetComponent<AudioSource>();
